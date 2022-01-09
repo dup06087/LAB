@@ -1,0 +1,133 @@
+import cv2
+import threading
+import sys
+from PyQt5 import QtWidgets
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+
+def run():
+    running = True
+    print("1started..")
+
+    cap = cv2.VideoCapture(0) # 영상 가져오기
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    label.resize(width, height)
+    while running:
+        ret, img = cap.read()
+        if ret:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            h,w,c = img.shape
+            qImg = QtGui.QImage(img.data, w, h, w*c, QtGui.QImage.Format_RGB888)
+            pixmap = QtGui.QPixmap.fromImage(qImg)
+            pixmap = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
+            label.setPixmap(pixmap)
+        else:
+            QtWidgets.QMessageBox.about(win, "Error", "Cannot read frame#1.")
+            print("cannot read frame#1.")
+            break
+    cap.release()
+    print("Thread end.")
+
+def run2():
+    running = True
+    print("2started..")
+
+    cap = cv2.VideoCapture("movie2.mp4")
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    label2.resize(width, height)
+    while running:
+        ret, img = cap.read()
+        if ret:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            h,w,c = img.shape
+            qImg = QtGui.QImage(img.data, w, h, w*c, QtGui.QImage.Format_RGB888)
+            pixmap = QtGui.QPixmap.fromImage(qImg)
+            pixmap = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
+            label2.setPixmap(pixmap)
+        else:
+            QtWidgets.QMessageBox.about(win, "Error", "Cannot read frame#2.")
+            print("cannot read frame#2.")
+            break
+    cap.release()
+    print("Thread end.")
+
+def run3():
+    running = True
+    print("3started..")
+
+    cap = cv2.VideoCapture("movie3.mp4") # 영상 가져오기
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    label3.resize(width, height)
+    while running:
+        ret, img = cap.read()
+        if ret:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            h,w,c = img.shape
+            qImg = QtGui.QImage(img.data, w, h, w*c, QtGui.QImage.Format_RGB888)
+            pixmap = QtGui.QPixmap.fromImage(qImg)
+            pixmap = pixmap.scaled(400, 400, QtCore.Qt.KeepAspectRatio)
+            label3.setPixmap(pixmap)
+        else:
+            QtWidgets.QMessageBox.about(win, "Error", "Cannot read frame#1.")
+            print("cannot read frame#3.")
+            break
+    cap.release()
+    print("Thread end.")
+
+def run4():
+    running = True
+    print("4started..")
+
+    cap = cv2.VideoCapture("movie3.mp4") # 영상 가져오기
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    label4.resize(width, height)
+    while running:
+        ret, img = cap.read()
+        if ret:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            h,w,c = img.shape
+            qImg = QtGui.QImage(img.data, w , h, w*c, QtGui.QImage.Format_RGB888)
+            pixmap = QtGui.QPixmap.fromImage(qImg)
+            pixmap = pixmap.scaled(400,400, QtCore.Qt.KeepAspectRatio)
+            label4.setPixmap(pixmap)
+        else:
+            QtWidgets.QMessageBox.about(win, "Error", "Cannot read frame#1.")
+            print("cannot read frame#3.")
+            break
+    cap.release()
+    print("Thread end.")
+
+th = threading.Thread(target=run)
+th.start()
+
+th2 = threading.Thread(target=run2)
+th2.start()
+
+th3 = threading.Thread(target=run3)
+th3.start()
+
+th4 = threading.Thread(target=run4)
+th4.start()
+
+app = QtWidgets.QApplication([])
+win = QtWidgets.QWidget()
+gridbox = QtWidgets.QGridLayout()
+
+label = QtWidgets.QLabel()
+label2 = QtWidgets.QLabel()
+label3 = QtWidgets.QLabel()
+label4 = QtWidgets.QLabel()
+
+gridbox.addWidget(label, 0, 0)
+gridbox.addWidget(label2, 0, 1)
+gridbox.addWidget(label3, 1, 0)
+gridbox.addWidget(label4, 1, 1)
+
+win.setLayout(gridbox)
+win.show()
+
+sys.exit(app.exec_())
