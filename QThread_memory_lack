@@ -1,0 +1,157 @@
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QVBoxLayout, QGridLayout, QLineEdit
+from PyQt5.QtGui import QPixmap
+import sys
+import cv2
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt, QThread
+import numpy as np
+
+class VideoThread(QThread):
+    change_pixmap_signal = pyqtSignal(np.ndarray)
+    def __init__(self,movie):
+        super().__init__()
+        self._run_flag = True
+        self.movie = movie
+
+    def run(self):
+        # capture from web cam
+        cap = cv2.VideoCapture(self.movie)
+        while self._run_flag:
+            ret, cv_img = cap.read()
+            if ret:
+                self.change_pixmap_signal.emit(cv_img)
+        # shut down capture system
+        cap.release()
+
+    def stop(self):
+        """Sets run flag to False and waits for thread to finish"""
+        self._run_flag = False
+        self.wait()
+
+
+class App(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Qt live label demo")
+        self.disply_width = 640
+        self.display_height = 480
+        self.title_size = 120
+        # create the label that holds the image
+
+        self.image_label1 = QLabel(self)
+        self.image_label1.resize(self.disply_width, self.display_height)
+
+        self.img1_title = QLabel(self)
+        self.img1_title.setText("img1")
+        self.img1_title.resize(self.disply_width,self.title_size)
+
+        self.image_label2 = QLabel(self)
+        self.image_label2.resize(self.disply_width, self.display_height)
+
+        self.img2_title = QLabel(self)
+        self.img2_title.setText("img2")
+        self.img2_title.resize(self.disply_width, self.title_size)
+
+        self.image_label3 = QLabel(self)
+        self.image_label3.resize(self.disply_width, self.display_height)
+
+        self.img3_title = QLabel(self)
+        self.img3_title.setText("img3")
+        self.img3_title.resize(self.disply_width, self.title_size)
+
+        self.image_label4 = QLabel(self)
+        self.image_label4.resize(self.disply_width, self.display_height)
+
+        self.img4_title = QLabel(self)
+        self.img4_title.setText("img4")
+        self.img4_title.resize(self.disply_width, self.title_size)
+        # create a text label
+        # self.textLabel = QLabel('Webcam')
+
+        # create a vertical box layout and add the two labels
+        vbox = QGridLayout()
+        vbox.addWidget(self.image_label1, 0, 0)
+        vbox.addWidget(self.img1_title, 1, 0)
+        vbox.addWidget(self.image_label2, 2, 0)
+        vbox.addWidget(self.img2_title, 3, 0)
+        vbox.addWidget(self.image_label3, 0, 1)
+        vbox.addWidget(self.img3_title, 1, 1)
+        vbox.addWidget(self.image_label4, 2, 1)
+        vbox.addWidget(self.img4_title, 3, 1)
+        # vbox.addWidget(self.textLabel)
+        # set the vbox layout as the widgets layout
+        self.setLayout(vbox)
+
+        # create the video capture thread
+        self.thread = VideoThread("movie1.mp4")
+        # connect its signal to the update_image slot
+        self.thread.change_pixmap_signal.connect(self.update_image)
+        # start the thread
+        self.thread.start()
+
+        # # create the video capture thread
+        self.thread2 = VideoThread("movie2.mp4")
+        # # connect its signal to the update_image slot
+        self.thread2.change_pixmap_signal.connect(self.update_image2)
+        # # start the thread
+        self.thread2.start()
+
+        # # create the video capture thread
+        self.thread3 = VideoThread("movie3.mp4")
+        # # connect its signal to the update_image slot
+        self.thread3.change_pixmap_signal.connect(self.update_image3)
+        # # start the thread
+        self.thread3.start()
+
+    def closeEvent(self, event):
+        self.thread.stop()
+        event.accept()
+
+    @pyqtSlot(np.ndarray)
+    def update_image(self, cv_img):
+        """Updates the image_label with a new opencv image"""
+        qt_img = self.convert_cv_qt(cv_img)
+        self.image_label1.setPixmap(qt_img)
+
+    def update_image2(self, cv_img):
+        qt_img = self.convert_cv_qt(cv_img)
+        self.image_label2.setPixmap(qt_img)
+
+    def update_image3(self, cv_img):
+        qt_img = self.convert_cv_qt(cv_img)
+        self.image_label3.setPixmap(qt_img)
+
+    # @pyqtSlot(np.ndarray)
+    # def update_image2(self, cv_img):
+    #     """Updates the image_label with a new opencv image"""
+    #     qt_img = self.convert_cv_qt(cv_img)
+    #     self.image_label2.setPixmap(qt_img)
+
+    # def update_image2(self, cv_img):
+    #     """Updates the image_label with a new opencv image"""
+    #     qt_img = self.convert_cv_qt(cv_img)
+    #     self.image_label2.setPixmap(qt_img)
+
+    def convert_cv_qt(self, cv_img):
+        """Convert from an opencv image to QPixmap"""
+        rgb_image = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
+        h, w, ch = rgb_image.shape
+        bytes_per_line = ch * w
+        convert_to_Qt_format = QtGui.QImage(rgb_image.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
+        p = convert_to_Qt_format.scaled(self.disply_width, self.display_height, Qt.KeepAspectRatio)
+        return QPixmap.fromImage(p)
+
+    # def convert_cv_qt2(self, cv_img):
+    #     """Convert from an opencv image to QPixmap"""
+    #     rgb_image = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
+    #     h, w, ch = rgb_image.shape
+    #     bytes_per_line = ch * w
+    #     convert_to_Qt_format = QtGui.QImage(rgb_image.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
+    #     p = convert_to_Qt_format.scaled(self.disply_width, self.display_height, Qt.KeepAspectRatio)
+    #     return QPixmap.fromImage(p)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    a = App()
+    a.show()
+    sys.exit(app.exec_())
