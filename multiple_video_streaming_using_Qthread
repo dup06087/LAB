@@ -1,86 +1,104 @@
-import cv2
+import os
 import sys
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QVBoxLayout, QGridLayout
-from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
+import numpy as np
+import cv2
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QWidget
 from PyQt5.QtGui import QImage, QPixmap
 
-
-class Thread(QThread):
+class ThreadOpenCV(QThread):
     changePixmap = pyqtSignal(QImage)
-    width = 0
-    height = 0
+
+    def __init__(self, source):
+        super().__init__()
+        self.source = source
+        self.running = True
 
     def run(self):
-        cap = cv2.VideoCapture("movie1.mp4")
-        Thread.width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-        Thread.height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-        while True:
+        print('start')
+        cap = cv2.VideoCapture(self.source)
+        self.running = True
+
+        while self.running:
             ret, frame = cap.read()
             if ret:
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                h, w, ch = rgbImage.shape
-                bytesPerLine = ch * w
-                convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(Thread.width / 4, Thread.height / 4, Qt.KeepAspectRatio)
-                self.changePixmap.emit(p)
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = frame.shape
+                bytes_per_line = ch * w  # PEP8: `lower_case_names` for variables
+                image = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                image = image.scaled(640, 480, Qt.KeepAspectRatio)
+                self.changePixmap.emit(image)
 
-class Thread2(QThread):
-    changePixmap2 = pyqtSignal(QImage)
-    width = 0
-    height = 0
-    def run(self):
-        cap = cv2.VideoCapture("movie2.mp4")
-        Thread2.width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-        Thread2.height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-        while True:
-            ret, frame = cap.read()
-            if ret:
-                rgbImage2 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                h, w, ch = rgbImage2.shape
-                bytesPerLine2 = ch * w
-                convertToQtFormat2 = QImage(rgbImage2.data, w, h, bytesPerLine2, QImage.Format_RGB888)
-                p2 = convertToQtFormat2.scaled(Thread2.width / 4, Thread2.height / 4, Qt.KeepAspectRatio)
-                self.changePixmap2.emit(p2)
+        cap.release()
+        print('stop')
 
-class App(QWidget):
+    def stop(self):
+        self.running = False
+
+
+class Widget(QtWidgets.QMainWindow):
+
     def __init__(self):
         super().__init__()
-        self.gridbox = QVBoxLayout()
-        self.setWindowTitle("1")
-        # self.resize(1800, 1200)
-        self.label = QLabel(self)
-        self.label.resize(640, 480)
-        self.label2 = QLabel(self)
-        self.label2.resize(640, 480)
-        self.setLayout(self.gridbox)
-        self.gridbox.addWidget(self.label)
-        self.gridbox.addWidget(self.label2)
-        self.initUI()
-        # self.setImage()
+        layout = QVBoxLayout()
 
+        ### 영상추가 시작
+        VIDEO_NAME = 'movie1.mp4'
+        CWD_PATH = os.getcwd()
+        PATH_TO_VIDEO = os.path.join(CWD_PATH, VIDEO_NAME)
+
+        self.thread = ThreadOpenCV(PATH_TO_VIDEO)
+        self.thread.changePixmap.connect(self.setImage)
+
+        self.label_video = QLabel()
+        layout.addWidget(self.label_video)
+
+        ### 영상추가 끝 > "영상추가 시작"부터 "영상추가 끝"까지 복사해서 붙여넣고, setpixmap하나 더 만들면 바로 실행 됨
+        VIDEO_NAME = 'movie2.mp4'
+        CWD_PATH = os.getcwd()
+        PATH_TO_VIDEO2 = os.path.join(CWD_PATH, VIDEO_NAME)
+
+        self.thread2 = ThreadOpenCV(PATH_TO_VIDEO2)
+        self.thread2.changePixmap.connect(self.setImage2)
+
+        self.label2_video = QLabel()
+        layout.addWidget(self.label2_video)
+
+        self.thread.start()
+        self.thread2.start()
+
+
+        # self.btn1 = QPushButton("PLAY")
+        # self.btn1.clicked.connect(self.playVideo)
+        # layout.addWidget(self.btn1)
+        #
+        # self.btn_stop = QPushButton("STOP")
+        # self.btn_stop.clicked.connect(self.stopVideo)
+        # layout.addWidget(self.btn_stop)
+
+        self.widget = QWidget()
+        self.widget.setLayout(layout)
+        self.setCentralWidget(self.widget)
+
+    def playVideo(self):
+        self.thread.start()
+
+    def stopVideo(self):
+        self.thread.running = False
 
     def setImage(self, image):
-        self.label.setPixmap(QPixmap.fromImage(image))
+        self.label_video.setPixmap(QPixmap.fromImage(image))
 
-    @pyqtSlot(QImage)
     def setImage2(self, image):
-        self.label2.setPixmap(QPixmap.fromImage(image))
+        self.label2_video.setPixmap(QPixmap.fromImage(image))
 
-    def initUI(self):
-        # # self.gridbox.addWidget(self.label)
-        th = Thread(self)
-        th.changePixmap.connect(self.setImage)
-        th.start()
-        th2 = Thread2(self)
-        th2.changePixmap2.connect(self.setImage2)
-        th2.start()
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = App()
-    ex.show()
-    # ex2.show()
-    sys.exit(app.exec_())
+    app = QtWidgets.QApplication([])
 
+    mw = Widget()
+    mw.show()
 
-
+    app.exec()
