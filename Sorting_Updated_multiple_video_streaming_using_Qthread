@@ -1,0 +1,132 @@
+import os
+import sys
+import numpy as np
+import cv2
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, QSize, QPoint, QTranslator
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QWidget, QApplication, QMainWindow
+from PyQt5.QtGui import QImage, QPixmap
+
+class ThreadOpenCV(QThread):
+    changePixmap = pyqtSignal(QImage)
+
+    def __init__(self, source):
+        super().__init__()
+        self.source = source
+        self.running = True
+
+    def run(self):
+        print('start')
+        cap = cv2.VideoCapture(self.source)
+        self.running = True
+
+        while self.running:
+            ret, frame = cap.read()
+            if ret:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = frame.shape
+                bytes_per_line = ch * w  # PEP8: `lower_case_names` for variables
+                image = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                image = image.scaled(640, 480, Qt.KeepAspectRatio)
+                self.changePixmap.emit(image)
+                # if frame.empty():
+                #     self.running = False
+
+                cv2.destroyAllWindows()
+        print("hi")
+        cap.release()
+
+    def stop(self):
+        self.running = False
+
+class Widget(QMainWindow):
+
+    def __init__(self, video):
+        super().__init__()
+
+        # MODEL_NAME = 'inference_graph'
+        # VIDEO_NAME = video
+        # CWD_PATH = os.getcwd()
+        # PATH_TO_VIDEO = os.path.join(CWD_PATH, VIDEO_NAME)
+
+        PATH_TO_VIDEO = video
+        self.thread = ThreadOpenCV(PATH_TO_VIDEO)
+        self.thread.changePixmap.connect(self.setImage)
+
+        layout = QVBoxLayout()
+
+        self.label_video = QLabel()
+
+        layout.addWidget(self.label_video)
+
+        self.btn1 = QPushButton("PLAY")
+        self.thread.start()
+        self.btn1.clicked.connect(self.playVideo)
+        layout.addWidget(self.btn1)
+
+        self.btn_stop = QPushButton("STOP")
+        self.btn_stop.clicked.connect(self.stopVideo)
+        layout.addWidget(self.btn_stop)
+
+        self.widget = QWidget()
+        self.widget.setLayout(layout)
+        self.setCentralWidget(self.widget)
+
+    def playVideo(self):
+        self.thread.start()
+
+    def stopVideo(self):
+        self.thread.running = False
+
+    def setImage(self, image):
+        self.label_video.setPixmap(QPixmap.fromImage(image))
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.window1 = Widget("movie1.mp4")
+        # self.window1.move(0,0) ## window를 옮겨야함
+        self.window2 = Widget("movie2.mp4")
+
+        l = QVBoxLayout()
+
+        button1 = QPushButton("Push for Window 1")
+        button1.clicked.connect(
+            lambda checked: self.toggle_window(self.window1)
+        )
+        l.addWidget(button1)
+
+        button2 = QPushButton("Push for Window 2")
+        button2.clicked.connect(
+            lambda checked: self.toggle_window(self.window2)
+        )
+        l.addWidget(button2)
+
+        button3 = QPushButton("Sort")
+        button3.clicked.connect(
+            self.SortWidget
+        )
+        l.addWidget(button3)
+
+        w = QWidget()
+        w.setLayout(l)
+        self.setCentralWidget(w)
+
+    def toggle_window(self, window):
+        if window.isVisible():
+            window.hide()
+
+        else:
+            window.show()
+
+    def SortWidget(self):
+        geo = w.geometry()
+        self.window1.move(geo.topRight())
+        self.window2.move(self.window1.geometry().bottomLeft())
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    w = MainWindow()
+    w.show()
+    app.exec()
