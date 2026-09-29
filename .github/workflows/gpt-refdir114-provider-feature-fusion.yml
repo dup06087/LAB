@@ -1,0 +1,266 @@
+name: GPT REF-DIR114 provider feature fusion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/gpt-refdir114-provider-feature-fusion.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  fuse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned research runtime
+        run: |
+          python -m pip install --disable-pip-version-check --no-cache-dir \
+            numpy==2.1.2 pandas==2.2.3 pyarrow==17.0.0
+
+      - name: Fetch exact trading main and source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/dup06087/trading.git trading
+          test "$(sha256sum trading/data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet | awk '{print $1}')" = "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad"
+          gh api repos/dup06087/LAB/actions/artifacts/11066524094/zip > source.zip
+          test "$(sha256sum source.zip | awk '{print $1}')" = "c06243211f7074b8ed47b63a98bb86ed3e9ebe0502ce25e6e6100971cc064dc8"
+          mkdir -p source out
+          unzip -q source.zip -d source
+
+      - name: Build frozen REF-DIR114 correlation feature
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import gzip, hashlib, json, math, platform
+          from pathlib import Path
+
+          import numpy as np
+          import pandas as pd
+          import pyarrow
+
+          CORE = Path("trading/data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet")
+          SOURCE = Path("source/okx_module2_1m_2024-09_2026-04.csv.gz")
+          SOURCE_MANIFEST = Path("source/manifest.json")
+          OUT = Path("out")
+          EXPECTED_CORE_SHA = "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad"
+          EXPECTED_ZIP_SHA = "c06243211f7074b8ed47b63a98bb86ed3e9ebe0502ce25e6e6100971cc064dc8"
+          EXPECTED_EVENTS = 1147
+          EXPECTED_COUNTS = {"BTC": 535, "ETH": 612}
+          RETURN_PAIRS = 288
+          BAR_MINUTES = 5
+          EXPECTED_SOURCE_MINUTES = 1445
+          MIN_VALID_PAIRS = 276
+          MAX_MISSING_RUN_MIN = 10
+
+          def sha_file(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for block in iter(lambda:f.read(1<<20),b""):
+                      h.update(block)
+              return h.hexdigest()
+
+          def longest_false_run(values):
+              best=cur=0
+              for value in np.asarray(values,dtype=bool):
+                  if value:
+                      cur=0
+                  else:
+                      cur += 1
+                      best=max(best,cur)
+              return int(best)
+
+          if sha_file(CORE) != EXPECTED_CORE_SHA:
+              raise RuntimeError("core sha drift")
+          src_manifest=json.loads(SOURCE_MANIFEST.read_text())
+          if src_manifest.get("provider")!="OKX" or src_manifest.get("module")!=2:
+              raise RuntimeError("source manifest provider/module drift")
+          if src_manifest.get("month_start")!="2024-09" or src_manifest.get("month_end")!="2026-04" or int(src_manifest.get("month_count",-1))!=20:
+              raise RuntimeError("source month lattice drift")
+          if sha_file(SOURCE) != src_manifest.get("output_sha256"):
+              raise RuntimeError("source gzip sha drift")
+
+          core=pd.read_parquet(CORE, columns=["event_id","asset","decision_ts_utc"])
+          core["event_id"]=core["event_id"].astype(str)
+          core["asset"]=core["asset"].astype(str).str.upper()
+          core["decision_ts_utc"]=pd.to_datetime(core["decision_ts_utc"],utc=True,errors="raise")
+          if len(core)!=EXPECTED_EVENTS or core["event_id"].duplicated().any():
+              raise RuntimeError("core identity drift")
+          if core["asset"].value_counts().to_dict()!=EXPECTED_COUNTS:
+              raise RuntimeError("core asset counts drift")
+
+          src=pd.read_csv(SOURCE,usecols=["asset","instrument","open_time","close"])
+          src["asset"]=src["asset"].astype(str).str.upper()
+          src["instrument"]=src["instrument"].astype(str)
+          expected_inst={"BTC":"BTC-USDT-SWAP","ETH":"ETH-USDT-SWAP"}
+          for asset,inst in expected_inst.items():
+              part=src[src["asset"].eq(asset)]
+              if part.empty or set(part["instrument"].unique())!={inst}:
+                  raise RuntimeError(f"instrument drift {asset}")
+          src["open_time"]=pd.to_numeric(src["open_time"],errors="raise").astype("int64")
+          src["close"]=pd.to_numeric(src["close"],errors="coerce")
+          if (src["open_time"]%60000!=0).any():
+              raise RuntimeError("non-minute source timestamp")
+          if src.duplicated(["asset","open_time"]).any():
+              raise RuntimeError("duplicate asset-minute source")
+          if not np.isfinite(src["close"].to_numpy(float)).all() or (src["close"]<=0).any():
+              raise RuntimeError("invalid source close")
+          wide=src.pivot(index="open_time",columns="asset",values="close").sort_index()
+          if set(wide.columns)!={"BTC","ETH"}:
+              raise RuntimeError("asset columns drift")
+          wide.index=pd.to_datetime(wide.index.to_numpy(dtype="int64"),unit="ms",utc=True)
+          wide=wide.rename(columns={"BTC":"btc_close","ETH":"eth_close"})
+
+          rows=[]
+          for row in core.itertuples(index=False):
+              decision=pd.Timestamp(row.decision_ts_utc)
+              latest=decision.floor("5min")-pd.Timedelta(minutes=5)
+              earliest=latest-pd.Timedelta(minutes=RETURN_PAIRS*BAR_MINUTES)
+              source_start=earliest
+              source_end=latest+pd.Timedelta(minutes=BAR_MINUTES-1)
+              expected_minutes=pd.date_range(source_start,source_end,freq="1min",tz="UTC")
+              if len(expected_minutes)!=EXPECTED_SOURCE_MINUTES:
+                  raise RuntimeError("source minute span drift")
+              part=wide.reindex(expected_minutes)
+              btc=pd.to_numeric(part["btc_close"],errors="coerce")
+              eth=pd.to_numeric(part["eth_close"],errors="coerce")
+              minute_valid=btc.gt(0)&eth.gt(0)&btc.notna()&eth.notna()
+              longest_missing=longest_false_run(minute_valid.to_numpy())
+              starts=pd.date_range(earliest,latest,freq="5min",tz="UTC")
+              if len(starts)!=RETURN_PAIRS+1:
+                  raise RuntimeError("5m bucket count drift")
+              b=[];e=[];valid_bars=[]
+              for start in starts:
+                  minutes=pd.date_range(start,start+pd.Timedelta(minutes=4),freq="1min",tz="UTC")
+                  ok=bool(minute_valid.reindex(minutes,fill_value=False).all())
+                  valid_bars.append(ok)
+                  b.append(float(part.loc[minutes[-1],"btc_close"]) if ok else math.nan)
+                  e.append(float(part.loc[minutes[-1],"eth_close"]) if ok else math.nan)
+              b=np.asarray(b,dtype=float); e=np.asarray(e,dtype=float); bars_ok=np.asarray(valid_bars,dtype=bool)
+              pair_ok=(bars_ok[1:]&bars_ok[:-1]&np.isfinite(b[1:])&np.isfinite(b[:-1])&np.isfinite(e[1:])&np.isfinite(e[:-1]))
+              btc_ret=np.full(RETURN_PAIRS,np.nan); eth_ret=np.full(RETURN_PAIRS,np.nan)
+              btc_ret[pair_ok]=np.log(b[1:][pair_ok]/b[:-1][pair_ok])
+              eth_ret[pair_ok]=np.log(e[1:][pair_ok]/e[:-1][pair_ok])
+              valid_pairs=int(pair_ok.sum())
+              corr=math.nan; reason=""
+              if longest_missing>MAX_MISSING_RUN_MIN:
+                  reason="MISSING_RUN_GT_10M"
+              elif valid_pairs<MIN_VALID_PAIRS:
+                  reason="VALID_PAIRS_LT_276"
+              elif float(np.var(btc_ret[pair_ok]))<=0.0 or float(np.var(eth_ret[pair_ok]))<=0.0:
+                  reason="ZERO_RETURN_VARIANCE"
+              else:
+                  corr=float(np.corrcoef(btc_ret[pair_ok],eth_ret[pair_ok])[0,1])
+                  if not math.isfinite(corr):
+                      corr=math.nan; reason="NONFINITE_CORRELATION"
+              feature_end=latest+pd.Timedelta(minutes=4)
+              if not feature_end<decision:
+                  raise RuntimeError("feature leakage")
+              rows.append({
+                  "event_id":str(row.event_id),
+                  "asset":str(row.asset).upper(),
+                  "decision_ts_utc":decision.isoformat(),
+                  "feature_end_ts_utc":feature_end.isoformat(),
+                  "source_start_minute_utc":source_start.isoformat(),
+                  "source_end_minute_utc":source_end.isoformat(),
+                  "valid_pair_count":valid_pairs,
+                  "longest_missing_run_min":longest_missing,
+                  "correlation":corr,
+                  "feature_known":bool(math.isfinite(corr)),
+                  "missing_reason":reason,
+              })
+
+          feat=pd.DataFrame(rows)
+          if len(feat)!=EXPECTED_EVENTS or feat["event_id"].duplicated().any():
+              raise RuntimeError("feature identity drift")
+          if feat.groupby("asset").size().to_dict()!=EXPECTED_COUNTS:
+              raise RuntimeError("feature asset counts drift")
+          feature_path=OUT/"correlation_feature.csv"
+          feat.to_csv(feature_path,index=False,float_format="%.17g",lineterminator="\n")
+          event_order_sha=hashlib.sha256("".join(f"{x}\n" for x in feat["event_id"]).encode()).hexdigest()
+          reasons={str(k):int(v) for k,v in feat["missing_reason"].replace({"":"KNOWN"}).value_counts().sort_index().items()}
+          provenance={
+              "schema_version":1,
+              "status":"W8545_REFDIR114_PROVIDER_FEATURE_FUSION_COMPLETE",
+              "idea_id":"W8545-REF-DIR-114",
+              "task_id":"gpt-refdir114-provider-feature-fused-20260930",
+              "worker":"WORKER4094",
+              "source_provider":"OKX",
+              "source_endpoint":"/api/v5/public/market-data-history",
+              "source_module":2,
+              "source_month_start":"2024-09",
+              "source_month_end":"2026-04",
+              "source_month_count":20,
+              "source_artifact_repo":"dup06087/LAB",
+              "source_workflow_run_id":36642579740,
+              "source_artifact_id":11066524094,
+              "source_artifact_zip_sha256":EXPECTED_ZIP_SHA,
+              "source_gzip_sha256":sha_file(SOURCE),
+              "source_manifest_sha256":sha_file(SOURCE_MANIFEST),
+              "core_sha256":sha_file(CORE),
+              "core_events":int(len(core)),
+              "asset_counts":EXPECTED_COUNTS,
+              "feature_contract":{
+                  "instruments":["OKX BTC-USDT-SWAP","OKX ETH-USDT-SWAP"],
+                  "bar_minutes":BAR_MINUTES,
+                  "all_five_1m_required":True,
+                  "return_type":"log",
+                  "return_pairs":RETURN_PAIRS,
+                  "window":"strict-past 24h",
+                  "min_valid_pairs":MIN_VALID_PAIRS,
+                  "max_missing_run_min":MAX_MISSING_RUN_MIN,
+                  "estimator":"ordinary Pearson correlation",
+                  "winsorization":False,
+                  "interpolation":False,
+              },
+              "feature_rows":int(len(feat)),
+              "feature_known_n":int(feat["feature_known"].sum()),
+              "feature_hold_n":int((~feat["feature_known"]).sum()),
+              "min_valid_pair_n":int(feat["valid_pair_count"].min()),
+              "max_valid_pair_n":int(feat["valid_pair_count"].max()),
+              "max_missing_run_observed_min":int(feat["longest_missing_run_min"].max()),
+              "missing_reason_counts":reasons,
+              "availability_violations":0,
+              "event_id_order_sha256":event_order_sha,
+              "correlation_feature_sha256":sha_file(feature_path),
+              "runtime":{
+                  "python":platform.python_version(),
+                  "numpy":np.__version__,
+                  "pandas":pd.__version__,
+                  "pyarrow":pyarrow.__version__,
+              },
+              "source_values_opened":True,
+              "feature_values_opened":True,
+              "outcomes_opened":False,
+              "event_reselection":False,
+              "research_semantics_changed":False,
+              "source_interpolation":False,
+          }
+          (OUT/"provenance.json").write_text(json.dumps(provenance,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({
+              "status":"PASS",
+              "feature_rows":len(feat),
+              "feature_known_n":int(feat["feature_known"].sum()),
+              "feature_hold_n":int((~feat["feature_known"]).sum()),
+              "feature_sha256":provenance["correlation_feature_sha256"],
+          },sort_keys=True))
+          PY
+
+      - name: Upload compact feature fusion
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt-refdir114-provider-feature-fusion
+          path: |
+            out/correlation_feature.csv
+            out/provenance.json
+          retention-days: 1
+          if-no-files-found: error
