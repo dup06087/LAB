@@ -133,26 +133,31 @@ jobs:
                           csv_bytes=z.read(members[0])
                       reader=csv.DictReader(io.StringIO(csv_bytes.decode("utf-8-sig")))
                       fields=set(reader.fieldnames or [])
-                      raw10={"instrument_name","open","high","low","close","vol","vol_ccy","vol_ccy_quote","open_time","confirm"}
+                      raw10_legacy={"instrument_name","open","high","low","close","vol","vol_ccy","vol_ccy_quote","open_time","confirm"}
+                      raw10_current={"instrument_name","open","high","low","close","vol","vol_ccy","vol_quote","open_time","confirm"}
                       native8={"open_time","open","high","low","close","volume","vol_ccy","vol_ccy_quote"}
-                      if fields==raw10:
-                          variant="RAW10"
+                      if fields==raw10_legacy:
+                          variant="RAW10_VOL_CCY_QUOTE"
+                      elif fields==raw10_current:
+                          variant="RAW10_VOL_QUOTE"
                       elif fields==native8:
                           variant="NATIVE8"
                       else:
                           raise RuntimeError(f"schema drift {sorted(fields)}")
                       n=0; first=None; last=None
                       for row in reader:
-                          if variant=="RAW10":
+                          if variant.startswith("RAW10_"):
                               if row["instrument_name"]!=ASSETS[asset]["inst"] or str(row["confirm"])!="1":
                                   raise RuntimeError("instrument/confirm drift")
                               volume=row["vol"]
+                              quote_volume=row.get("vol_ccy_quote", row.get("vol_quote", ""))
                           else:
                               volume=row["volume"]
+                              quote_volume=row["vol_ccy_quote"]
                           ts=int(row["open_time"])
                           if first is None: first=ts
                           last=ts
-                          w.writerow([asset,ASSETS[asset]["inst"],ts,row["open"],row["high"],row["low"],row["close"],volume,row["vol_ccy"],row["vol_ccy_quote"]])
+                          w.writerow([asset,ASSETS[asset]["inst"],ts,row["open"],row["high"],row["low"],row["close"],volume,row["vol_ccy"],quote_volume])
                           n += 1
                       if n<=0: raise RuntimeError("empty archive")
                       rows_asset += n; total += n
