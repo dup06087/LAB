@@ -1,0 +1,18 @@
+name: GPT Actions public smoke test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/gpt-actions-smoke-test.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Hello
+        run: echo "GPT_PUBLIC_ACTIONS_SMOKE_PASS"
