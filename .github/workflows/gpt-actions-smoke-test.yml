@@ -14,5 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Hello
-        run: echo "GPT_PUBLIC_ACTIONS_SMOKE_PASS"
+      - name: Create bridge probe
+        run: |
+          mkdir -p out
+          printf '%s\n' 'GPT_PUBLIC_ACTIONS_ARTIFACT_BRIDGE_PASS' > out/probe.txt
+      - name: Upload bridge probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt-public-actions-artifact-bridge-probe
+          path: out/probe.txt
+          retention-days: 1
+          if-no-files-found: error
