@@ -1,0 +1,258 @@
+name: WORKER2392 P0-C exact67 public trade transport
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker2392-p0c-public-trade-exact67-transport.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Inventory and download exact frozen 67 public OKX trade ZIPs
+        shell: bash
+        env:
+          FROZEN_ENTRIES_JSON: '[{"day":"2024-11-06","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241106/BTC-USDT-SWAP-trades-2024-11-06.zip","provider":"OKX"},{"day":"2024-11-07","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241107/BTC-USDT-SWAP-trades-2024-11-07.zip","provider":"OKX"},{"day":"2024-11-10","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241110/BTC-USDT-SWAP-trades-2024-11-10.zip","provider":"OKX"},{"day":"2024-11-11","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241111/BTC-USDT-SWAP-trades-2024-11-11.zip","provider":"OKX"},{"day":"2024-11-12","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241112/BTC-USDT-SWAP-trades-2024-11-12.zip","provider":"OKX"},{"day":"2024-11-13","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241113/BTC-USDT-SWAP-trades-2024-11-13.zip","provider":"OKX"},{"day":"2024-12-05","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241205/BTC-USDT-SWAP-trades-2024-12-05.zip","provider":"OKX"},{"day":"2024-12-06","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241206/BTC-USDT-SWAP-trades-2024-12-06.zip","provider":"OKX"},{"day":"2024-12-09","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241209/BTC-USDT-SWAP-trades-2024-12-09.zip","provider":"OKX"},{"day":"2024-12-10","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241210/BTC-USDT-SWAP-trades-2024-12-10.zip","provider":"OKX"},{"day":"2024-12-20","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241220/BTC-USDT-SWAP-trades-2024-12-20.zip","provider":"OKX"},{"day":"2024-12-21","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241221/BTC-USDT-SWAP-trades-2024-12-21.zip","provider":"OKX"},{"day":"2024-12-27","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241227/BTC-USDT-SWAP-trades-2024-12-27.zip","provider":"OKX"},{"day":"2024-12-28","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20241228/BTC-USDT-SWAP-trades-2024-12-28.zip","provider":"OKX"},{"day":"2025-01-09","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250109/BTC-USDT-SWAP-trades-2025-01-09.zip","provider":"OKX"},{"day":"2025-01-10","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250110/BTC-USDT-SWAP-trades-2025-01-10.zip","provider":"OKX"},{"day":"2025-01-20","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250120/BTC-USDT-SWAP-trades-2025-01-20.zip","provider":"OKX"},{"day":"2025-01-21","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250121/BTC-USDT-SWAP-trades-2025-01-21.zip","provider":"OKX"},{"day":"2025-01-23","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250123/BTC-USDT-SWAP-trades-2025-01-23.zip","provider":"OKX"},{"day":"2025-01-24","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250124/BTC-USDT-SWAP-trades-2025-01-24.zip","provider":"OKX"},{"day":"2025-02-03","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250203/BTC-USDT-SWAP-trades-2025-02-03.zip","provider":"OKX"},{"day":"2025-02-04","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250204/BTC-USDT-SWAP-trades-2025-02-04.zip","provider":"OKX"},{"day":"2025-02-12","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250212/BTC-USDT-SWAP-trades-2025-02-12.zip","provider":"OKX"},{"day":"2025-02-13","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250213/BTC-USDT-SWAP-trades-2025-02-13.zip","provider":"OKX"},{"day":"2025-02-25","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250225/BTC-USDT-SWAP-trades-2025-02-25.zip","provider":"OKX"},{"day":"2025-02-26","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250226/BTC-USDT-SWAP-trades-2025-02-26.zip","provider":"OKX"},{"day":"2025-02-27","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250227/BTC-USDT-SWAP-trades-2025-02-27.zip","provider":"OKX"},{"day":"2025-02-28","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250228/BTC-USDT-SWAP-trades-2025-02-28.zip","provider":"OKX"},{"day":"2025-03-01","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250301/BTC-USDT-SWAP-trades-2025-03-01.zip","provider":"OKX"},{"day":"2025-03-02","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250302/BTC-USDT-SWAP-trades-2025-03-02.zip","provider":"OKX"},{"day":"2025-03-03","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250303/BTC-USDT-SWAP-trades-2025-03-03.zip","provider":"OKX"},{"day":"2025-03-04","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250304/BTC-USDT-SWAP-trades-2025-03-04.zip","provider":"OKX"},{"day":"2025-03-05","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250305/BTC-USDT-SWAP-trades-2025-03-05.zip","provider":"OKX"},{"day":"2025-03-06","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250306/BTC-USDT-SWAP-trades-2025-03-06.zip","provider":"OKX"},{"day":"2025-03-07","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250307/BTC-USDT-SWAP-trades-2025-03-07.zip","provider":"OKX"},{"day":"2025-03-08","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250308/BTC-USDT-SWAP-trades-2025-03-08.zip","provider":"OKX"},{"day":"2025-03-10","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250310/BTC-USDT-SWAP-trades-2025-03-10.zip","provider":"OKX"},{"day":"2025-03-13","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250313/BTC-USDT-SWAP-trades-2025-03-13.zip","provider":"OKX"},{"day":"2025-03-17","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250317/BTC-USDT-SWAP-trades-2025-03-17.zip","provider":"OKX"},{"day":"2025-04-03","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250403/BTC-USDT-SWAP-trades-2025-04-03.zip","provider":"OKX"},{"day":"2025-04-08","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250408/BTC-USDT-SWAP-trades-2025-04-08.zip","provider":"OKX"},{"day":"2025-04-10","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250410/BTC-USDT-SWAP-trades-2025-04-10.zip","provider":"OKX"},{"day":"2025-04-23","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250423/BTC-USDT-SWAP-trades-2025-04-23.zip","provider":"OKX"},{"day":"2025-07-11","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250711/BTC-USDT-SWAP-trades-2025-07-11.zip","provider":"OKX"},{"day":"2025-08-15","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250815/BTC-USDT-SWAP-trades-2025-08-15.zip","provider":"OKX"},{"day":"2025-08-23","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250823/BTC-USDT-SWAP-trades-2025-08-23.zip","provider":"OKX"},{"day":"2025-08-25","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250825/BTC-USDT-SWAP-trades-2025-08-25.zip","provider":"OKX"},{"day":"2025-09-23","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20250923/BTC-USDT-SWAP-trades-2025-09-23.zip","provider":"OKX"},{"day":"2025-10-17","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20251017/BTC-USDT-SWAP-trades-2025-10-17.zip","provider":"OKX"},{"day":"2025-10-20","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20251020/BTC-USDT-SWAP-trades-2025-10-20.zip","provider":"OKX"},{"day":"2025-10-22","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20251022/BTC-USDT-SWAP-trades-2025-10-22.zip","provider":"OKX"},{"day":"2025-10-30","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20251030/BTC-USDT-SWAP-trades-2025-10-30.zip","provider":"OKX"},{"day":"2025-11-22","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20251122/BTC-USDT-SWAP-trades-2025-11-22.zip","provider":"OKX"},{"day":"2025-12-18","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20251218/BTC-USDT-SWAP-trades-2025-12-18.zip","provider":"OKX"},{"day":"2026-01-14","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260114/BTC-USDT-SWAP-trades-2026-01-14.zip","provider":"OKX"},{"day":"2026-01-22","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260122/BTC-USDT-SWAP-trades-2026-01-22.zip","provider":"OKX"},{"day":"2026-02-03","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260203/BTC-USDT-SWAP-trades-2026-02-03.zip","provider":"OKX"},{"day":"2026-02-04","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260204/BTC-USDT-SWAP-trades-2026-02-04.zip","provider":"OKX"},{"day":"2026-02-05","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260205/BTC-USDT-SWAP-trades-2026-02-05.zip","provider":"OKX"},{"day":"2026-02-06","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260206/BTC-USDT-SWAP-trades-2026-02-06.zip","provider":"OKX"},{"day":"2026-02-17","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260217/BTC-USDT-SWAP-trades-2026-02-17.zip","provider":"OKX"},{"day":"2026-02-21","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260221/BTC-USDT-SWAP-trades-2026-02-21.zip","provider":"OKX"},{"day":"2026-02-26","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260226/BTC-USDT-SWAP-trades-2026-02-26.zip","provider":"OKX"},{"day":"2026-03-02","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260302/BTC-USDT-SWAP-trades-2026-03-02.zip","provider":"OKX"},{"day":"2026-03-09","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260309/BTC-USDT-SWAP-trades-2026-03-09.zip","provider":"OKX"},{"day":"2026-03-27","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260327/BTC-USDT-SWAP-trades-2026-03-27.zip","provider":"OKX"},{"day":"2026-03-31","url":"https://static.okx.com/cdn/okex/traderecords/trades/daily/20260331/BTC-USDT-SWAP-trades-2026-03-31.zip","provider":"OKX"}]'
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import hashlib, json, os, re, time, urllib.parse, urllib.request
+          from datetime import date, datetime, timedelta, timezone
+          from pathlib import Path
+
+          ENTRIES = json.loads(os.environ["FROZEN_ENTRIES_JSON"])
+          API = "https://www.okx.com/api/v5/public/market-data-history"
+          INST_ID = "BTC-USDT-SWAP"
+          INST_FAMILY = "BTC-USDT"
+          STATIC_HOST = "static.okx.com"
+          MAX_RANGE = 10
+          EXPECTED_QUERY_GROUPS = 41
+          OUT = Path("out")
+          UA = "worker2392-p0c-exact67-lab-transport/1.0"
+
+          def expected_url(day):
+              return (
+                  "https://static.okx.com/cdn/okex/traderecords/trades/daily/"
+                  f"{day.replace('-', '')}/{INST_ID}-trades-{day}.zip"
+              )
+
+          by_day = {}
+          for row in ENTRIES:
+              day = date.fromisoformat(str(row["day"])).isoformat()
+              if row.get("provider") != "OKX" or row.get("url") != expected_url(day):
+                  raise RuntimeError(f"frozen entry drift {row!r}")
+              if day in by_day:
+                  raise RuntimeError(f"duplicate frozen day {day}")
+              by_day[day] = {"day": day, "url": row["url"], "provider": "OKX"}
+          days = sorted(by_day)
+          if len(days) != 67 or days[0] != "2024-11-06" or days[-1] != "2026-03-31":
+              raise RuntimeError("frozen date-set drift")
+
+          def ranges(days):
+              parsed = [date.fromisoformat(x) for x in days]
+              out=[]; start=prev=parsed[0]; count=1
+              for cur in parsed[1:]:
+                  if cur == prev + timedelta(days=1) and count < MAX_RANGE:
+                      prev=cur; count += 1
+                  else:
+                      out.append((start.isoformat(),prev.isoformat()))
+                      start=prev=cur; count=1
+              out.append((start.isoformat(),prev.isoformat()))
+              return out
+          query_ranges = ranges(days)
+          if len(query_ranges) != EXPECTED_QUERY_GROUPS:
+              raise RuntimeError(f"query group drift {len(query_ranges)}")
+
+          def utc8_ms(day):
+              d=date.fromisoformat(day)
+              dt=datetime(d.year,d.month,d.day,tzinfo=timezone(timedelta(hours=8)))
+              return int(dt.astimezone(timezone.utc).timestamp()*1000)
+
+          def get_json(url, timeout=30):
+              last=None
+              for attempt in range(1,6):
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":UA})
+                      with urllib.request.urlopen(req,timeout=timeout) as r:
+                          return json.loads(r.read().decode("utf-8"))
+                  except Exception as e:
+                      last=e
+                      if attempt==5: raise
+                      time.sleep(attempt)
+              raise RuntimeError(last)
+
+          returned={}
+          requests_meta=[]
+          fn_re=re.compile(r"^BTC-USDT-SWAP-trades-(\d{4}-\d{2}-\d{2})\.zip$")
+          for start,end in query_ranges:
+              q=urllib.parse.urlencode({
+                  "module":"1","instType":"SWAP","instFamilyList":"BTC-USDT",
+                  "dateAggrType":"daily","begin":str(utc8_ms(start)),"end":str(utc8_ms(end)),
+              })
+              url=API+"?"+q
+              payload=get_json(url)
+              if str(payload.get("code"))!="0":
+                  raise RuntimeError(f"inventory code {payload}")
+              for block in payload.get("data",[]):
+                  if block.get("dateAggrType")!="daily": raise RuntimeError("aggregation drift")
+                  for detail in block.get("details",[]):
+                      if detail.get("instType")!="SWAP" or detail.get("instFamily")!="BTC-USDT":
+                          raise RuntimeError("selector drift")
+                      for item in detail.get("groupDetails",[]):
+                          fn=str(item.get("filename",""))
+                          m=fn_re.fullmatch(fn)
+                          if not m: raise RuntimeError(f"filename drift {fn}")
+                          day=m.group(1)
+                          if day not in by_day: raise RuntimeError(f"nonallowlisted day {day}")
+                          item_url=str(item.get("url",""))
+                          if item_url != by_day[day]["url"]: raise RuntimeError(f"url drift {day}")
+                          if day in returned: raise RuntimeError(f"duplicate provider day {day}")
+                          returned[day]={"day":day,"filename":fn,"url":item_url,"sizeMB":str(item.get("sizeMB",""))}
+              requests_meta.append({"start":start,"end":end,"url":url})
+              time.sleep(0.1)
+
+          missing=[d for d in days if d not in returned]
+          if missing:
+              raise RuntimeError(f"inventory missing {missing}")
+
+          inv_digest_payload={
+              "provider":"OKX","endpoint":"/api/v5/public/market-data-history","module":"1",
+              "instType":"SWAP","instFamilyList":"BTC-USDT","dateAggrType":"daily",
+              "queries":requests_meta,"entries":[returned[d] for d in days],"missing":[],
+          }
+          canon=json.dumps(inv_digest_payload,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+          official={
+              **inv_digest_payload,"schema_version":1,"status":"PASS","required_dates":67,
+              "returned_dates":67,"missing_dates":0,"query_count":41,
+              "inventory_sha256":hashlib.sha256(canon).hexdigest(),
+              "market_payload_downloaded":False,"source_values_opened":False,
+              "feature_values_opened":False,"outcomes_opened":False,"event_reselection":False,
+              "retrieved_at_utc":datetime.now(timezone.utc).isoformat(),
+          }
+          (OUT/"official_inventory.json").write_text(json.dumps(official,indent=2,sort_keys=True)+"\n")
+
+          collected=[]
+          chunk_rows={i:[] for i in range(7)}
+          for idx,day in enumerate(days):
+              chunk=idx//10
+              ddir=OUT/f"chunk-{chunk:02d}"
+              ddir.mkdir(parents=True,exist_ok=True)
+              dst=ddir/f"{day}.zip"
+              last=None
+              for attempt in range(1,6):
+                  try:
+                      req=urllib.request.Request(by_day[day]["url"],headers={"User-Agent":UA})
+                      h=hashlib.sha256(); n=0; magic=b""
+                      with urllib.request.urlopen(req,timeout=180) as r, dst.open("wb") as f:
+                          status=int(getattr(r,"status",0) or 0)
+                          if status != 200: raise RuntimeError(f"HTTP {status}")
+                          while True:
+                              block=r.read(1<<20)
+                              if not block: break
+                              if not magic: magic=block[:2]
+                              f.write(block); h.update(block); n += len(block)
+                      if n<=0 or magic!=b"PK":
+                          raise RuntimeError(f"bad archive {day} bytes={n} magic={magic!r}")
+                      rec={"day":day,"url":by_day[day]["url"],"bytes":n,"sha256":h.hexdigest(),"chunk":chunk}
+                      collected.append(rec); chunk_rows[chunk].append(rec)
+                      break
+                  except Exception as e:
+                      last=e
+                      try: dst.unlink()
+                      except FileNotFoundError: pass
+                      if attempt==5: raise
+                      time.sleep(attempt)
+              time.sleep(0.05)
+
+          if len(collected)!=67:
+              raise RuntimeError("collection count drift")
+          for i,rows in chunk_rows.items():
+              (OUT/f"chunk-{i:02d}"/"inventory.json").write_text(json.dumps({"schema_version":1,"chunk":i,"rows":rows},indent=2,sort_keys=True)+"\n")
+          collection={
+              "schema_version":1,"status":"P0C_PUBLIC_TRADE_COLLECTION_COMPLETE",
+              "task_id":"worker4529-p0c-public-trade-network-collection-codex-20260929",
+              "worker":"WORKER2392","execution_surface":"dup06087/LAB GitHub Actions",
+              "requested_container_count":67,"available_container_count":67,"fail":0,
+              "containers":collected,"official_inventory_sha256":hashlib.sha256((OUT/"official_inventory.json").read_bytes()).hexdigest(),
+              "raw_git_publication":False,"transient_actions_artifact_transport":True,"artifact_retention_days":1,
+              "credentials_used":False,"private_api_used":False,"feature_engineering_performed":False,
+              "outcome_table_read":False,"inference_performed":False,"event_reselection_performed":False,
+              "research_semantics_changed":False,"completed_at_utc":datetime.now(timezone.utc).isoformat(),
+          }
+          (OUT/"collection_inventory.json").write_text(json.dumps(collection,indent=2,sort_keys=True)+"\n")
+          print(json.dumps({"status":"PASS","containers":67,"query_groups":41,"bytes":sum(x["bytes"] for x in collected)},sort_keys=True))
+          PY
+
+      - name: Upload compact inventories
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-inventory
+          path: |
+            out/official_inventory.json
+            out/collection_inventory.json
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Upload raw transport chunk 00
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-00
+          path: out/chunk-00/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Upload raw transport chunk 01
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-01
+          path: out/chunk-01/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Upload raw transport chunk 02
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-02
+          path: out/chunk-02/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Upload raw transport chunk 03
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-03
+          path: out/chunk-03/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Upload raw transport chunk 04
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-04
+          path: out/chunk-04/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Upload raw transport chunk 05
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-05
+          path: out/chunk-05/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Upload raw transport chunk 06
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-public-trades-exact67-chunk-06
+          path: out/chunk-06/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
