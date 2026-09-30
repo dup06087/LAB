@@ -1,0 +1,65 @@
+{
+  "asset_counts": {
+    "BTC": 535,
+    "ETH": 612
+  },
+  "availability_violations": 0,
+  "core_events": 1147,
+  "core_sha256": "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad",
+  "correlation_feature_sha256": "edd7765760f4514cb1e4c617e94d4c8246571ac7da0d95895167ea91e8412826",
+  "event_id_order_sha256": "9bca9df22d57591438a3fe27fe474e9ebc3ba748cd89e34327e062731c435e7b",
+  "event_reselection": false,
+  "feature_contract": {
+    "all_five_1m_required": true,
+    "bar_minutes": 5,
+    "estimator": "ordinary Pearson correlation",
+    "instruments": [
+      "OKX BTC-USDT-SWAP",
+      "OKX ETH-USDT-SWAP"
+    ],
+    "interpolation": false,
+    "max_missing_run_min": 10,
+    "min_valid_pairs": 276,
+    "return_pairs": 288,
+    "return_type": "log",
+    "window": "strict-past 24h",
+    "winsorization": false
+  },
+  "feature_hold_n": 0,
+  "feature_known_n": 1147,
+  "feature_rows": 1147,
+  "feature_values_opened": true,
+  "idea_id": "W8545-REF-DIR-114",
+  "max_missing_run_observed_min": 0,
+  "max_valid_pair_n": 288,
+  "min_valid_pair_n": 288,
+  "missing_reason_counts": {
+    "KNOWN": 1147
+  },
+  "outcomes_opened": false,
+  "research_semantics_changed": false,
+  "runtime": {
+    "numpy": "2.1.2",
+    "pandas": "2.2.3",
+    "pyarrow": "17.0.0",
+    "python": "3.11.16"
+  },
+  "schema_version": 1,
+  "source_artifact_id": 11066524094,
+  "source_artifact_repo": "dup06087/LAB",
+  "source_artifact_zip_sha256": "c06243211f7074b8ed47b63a98bb86ed3e9ebe0502ce25e6e6100971cc064dc8",
+  "source_endpoint": "/api/v5/public/market-data-history",
+  "source_gzip_sha256": "744768692dcda67fe1b3b4948da29a1be222af8972955831460724e31521685c",
+  "source_interpolation": false,
+  "source_manifest_sha256": "a58e6878317e0207dcf541e040636874aa523a0b1980e8e9fc918607ee9d2315",
+  "source_module": 2,
+  "source_month_count": 20,
+  "source_month_end": "2026-04",
+  "source_month_start": "2024-09",
+  "source_provider": "OKX",
+  "source_values_opened": true,
+  "source_workflow_run_id": 36642579740,
+  "status": "W8545_REFDIR114_PROVIDER_FEATURE_FUSION_COMPLETE",
+  "task_id": "gpt-refdir114-provider-feature-fused-20260930",
+  "worker": "WORKER4094"
+}
