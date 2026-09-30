@@ -112,7 +112,8 @@ jobs:
                           day=m.group(1)
                           if day not in by_day: raise RuntimeError(f"nonallowlisted day {day}")
                           item_url=str(item.get("url",""))
-                          if item_url != by_day[day]["url"]:\n                              raise RuntimeError(f"url drift {day} expected={by_day[day][\"url\"]!r} got={item_url!r}")
+                          if item_url != by_day[day]["url"]:
+                              raise RuntimeError(f"url drift {day} expected={by_day[day]['url']!r} got={item_url!r}")
                           if day in returned: raise RuntimeError(f"duplicate provider day {day}")
                           returned[day]={"day":day,"filename":fn,"url":item_url,"sizeMB":str(item.get("sizeMB",""))}
               requests_meta.append({"start":start,"end":end,"url":url})
