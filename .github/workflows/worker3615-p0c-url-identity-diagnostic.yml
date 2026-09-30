@@ -1,0 +1,192 @@
+name: WORKER3615 P0-C provider URL identity diagnostic
+
+on:
+  push:
+    branches:
+      - worker3615-p0c-url-identity-diagnostic-20261003
+    paths:
+      - ".github/workflows/worker3615-p0c-url-identity-diagnostic.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Inspect exact 67 provider inventory URL identities only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import hashlib, json, time, urllib.parse, urllib.request
+          from datetime import date, datetime, timedelta, timezone
+          from pathlib import Path
+
+          PLAN_COMMIT = "b05670268439857d4aecaa7030a0cbc5e6135369"
+          PLAN_BLOB = "d86ac5f89d0e8e32643a622e4eb4c9bebd1c1f2d"
+          PLAN_URL = (
+              "https://raw.githubusercontent.com/dup06087/trading/"
+              + PLAN_COMMIT
+              + "/artifacts/control_plane/worker4529_p0c_upstream_residual_plan_20260929.json"
+          )
+          API = "https://www.okx.com/api/v5/public/market-data-history"
+          UA = "worker3615-p0c-url-identity-diagnostic/1.0"
+
+          def get_bytes(url, timeout=30):
+              req = urllib.request.Request(url, headers={"User-Agent": UA})
+              with urllib.request.urlopen(req, timeout=timeout) as r:
+                  return r.read()
+
+          raw = get_bytes(PLAN_URL)
+          git_sha = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+          if git_sha != PLAN_BLOB:
+              raise RuntimeError(f"residual plan blob drift {git_sha}")
+          plan = json.loads(raw)
+          entries = plan["trades_reconstruction"]["exact_missing_public_containers"]
+          if len(entries) != 67:
+              raise RuntimeError(f"container count drift {len(entries)}")
+
+          required = {}
+          for row in entries:
+              day = date.fromisoformat(row["logical_container_date"]).isoformat()
+              expected = row["url"]
+              if row.get("provider") != "OKX":
+                  raise RuntimeError(f"provider drift {day}")
+              required[day] = expected
+          days = sorted(required)
+          if days[0] != "2024-11-06" or days[-1] != "2026-03-31":
+              raise RuntimeError("edge drift")
+
+          def ranges(days):
+              parsed = [date.fromisoformat(x) for x in days]
+              out=[]; start=prev=parsed[0]; count=1
+              for cur in parsed[1:]:
+                  if cur == prev + timedelta(days=1) and count < 10:
+                      prev=cur; count += 1
+                  else:
+                      out.append((start.isoformat(), prev.isoformat()))
+                      start=prev=cur; count=1
+              out.append((start.isoformat(), prev.isoformat()))
+              return out
+
+          query_ranges = ranges(days)
+          if len(query_ranges) != 41:
+              raise RuntimeError(f"query group drift {len(query_ranges)}")
+
+          def utc8_ms(day):
+              d=date.fromisoformat(day)
+              dt=datetime(d.year,d.month,d.day,tzinfo=timezone(timedelta(hours=8)))
+              return int(dt.astimezone(timezone.utc).timestamp()*1000)
+
+          observed = {}
+          requests_meta = []
+          for start,end in query_ranges:
+              q = urllib.parse.urlencode({
+                  "module":"1",
+                  "instType":"SWAP",
+                  "instFamilyList":"BTC-USDT",
+                  "dateAggrType":"daily",
+                  "begin":str(utc8_ms(start)),
+                  "end":str(utc8_ms(end)),
+              })
+              url = API + "?" + q
+              payload = json.loads(get_bytes(url).decode("utf-8"))
+              if str(payload.get("code")) != "0":
+                  raise RuntimeError(f"provider code drift {payload}")
+              for block in payload.get("data", []):
+                  for detail in block.get("details", []):
+                      for item in detail.get("groupDetails", []):
+                          fn = str(item.get("filename") or "")
+                          prefix = "BTC-USDT-SWAP-trades-"
+                          if not fn.startswith(prefix) or not fn.endswith(".zip"):
+                              continue
+                          day = fn[len(prefix):-4]
+                          if day not in required:
+                              continue
+                          got = str(item.get("url") or "")
+                          if day in observed:
+                              raise RuntimeError(f"duplicate provider day {day}")
+                          observed[day] = {
+                              "day": day,
+                              "filename": fn,
+                              "expected_url": required[day],
+                              "provider_url": got,
+                              "sizeMB": str(item.get("sizeMB") or ""),
+                          }
+              requests_meta.append({"start":start,"end":end,"url":url})
+              time.sleep(0.10)
+
+          rows=[]
+          missing=[]
+          exact=0
+          same_origin_path=0
+          query_patterns={}
+          for day in days:
+              row=observed.get(day)
+              if row is None:
+                  missing.append(day)
+                  continue
+              e=urllib.parse.urlsplit(row["expected_url"])
+              g=urllib.parse.urlsplit(row["provider_url"])
+              same_path=(e.scheme,e.netloc,e.path)==(g.scheme,g.netloc,g.path)
+              exact_match=row["expected_url"]==row["provider_url"]
+              if exact_match: exact += 1
+              if same_path: same_origin_path += 1
+              q=urllib.parse.parse_qsl(g.query, keep_blank_values=True)
+              qkey=json.dumps(q, separators=(",",":"))
+              query_patterns[qkey]=query_patterns.get(qkey,0)+1
+              rows.append({
+                  **row,
+                  "exact_match": exact_match,
+                  "same_scheme_host_path": same_path,
+                  "provider_query": g.query,
+                  "provider_fragment": g.fragment,
+              })
+
+          out={
+              "schema_version":1,
+              "status":"PASS_DIAGNOSTIC" if len(rows)==67 and not missing else "INCOMPLETE",
+              "task":"worker3615-p0c-url-identity-diagnostic-20261003",
+              "residual_plan_commit":PLAN_COMMIT,
+              "residual_plan_blob":PLAN_BLOB,
+              "required_dates":67,
+              "returned_required_dates":len(rows),
+              "missing_dates":missing,
+              "query_groups":len(query_ranges),
+              "exact_url_matches":exact,
+              "same_scheme_host_path":same_origin_path,
+              "query_patterns":query_patterns,
+              "rows":rows,
+              "payload_downloaded":False,
+              "source_values_opened":False,
+              "feature_values_opened":False,
+              "outcomes_opened":False,
+              "event_reselection":False,
+              "research_semantics_changed":False,
+              "completed_at_utc":datetime.now(timezone.utc).isoformat(),
+          }
+          Path("out/url_identity_diagnostic.json").write_text(
+              json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          print(json.dumps({
+              "status":out["status"],
+              "returned_required_dates":out["returned_required_dates"],
+              "missing_count":len(missing),
+              "exact_url_matches":exact,
+              "same_scheme_host_path":same_origin_path,
+              "query_patterns":query_patterns,
+          }, sort_keys=True))
+          if out["status"] != "PASS_DIAGNOSTIC":
+              raise SystemExit(2)
+          PY
+
+      - name: Upload URL identity diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-provider-url-identity-diagnostic
+          path: out/url_identity_diagnostic.json
+          retention-days: 3
+          if-no-files-found: error
