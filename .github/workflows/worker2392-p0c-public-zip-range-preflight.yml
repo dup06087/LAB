@@ -1,0 +1,91 @@
+name: WORKER2392 P0-C public ZIP range preflight
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker2392-p0c-public-zip-range-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Read bounded bytes from exact frozen OKX public trade ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import hashlib, json, time, urllib.request
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          URL = "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241106/BTC-USDT-SWAP-trades-2024-11-06.zip"
+          MAX = 65536
+          last = None
+          for attempt in range(1, 5):
+              try:
+                  req = urllib.request.Request(
+                      URL,
+                      headers={
+                          "User-Agent": "worker2392-p0c-public-zip-range-preflight/1.0",
+                          "Range": "bytes=0-65535",
+                      },
+                  )
+                  with urllib.request.urlopen(req, timeout=60) as r:
+                      status = int(getattr(r, "status", 0) or 0)
+                      content_range = r.headers.get("Content-Range")
+                      content_length = r.headers.get("Content-Length")
+                      data = r.read(MAX)
+                  if not data:
+                      raise RuntimeError("empty response body")
+                  if data[:2] != b"PK":
+                      raise RuntimeError(f"ZIP magic mismatch: {data[:8].hex()}")
+                  payload = {
+                      "schema_version": 1,
+                      "status": "PASS",
+                      "worker": "WORKER2392",
+                      "task_id": "worker2392-p0c-lab-public-zip-range-preflight-20261003",
+                      "provider": "OKX",
+                      "instrument": "BTC-USDT-SWAP",
+                      "logical_date": "2024-11-06",
+                      "url": URL,
+                      "http_status": status,
+                      "content_range": content_range,
+                      "content_length_header": content_length,
+                      "retained_bytes": len(data),
+                      "max_retained_bytes": MAX,
+                      "zip_magic": data[:2].hex(),
+                      "sample_sha256": hashlib.sha256(data).hexdigest(),
+                      "full_archive_retained": False,
+                      "trade_rows_parsed": False,
+                      "feature_engineering_performed": False,
+                      "future_outcomes_opened": False,
+                      "event_reselection_performed": False,
+                      "verified_at_utc": datetime.now(timezone.utc).isoformat(),
+                  }
+                  Path("out/summary.json").write_text(
+                      json.dumps(payload, indent=2, sort_keys=True) + "\n",
+                      encoding="utf-8",
+                  )
+                  print(json.dumps(payload, sort_keys=True))
+                  break
+              except Exception as exc:
+                  last = repr(exc)
+                  if attempt == 4:
+                      raise
+                  time.sleep(attempt)
+          PY
+
+      - name: Upload capability summary only
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker2392-p0c-public-zip-range-preflight
+          path: out/summary.json
+          retention-days: 1
+          if-no-files-found: error
