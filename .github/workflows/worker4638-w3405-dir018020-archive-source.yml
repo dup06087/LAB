@@ -1,0 +1,173 @@
+name: WORKER4638 W3405 DIR018/020 Binance archive source
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker4638-w3405-dir018020-archive-source.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout LAB
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout trading source contract
+        uses: actions/checkout@v4
+        with:
+          repository: dup06087/trading
+          ref: main
+          path: trading
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install frozen collector dependencies
+        run: python -m pip install --disable-pip-version-check pandas pyarrow pytest
+
+      - name: Verify exact trading pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C trading rev-parse HEAD:scripts/collect_w3405_dir018_020_binance_archive_source.py)" = "8350104ea0763003a5ff0d1935ec44d7996a2325"
+          test "$(git -C trading rev-parse HEAD:tests/test_collect_w3405_dir018_020_binance_archive_source.py)" = "1ba83fb44a5b4881032f7ffd00c3bc726d6a3b2b"
+          test "$(sha256sum trading/data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet | awk '{print $1}')" = "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad"
+
+      - name: Run focused collector regression
+        working-directory: trading
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python -m pytest tests/test_collect_w3405_dir018_020_binance_archive_source.py -q -p no:cacheprovider
+
+      - name: Collect exact official archive subset
+        working-directory: trading
+        env:
+          OUT_ROOT: ${{ github.workspace }}/out
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python scripts/collect_w3405_dir018_020_binance_archive_source.py \
+            --core data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet \
+            --out-root "$OUT_ROOT" \
+            --timeout 120 \
+            --retries 4
+
+      - name: Validate compact outputs and stage LAB handback
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          rm -rf derived/w3405_dir018020_archive_source
+          mkdir -p derived/w3405_dir018020_archive_source
+          cp -R out/w3405_dir018_archive_reconstruction derived/w3405_dir018020_archive_source/
+          cp -R out/w3405_dir020_archive_reconstruction derived/w3405_dir018020_archive_source/
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          root=Path("derived/w3405_dir018020_archive_source")
+          d18=root/"w3405_dir018_archive_reconstruction"
+          d20=root/"w3405_dir020_archive_reconstruction"
+          files=[
+              d18/"source_rows.jsonl", d18/"manifest.json",
+              d20/"source_rows.jsonl", d20/"manifest.json",
+          ]
+          def sha(p):
+              return hashlib.sha256(p.read_bytes()).hexdigest()
+          for p in files:
+              if not p.is_file():
+                  raise SystemExit(f"missing output {p}")
+          m18=json.loads((d18/"manifest.json").read_text())
+          m20=json.loads((d20/"manifest.json").read_text())
+          expected={
+              "source_lineage":"BINANCE_OFFICIAL_PUBLIC_DATA_ARCHIVE",
+              "source_substitution_performed":True,
+              "relative_to_original_fapi_task":True,
+              "event_rows":1147,
+              "asset_event_rows":{"BTC":535,"ETH":612},
+              "exact_expected_open_time_only":True,
+              "nearest_asof_ffill_interpolation_performed":False,
+              "feature_engineering_performed":False,
+              "action_assigned":False,
+              "outcome_table_read":False,
+              "statistical_inference_computed":False,
+              "economic_evaluation_performed":False,
+              "event_reselection_performed":False,
+          }
+          for name,m in (("DIR018",m18),("DIR020",m20)):
+              for k,v in expected.items():
+                  if m.get(k)!=v:
+                      raise SystemExit(f"{name} {k} mismatch: {m.get(k)!r}")
+              inv=m.get("object_inventory")
+              if not isinstance(inv,list) or len(inv)!=108:
+                  raise SystemExit(f"{name} object inventory count !=108")
+          if m18["object_inventory"] != m20["object_inventory"]:
+              raise SystemExit("DIR018/DIR020 object inventory mismatch")
+          counts={}
+          for x in m18["object_inventory"]:
+              s=str(x.get("status"))
+              counts[s]=counts.get(s,0)+1
+              if s=="VERIFIED":
+                  if x.get("published_checksum_sha256") != x.get("download_sha256"):
+                      raise SystemExit(f"checksum mismatch {x.get('object_path')}")
+          summary={
+              "schema_version":1,
+              "status":"PASS",
+              "task_id":"worker4638-w3405-dir018020-lab-actions-collection-20261003",
+              "parent_source_task":"worker4638-w3405-dir018-020-binance-archive-source-reconstruction-codex-20260930",
+              "worker":"WORKER4638",
+              "execution_engine":"LAB_ACTIONS_PUBLIC_NETWORK_COLLECTION",
+              "workflow_run_id":int(os.environ["RUN_ID"]),
+              "workflow_run_attempt":int(os.environ["RUN_ATTEMPT"]),
+              "workflow_head_sha":os.environ["HEAD_SHA"],
+              "collector_blob":"8350104ea0763003a5ff0d1935ec44d7996a2325",
+              "test_blob":"1ba83fb44a5b4881032f7ffd00c3bc726d6a3b2b",
+              "core_sha256":"13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad",
+              "object_inventory_status_counts":dict(sorted(counts.items())),
+              "dir018_source_rows_sha256":sha(d18/"source_rows.jsonl"),
+              "dir018_manifest_sha256":sha(d18/"manifest.json"),
+              "dir020_source_rows_sha256":sha(d20/"source_rows.jsonl"),
+              "dir020_manifest_sha256":sha(d20/"manifest.json"),
+              "source_values_opened":True,
+              "feature_engineering_performed":False,
+              "future_outcomes_opened":False,
+              "event_reselection_performed":False,
+              "research_semantics_changed":False,
+              "raw_zip_published":False,
+          }
+          (root/"run_summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(summary,sort_keys=True))
+          PY
+
+      - name: Commit compact source handback to LAB
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "WORKER4638"
+          git config user.email "worker4638@users.noreply.github.com"
+          git add derived/w3405_dir018020_archive_source
+          if git diff --cached --quiet; then
+            echo "No compact output change"
+          else
+            git commit -m "data: W3405 DIR018/020 Binance archive compact source [WORKER4638]"
+            git push origin HEAD:main
+          fi
+
+      - name: Upload compact handback artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker4638-w3405-dir018020-archive-source
+          path: derived/w3405_dir018020_archive_source
+          retention-days: 3
+          if-no-files-found: error
