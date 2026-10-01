@@ -1,0 +1,1671 @@
+{
+  "action_assigned": false,
+  "archive_base_url": "https://data.binance.vision/",
+  "archive_market": "um",
+  "asset_event_rows": {
+    "BTC": 535,
+    "ETH": 612
+  },
+  "core_sha256": "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad",
+  "economic_evaluation_performed": false,
+  "event_max_decision_ts_utc": "2026-03-31T17:23:42Z",
+  "event_min_decision_ts_utc": "2024-10-01T01:13:02Z",
+  "event_reselection_performed": false,
+  "event_rows": 1147,
+  "event_source_status": {
+    "both_found": 1147,
+    "index": {
+      "ROW_FOUND": 1147
+    },
+    "mark": {
+      "ROW_FOUND": 1147
+    }
+  },
+  "exact_expected_open_time_only": true,
+  "feature_engineering_performed": false,
+  "interval": "5m",
+  "nearest_asof_ffill_interpolation_performed": false,
+  "object_inventory": [
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-10.zip.CHECKSUM",
+      "download_sha256": "7afba47a4f00d539f86bedbfc74fe5668e5eff1df6b4995fdad123a5fe8d81fb",
+      "kind": "indexPriceKlines",
+      "month": "2024-10",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-10.zip",
+      "published_checksum_sha256": "7afba47a4f00d539f86bedbfc74fe5668e5eff1df6b4995fdad123a5fe8d81fb",
+      "requested_open_times": 19,
+      "row_status_counts": {
+        "ROW_FOUND": 19
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 232145
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-11.zip.CHECKSUM",
+      "download_sha256": "0e59aa666aff652dfab33774c0ea7cee17c7ad8775bd533f2966ceea144a0f8e",
+      "kind": "indexPriceKlines",
+      "month": "2024-11",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-11.zip",
+      "published_checksum_sha256": "0e59aa666aff652dfab33774c0ea7cee17c7ad8775bd533f2966ceea144a0f8e",
+      "requested_open_times": 40,
+      "row_status_counts": {
+        "ROW_FOUND": 40
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 232053
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-12.zip.CHECKSUM",
+      "download_sha256": "8422f48f5093b85138e2589fe2755540434d5eeb4c0ba9277cadd46bef008b74",
+      "kind": "indexPriceKlines",
+      "month": "2024-12",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-12.zip",
+      "published_checksum_sha256": "8422f48f5093b85138e2589fe2755540434d5eeb4c0ba9277cadd46bef008b74",
+      "requested_open_times": 41,
+      "row_status_counts": {
+        "ROW_FOUND": 41
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 241081
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-01.zip.CHECKSUM",
+      "download_sha256": "953733b3f607917c7a9df53877c8ae371977c6d3aa9371dbbb6f406eebac1aea",
+      "kind": "indexPriceKlines",
+      "month": "2025-01",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-01.zip",
+      "published_checksum_sha256": "953733b3f607917c7a9df53877c8ae371977c6d3aa9371dbbb6f406eebac1aea",
+      "requested_open_times": 16,
+      "row_status_counts": {
+        "ROW_FOUND": 16
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 237591
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-02.zip.CHECKSUM",
+      "download_sha256": "28a14c47ecc63d42c8f8093491d0d91ecb256b474a79c92608036d94d66feae3",
+      "kind": "indexPriceKlines",
+      "month": "2025-02",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-02.zip",
+      "published_checksum_sha256": "28a14c47ecc63d42c8f8093491d0d91ecb256b474a79c92608036d94d66feae3",
+      "requested_open_times": 13,
+      "row_status_counts": {
+        "ROW_FOUND": 13
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 210182
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-03.zip.CHECKSUM",
+      "download_sha256": "0c4bb9188d6367e5340fcac38a11361a84831c0f783ee52fc69384561378c61d",
+      "kind": "indexPriceKlines",
+      "month": "2025-03",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-03.zip",
+      "published_checksum_sha256": "0c4bb9188d6367e5340fcac38a11361a84831c0f783ee52fc69384561378c61d",
+      "requested_open_times": 27,
+      "row_status_counts": {
+        "ROW_FOUND": 27
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 234779
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-04.zip.CHECKSUM",
+      "download_sha256": "a83d28d85561745aa3ec977325d12f9199cb2cba969ff81df7dd1dfae464574d",
+      "kind": "indexPriceKlines",
+      "month": "2025-04",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-04.zip",
+      "published_checksum_sha256": "a83d28d85561745aa3ec977325d12f9199cb2cba969ff81df7dd1dfae464574d",
+      "requested_open_times": 14,
+      "row_status_counts": {
+        "ROW_FOUND": 14
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 224905
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-05.zip.CHECKSUM",
+      "download_sha256": "2372e474721e642b72fd6495e1dcce47825d13a849f88b53ad9b9be595438231",
+      "kind": "indexPriceKlines",
+      "month": "2025-05",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-05.zip",
+      "published_checksum_sha256": "2372e474721e642b72fd6495e1dcce47825d13a849f88b53ad9b9be595438231",
+      "requested_open_times": 4,
+      "row_status_counts": {
+        "ROW_FOUND": 4
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 233084
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-06.zip.CHECKSUM",
+      "download_sha256": "3910ce8d3a9f4d1c9a031b3e0c53ff6b54b33048840dc146dd3773f135689c19",
+      "kind": "indexPriceKlines",
+      "month": "2025-06",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-06.zip",
+      "published_checksum_sha256": "3910ce8d3a9f4d1c9a031b3e0c53ff6b54b33048840dc146dd3773f135689c19",
+      "requested_open_times": 15,
+      "row_status_counts": {
+        "ROW_FOUND": 15
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 223692
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-07.zip.CHECKSUM",
+      "download_sha256": "e0044bc0dcede7bab954cd747fb020e97f47a6eb73468a479ed4867f1e044cd4",
+      "kind": "indexPriceKlines",
+      "month": "2025-07",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-07.zip",
+      "published_checksum_sha256": "e0044bc0dcede7bab954cd747fb020e97f47a6eb73468a479ed4867f1e044cd4",
+      "requested_open_times": 37,
+      "row_status_counts": {
+        "ROW_FOUND": 37
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 230635
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-08.zip.CHECKSUM",
+      "download_sha256": "ef0585a6421b841c865405a6f65418436b3cf9a9c37616fcec44fe17a0490fac",
+      "kind": "indexPriceKlines",
+      "month": "2025-08",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-08.zip",
+      "published_checksum_sha256": "ef0585a6421b841c865405a6f65418436b3cf9a9c37616fcec44fe17a0490fac",
+      "requested_open_times": 25,
+      "row_status_counts": {
+        "ROW_FOUND": 25
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 229856
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-09.zip.CHECKSUM",
+      "download_sha256": "3708e396bdc8098c33d306f31e2472a3519a2b1e57b1607c9a676e1dd28e1f8d",
+      "kind": "indexPriceKlines",
+      "month": "2025-09",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-09.zip",
+      "published_checksum_sha256": "3708e396bdc8098c33d306f31e2472a3519a2b1e57b1607c9a676e1dd28e1f8d",
+      "requested_open_times": 17,
+      "row_status_counts": {
+        "ROW_FOUND": 17
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 220662
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-10.zip.CHECKSUM",
+      "download_sha256": "22bd3044957a380c38e05b2c8b8a6e56f1d4609fe56f0424a7e6eda227cf4c24",
+      "kind": "indexPriceKlines",
+      "month": "2025-10",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-10.zip",
+      "published_checksum_sha256": "22bd3044957a380c38e05b2c8b8a6e56f1d4609fe56f0424a7e6eda227cf4c24",
+      "requested_open_times": 64,
+      "row_status_counts": {
+        "ROW_FOUND": 64
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 236632
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-11.zip.CHECKSUM",
+      "download_sha256": "650aac23a4e22bfe61547df2177b9f6e764d946f3ca6095e676af90f71c1af22",
+      "kind": "indexPriceKlines",
+      "month": "2025-11",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-11.zip",
+      "published_checksum_sha256": "650aac23a4e22bfe61547df2177b9f6e764d946f3ca6095e676af90f71c1af22",
+      "requested_open_times": 47,
+      "row_status_counts": {
+        "ROW_FOUND": 47
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 230199
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-12.zip.CHECKSUM",
+      "download_sha256": "8e0ba47662ad8931d878b4a81d7349ac5dbf48f40acaab2917b2e087b9dc24d4",
+      "kind": "indexPriceKlines",
+      "month": "2025-12",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-12.zip",
+      "published_checksum_sha256": "8e0ba47662ad8931d878b4a81d7349ac5dbf48f40acaab2917b2e087b9dc24d4",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 231035
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-01.zip.CHECKSUM",
+      "download_sha256": "0fea1e6f80e718d04ba8d85f6143397be474115867044fbbf0d62e99bbfb87f1",
+      "kind": "indexPriceKlines",
+      "month": "2026-01",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-01.zip",
+      "published_checksum_sha256": "0fea1e6f80e718d04ba8d85f6143397be474115867044fbbf0d62e99bbfb87f1",
+      "requested_open_times": 17,
+      "row_status_counts": {
+        "ROW_FOUND": 17
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 228556
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-02.zip.CHECKSUM",
+      "download_sha256": "e73dd763f5238252862093ab6cf6bc1760eab7a9cd3fb847f9857dace151ed07",
+      "kind": "indexPriceKlines",
+      "month": "2026-02",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-02.zip",
+      "published_checksum_sha256": "e73dd763f5238252862093ab6cf6bc1760eab7a9cd3fb847f9857dace151ed07",
+      "requested_open_times": 59,
+      "row_status_counts": {
+        "ROW_FOUND": 59
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 214448
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-03.zip.CHECKSUM",
+      "download_sha256": "58421fb5ec3ead180ef75b82abb75a00e5506cee1d93e074f5907869252e6f52",
+      "kind": "indexPriceKlines",
+      "month": "2026-03",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-03.zip",
+      "published_checksum_sha256": "58421fb5ec3ead180ef75b82abb75a00e5506cee1d93e074f5907869252e6f52",
+      "requested_open_times": 46,
+      "row_status_counts": {
+        "ROW_FOUND": 46
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 238450
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-10.zip.CHECKSUM",
+      "download_sha256": "1af30a9d73b2eb8ab2a2e71dbc5fe0991a44935a9a3377f7cff1eebf81d22db8",
+      "kind": "indexPriceKlines",
+      "month": "2024-10",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-10.zip",
+      "published_checksum_sha256": "1af30a9d73b2eb8ab2a2e71dbc5fe0991a44935a9a3377f7cff1eebf81d22db8",
+      "requested_open_times": 22,
+      "row_status_counts": {
+        "ROW_FOUND": 22
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 202100
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-11.zip.CHECKSUM",
+      "download_sha256": "8eaf65c75adf5427a58b9ba63b2c9763f6409176fa331c66e9a3768c8bcc5ba7",
+      "kind": "indexPriceKlines",
+      "month": "2024-11",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-11.zip",
+      "published_checksum_sha256": "8eaf65c75adf5427a58b9ba63b2c9763f6409176fa331c66e9a3768c8bcc5ba7",
+      "requested_open_times": 53,
+      "row_status_counts": {
+        "ROW_FOUND": 53
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 204406
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-12.zip.CHECKSUM",
+      "download_sha256": "4ea54f15e884071d0e54c0fc32f3e58d1fa64a811ff3abc7f987025dc8a07a9f",
+      "kind": "indexPriceKlines",
+      "month": "2024-12",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-12.zip",
+      "published_checksum_sha256": "4ea54f15e884071d0e54c0fc32f3e58d1fa64a811ff3abc7f987025dc8a07a9f",
+      "requested_open_times": 22,
+      "row_status_counts": {
+        "ROW_FOUND": 22
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 210329
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-01.zip.CHECKSUM",
+      "download_sha256": "9f9f28d64ed2bbcad58392712af6957af6fdef39e3348e12886784a7c339767c",
+      "kind": "indexPriceKlines",
+      "month": "2025-01",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-01.zip",
+      "published_checksum_sha256": "9f9f28d64ed2bbcad58392712af6957af6fdef39e3348e12886784a7c339767c",
+      "requested_open_times": 25,
+      "row_status_counts": {
+        "ROW_FOUND": 25
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 209384
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-02.zip.CHECKSUM",
+      "download_sha256": "ddee8a54d859f6459801ea7d467854b82bfb96a4cc452e9cab004b94a05565be",
+      "kind": "indexPriceKlines",
+      "month": "2025-02",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-02.zip",
+      "published_checksum_sha256": "ddee8a54d859f6459801ea7d467854b82bfb96a4cc452e9cab004b94a05565be",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 188993
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-03.zip.CHECKSUM",
+      "download_sha256": "def4293adac311693ad135018875e500759c1bb48540501e03fa532f30f937d2",
+      "kind": "indexPriceKlines",
+      "month": "2025-03",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-03.zip",
+      "published_checksum_sha256": "def4293adac311693ad135018875e500759c1bb48540501e03fa532f30f937d2",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 205513
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-04.zip.CHECKSUM",
+      "download_sha256": "7b3ff1ab94f512d0eed81a41756de88c15cf63389532e6d9da3c7866888344b0",
+      "kind": "indexPriceKlines",
+      "month": "2025-04",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-04.zip",
+      "published_checksum_sha256": "7b3ff1ab94f512d0eed81a41756de88c15cf63389532e6d9da3c7866888344b0",
+      "requested_open_times": 36,
+      "row_status_counts": {
+        "ROW_FOUND": 36
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 198665
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-05.zip.CHECKSUM",
+      "download_sha256": "d8f38ea4ee17ab7364eddfa43745536106142d191cfd42d21abbcb9869ab29cd",
+      "kind": "indexPriceKlines",
+      "month": "2025-05",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-05.zip",
+      "published_checksum_sha256": "d8f38ea4ee17ab7364eddfa43745536106142d191cfd42d21abbcb9869ab29cd",
+      "requested_open_times": 47,
+      "row_status_counts": {
+        "ROW_FOUND": 47
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 208342
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-06.zip.CHECKSUM",
+      "download_sha256": "a857b8fc45266b7d1e6d892512fbe85a1dd6dd6d207035ad98ad4b65e2584463",
+      "kind": "indexPriceKlines",
+      "month": "2025-06",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-06.zip",
+      "published_checksum_sha256": "a857b8fc45266b7d1e6d892512fbe85a1dd6dd6d207035ad98ad4b65e2584463",
+      "requested_open_times": 41,
+      "row_status_counts": {
+        "ROW_FOUND": 41
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 199535
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-07.zip.CHECKSUM",
+      "download_sha256": "4ce9ff09224af8bf5d64f9d8e45c61a3b7618d94bacea75b7283d431fe1465aa",
+      "kind": "indexPriceKlines",
+      "month": "2025-07",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-07.zip",
+      "published_checksum_sha256": "4ce9ff09224af8bf5d64f9d8e45c61a3b7618d94bacea75b7283d431fe1465aa",
+      "requested_open_times": 23,
+      "row_status_counts": {
+        "ROW_FOUND": 23
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 208936
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-08.zip.CHECKSUM",
+      "download_sha256": "d9bc08046dfe8bf7be12288f3a452184e6562a0bb965590782e2a9bd1fdbdc2b",
+      "kind": "indexPriceKlines",
+      "month": "2025-08",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-08.zip",
+      "published_checksum_sha256": "d9bc08046dfe8bf7be12288f3a452184e6562a0bb965590782e2a9bd1fdbdc2b",
+      "requested_open_times": 16,
+      "row_status_counts": {
+        "ROW_FOUND": 16
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 212642
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-09.zip.CHECKSUM",
+      "download_sha256": "e4f2970470869f2486e63731ad501a88cc736ec128d7bba1f1c38c1b98f80168",
+      "kind": "indexPriceKlines",
+      "month": "2025-09",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-09.zip",
+      "published_checksum_sha256": "e4f2970470869f2486e63731ad501a88cc736ec128d7bba1f1c38c1b98f80168",
+      "requested_open_times": 12,
+      "row_status_counts": {
+        "ROW_FOUND": 12
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 200677
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-10.zip.CHECKSUM",
+      "download_sha256": "d8d120b0707dbf05b435d7f27479bcc64be6f30e74d74676be8a5b19b82b63ff",
+      "kind": "indexPriceKlines",
+      "month": "2025-10",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-10.zip",
+      "published_checksum_sha256": "d8d120b0707dbf05b435d7f27479bcc64be6f30e74d74676be8a5b19b82b63ff",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 212119
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-11.zip.CHECKSUM",
+      "download_sha256": "e0716b403986bd0bc3de47974782865e5097c77058cc6681b3fd2a050f3999bf",
+      "kind": "indexPriceKlines",
+      "month": "2025-11",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-11.zip",
+      "published_checksum_sha256": "e0716b403986bd0bc3de47974782865e5097c77058cc6681b3fd2a050f3999bf",
+      "requested_open_times": 39,
+      "row_status_counts": {
+        "ROW_FOUND": 39
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 203507
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-12.zip.CHECKSUM",
+      "download_sha256": "53ee3559a82358a960706d241249d94c23add39c56bcf6607cb752d71c47f526",
+      "kind": "indexPriceKlines",
+      "month": "2025-12",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-12.zip",
+      "published_checksum_sha256": "53ee3559a82358a960706d241249d94c23add39c56bcf6607cb752d71c47f526",
+      "requested_open_times": 24,
+      "row_status_counts": {
+        "ROW_FOUND": 24
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 205024
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-01.zip.CHECKSUM",
+      "download_sha256": "24f123ab2542ccde0d4ad99aa2fed84ed35a8c3b513247ce48b5ca1c21c5941d",
+      "kind": "indexPriceKlines",
+      "month": "2026-01",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-01.zip",
+      "published_checksum_sha256": "24f123ab2542ccde0d4ad99aa2fed84ed35a8c3b513247ce48b5ca1c21c5941d",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 204627
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-02.zip.CHECKSUM",
+      "download_sha256": "e8b754850fa2197571c11da7c056c795183a824fbb2f8df4889b3c38cddb1250",
+      "kind": "indexPriceKlines",
+      "month": "2026-02",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-02.zip",
+      "published_checksum_sha256": "e8b754850fa2197571c11da7c056c795183a824fbb2f8df4889b3c38cddb1250",
+      "requested_open_times": 76,
+      "row_status_counts": {
+        "ROW_FOUND": 76
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 187965
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-03.zip.CHECKSUM",
+      "download_sha256": "65d873873d8392467248b157a9f40d4d74e88b168b3c87e4cccab409dc16e7eb",
+      "kind": "indexPriceKlines",
+      "month": "2026-03",
+      "object_path": "data/futures/um/monthly/indexPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-03.zip",
+      "published_checksum_sha256": "65d873873d8392467248b157a9f40d4d74e88b168b3c87e4cccab409dc16e7eb",
+      "requested_open_times": 40,
+      "row_status_counts": {
+        "ROW_FOUND": 40
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 209434
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-10.zip.CHECKSUM",
+      "download_sha256": "f0a0db1bfec84b80e5d7e1f718d3d8a822585717aa10d26531ef2d8002170cd3",
+      "kind": "markPriceKlines",
+      "month": "2024-10",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-10.zip",
+      "published_checksum_sha256": "f0a0db1bfec84b80e5d7e1f718d3d8a822585717aa10d26531ef2d8002170cd3",
+      "requested_open_times": 19,
+      "row_status_counts": {
+        "ROW_FOUND": 19
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 227784
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-11.zip.CHECKSUM",
+      "download_sha256": "f4f2ecb644ec7d05196e70d001ae40c5f58e8f1f5a6ead6756d47f0224fa01c5",
+      "kind": "markPriceKlines",
+      "month": "2024-11",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-11.zip",
+      "published_checksum_sha256": "f4f2ecb644ec7d05196e70d001ae40c5f58e8f1f5a6ead6756d47f0224fa01c5",
+      "requested_open_times": 40,
+      "row_status_counts": {
+        "ROW_FOUND": 40
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 228377
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-12.zip.CHECKSUM",
+      "download_sha256": "14d46f61a5e91a03a81d7cb2b470fa6cad4e1ec3ca2c2e28ca0aa19242d2b526",
+      "kind": "markPriceKlines",
+      "month": "2024-12",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2024-12.zip",
+      "published_checksum_sha256": "14d46f61a5e91a03a81d7cb2b470fa6cad4e1ec3ca2c2e28ca0aa19242d2b526",
+      "requested_open_times": 41,
+      "row_status_counts": {
+        "ROW_FOUND": 41
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 235407
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-01.zip.CHECKSUM",
+      "download_sha256": "7dfcb53ed40298c6a28e2220a5a87ff429b405c4a45b2947c00731383be6b1e0",
+      "kind": "markPriceKlines",
+      "month": "2025-01",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-01.zip",
+      "published_checksum_sha256": "7dfcb53ed40298c6a28e2220a5a87ff429b405c4a45b2947c00731383be6b1e0",
+      "requested_open_times": 16,
+      "row_status_counts": {
+        "ROW_FOUND": 16
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 232395
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-02.zip.CHECKSUM",
+      "download_sha256": "2ae377c8d976ed316e15ddf22c7b871b09c7485bec6bf7a393d9daf425412212",
+      "kind": "markPriceKlines",
+      "month": "2025-02",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-02.zip",
+      "published_checksum_sha256": "2ae377c8d976ed316e15ddf22c7b871b09c7485bec6bf7a393d9daf425412212",
+      "requested_open_times": 13,
+      "row_status_counts": {
+        "ROW_FOUND": 13
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 205683
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-03.zip.CHECKSUM",
+      "download_sha256": "8881a1d4fe8064d804a76fac7b8daa4c74585a5c6dc571f0aa0cd8091d726103",
+      "kind": "markPriceKlines",
+      "month": "2025-03",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-03.zip",
+      "published_checksum_sha256": "8881a1d4fe8064d804a76fac7b8daa4c74585a5c6dc571f0aa0cd8091d726103",
+      "requested_open_times": 27,
+      "row_status_counts": {
+        "ROW_FOUND": 27
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 229737
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-04.zip.CHECKSUM",
+      "download_sha256": "1aad080659abd851eafc5fca907a7439389aef934386a9ed6de1cefc52b24604",
+      "kind": "markPriceKlines",
+      "month": "2025-04",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-04.zip",
+      "published_checksum_sha256": "1aad080659abd851eafc5fca907a7439389aef934386a9ed6de1cefc52b24604",
+      "requested_open_times": 14,
+      "row_status_counts": {
+        "ROW_FOUND": 14
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 220162
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-05.zip.CHECKSUM",
+      "download_sha256": "d4e3df625e651e5d9c172e14bfd65d2ea0e8034ab6eb2826225ef7fc4a958282",
+      "kind": "markPriceKlines",
+      "month": "2025-05",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-05.zip",
+      "published_checksum_sha256": "d4e3df625e651e5d9c172e14bfd65d2ea0e8034ab6eb2826225ef7fc4a958282",
+      "requested_open_times": 4,
+      "row_status_counts": {
+        "ROW_FOUND": 4
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 231887
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-06.zip.CHECKSUM",
+      "download_sha256": "06175d7a395b12dcfd273cd6a3a9bc1ad0c6372f8865ab5ad8767421f4d34460",
+      "kind": "markPriceKlines",
+      "month": "2025-06",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-06.zip",
+      "published_checksum_sha256": "06175d7a395b12dcfd273cd6a3a9bc1ad0c6372f8865ab5ad8767421f4d34460",
+      "requested_open_times": 15,
+      "row_status_counts": {
+        "ROW_FOUND": 15
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 223122
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-07.zip.CHECKSUM",
+      "download_sha256": "a2a7767cf9d5a15c4ede0f120e8e8ecf9a732d2875eaa72d08b700d4d8cf10a6",
+      "kind": "markPriceKlines",
+      "month": "2025-07",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-07.zip",
+      "published_checksum_sha256": "a2a7767cf9d5a15c4ede0f120e8e8ecf9a732d2875eaa72d08b700d4d8cf10a6",
+      "requested_open_times": 37,
+      "row_status_counts": {
+        "ROW_FOUND": 37
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 233027
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-08.zip.CHECKSUM",
+      "download_sha256": "f2a26b31c8d5b24045758f712018fdb1c9846e2a4a2018735460981ef8f82e08",
+      "kind": "markPriceKlines",
+      "month": "2025-08",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-08.zip",
+      "published_checksum_sha256": "f2a26b31c8d5b24045758f712018fdb1c9846e2a4a2018735460981ef8f82e08",
+      "requested_open_times": 25,
+      "row_status_counts": {
+        "ROW_FOUND": 25
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 231128
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-09.zip.CHECKSUM",
+      "download_sha256": "af347edb4fc9de1f6c1dde780848871589282ad3b5ef6548bc8dd7ed7b104c66",
+      "kind": "markPriceKlines",
+      "month": "2025-09",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-09.zip",
+      "published_checksum_sha256": "af347edb4fc9de1f6c1dde780848871589282ad3b5ef6548bc8dd7ed7b104c66",
+      "requested_open_times": 17,
+      "row_status_counts": {
+        "ROW_FOUND": 17
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 217698
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-10.zip.CHECKSUM",
+      "download_sha256": "6ad408769d0829506395a73debe260a30336b524967710bbbf725b92185d0d2d",
+      "kind": "markPriceKlines",
+      "month": "2025-10",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-10.zip",
+      "published_checksum_sha256": "6ad408769d0829506395a73debe260a30336b524967710bbbf725b92185d0d2d",
+      "requested_open_times": 64,
+      "row_status_counts": {
+        "ROW_FOUND": 64
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 231504
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-11.zip.CHECKSUM",
+      "download_sha256": "f4a73ec1949e36575d2d879f95b0d07a3539b219f9b17cea4f9967e29f980733",
+      "kind": "markPriceKlines",
+      "month": "2025-11",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-11.zip",
+      "published_checksum_sha256": "f4a73ec1949e36575d2d879f95b0d07a3539b219f9b17cea4f9967e29f980733",
+      "requested_open_times": 47,
+      "row_status_counts": {
+        "ROW_FOUND": 47
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 225443
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-12.zip.CHECKSUM",
+      "download_sha256": "9ca4f9f8cbb8df53401f4cfd632203f8c170a27befaeb48e108f949852cbb006",
+      "kind": "markPriceKlines",
+      "month": "2025-12",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2025-12.zip",
+      "published_checksum_sha256": "9ca4f9f8cbb8df53401f4cfd632203f8c170a27befaeb48e108f949852cbb006",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 227999
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-01.zip.CHECKSUM",
+      "download_sha256": "c8ecb38b48badd12941be2d110d5effb104c460d4b110418f1476c7dc42baa6d",
+      "kind": "markPriceKlines",
+      "month": "2026-01",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-01.zip",
+      "published_checksum_sha256": "c8ecb38b48badd12941be2d110d5effb104c460d4b110418f1476c7dc42baa6d",
+      "requested_open_times": 17,
+      "row_status_counts": {
+        "ROW_FOUND": 17
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 225917
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-02.zip.CHECKSUM",
+      "download_sha256": "e65adc4af92074f9d76566119f921e5357cc88c3d41dff183ac3cb13541fe797",
+      "kind": "markPriceKlines",
+      "month": "2026-02",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-02.zip",
+      "published_checksum_sha256": "e65adc4af92074f9d76566119f921e5357cc88c3d41dff183ac3cb13541fe797",
+      "requested_open_times": 59,
+      "row_status_counts": {
+        "ROW_FOUND": 59
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 211323
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-03.zip.CHECKSUM",
+      "download_sha256": "771f18260247dc7f2809adba097a7f3cb98914b87429d89d5a80cc4bd7915c64",
+      "kind": "markPriceKlines",
+      "month": "2026-03",
+      "object_path": "data/futures/um/monthly/markPriceKlines/BTCUSDT/5m/BTCUSDT-5m-2026-03.zip",
+      "published_checksum_sha256": "771f18260247dc7f2809adba097a7f3cb98914b87429d89d5a80cc4bd7915c64",
+      "requested_open_times": 46,
+      "row_status_counts": {
+        "ROW_FOUND": 46
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 236144
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-10.zip.CHECKSUM",
+      "download_sha256": "11ba5b19ab632c130ad720b25e2be1634de47c915229b39e62e2bb177018e1ca",
+      "kind": "markPriceKlines",
+      "month": "2024-10",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-10.zip",
+      "published_checksum_sha256": "11ba5b19ab632c130ad720b25e2be1634de47c915229b39e62e2bb177018e1ca",
+      "requested_open_times": 22,
+      "row_status_counts": {
+        "ROW_FOUND": 22
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 211745
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-11.zip.CHECKSUM",
+      "download_sha256": "cccf70fdd915a2a9ccd7c0fb3fd9fe22c584331e15fda7b9380427ba15335bc1",
+      "kind": "markPriceKlines",
+      "month": "2024-11",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-11.zip",
+      "published_checksum_sha256": "cccf70fdd915a2a9ccd7c0fb3fd9fe22c584331e15fda7b9380427ba15335bc1",
+      "requested_open_times": 53,
+      "row_status_counts": {
+        "ROW_FOUND": 53
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 214867
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-12.zip.CHECKSUM",
+      "download_sha256": "9bf065be38673801ca882ed606838214671e6ed74d76046eb87434d7bf8fad43",
+      "kind": "markPriceKlines",
+      "month": "2024-12",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2024-12.zip",
+      "published_checksum_sha256": "9bf065be38673801ca882ed606838214671e6ed74d76046eb87434d7bf8fad43",
+      "requested_open_times": 22,
+      "row_status_counts": {
+        "ROW_FOUND": 22
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 219391
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-01.zip.CHECKSUM",
+      "download_sha256": "fda09e02141279c8e27eb84ab2ebd8c44c7e802986c0e0d29b53fa2ce3c0a700",
+      "kind": "markPriceKlines",
+      "month": "2025-01",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-01.zip",
+      "published_checksum_sha256": "fda09e02141279c8e27eb84ab2ebd8c44c7e802986c0e0d29b53fa2ce3c0a700",
+      "requested_open_times": 25,
+      "row_status_counts": {
+        "ROW_FOUND": 25
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 218639
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-02.zip.CHECKSUM",
+      "download_sha256": "bbaa1c16fd79950fb4ce8f571011d5ae6e95f7fbecdeacfc31b2d602435a3150",
+      "kind": "markPriceKlines",
+      "month": "2025-02",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-02.zip",
+      "published_checksum_sha256": "bbaa1c16fd79950fb4ce8f571011d5ae6e95f7fbecdeacfc31b2d602435a3150",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 196911
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-03.zip.CHECKSUM",
+      "download_sha256": "e20e70d17d10a2e39c8cf33b8828e10d7e032a50a9018602383f557963f19b17",
+      "kind": "markPriceKlines",
+      "month": "2025-03",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-03.zip",
+      "published_checksum_sha256": "e20e70d17d10a2e39c8cf33b8828e10d7e032a50a9018602383f557963f19b17",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 214308
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-04.zip.CHECKSUM",
+      "download_sha256": "59903c5f750d49bc9124a5f070d4319536652b2ac1eefc56a1727f5ecdcf5698",
+      "kind": "markPriceKlines",
+      "month": "2025-04",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-04.zip",
+      "published_checksum_sha256": "59903c5f750d49bc9124a5f070d4319536652b2ac1eefc56a1727f5ecdcf5698",
+      "requested_open_times": 36,
+      "row_status_counts": {
+        "ROW_FOUND": 36
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 206871
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-05.zip.CHECKSUM",
+      "download_sha256": "c2d67fa177a057109958e5c29694a54f395a4b49ae1980ba11a8d0121a8e9a3f",
+      "kind": "markPriceKlines",
+      "month": "2025-05",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-05.zip",
+      "published_checksum_sha256": "c2d67fa177a057109958e5c29694a54f395a4b49ae1980ba11a8d0121a8e9a3f",
+      "requested_open_times": 47,
+      "row_status_counts": {
+        "ROW_FOUND": 47
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 222548
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-06.zip.CHECKSUM",
+      "download_sha256": "276d590de55103e64d1e521ba6863b53ff074a61f715f7830508e6933aba438c",
+      "kind": "markPriceKlines",
+      "month": "2025-06",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-06.zip",
+      "published_checksum_sha256": "276d590de55103e64d1e521ba6863b53ff074a61f715f7830508e6933aba438c",
+      "requested_open_times": 41,
+      "row_status_counts": {
+        "ROW_FOUND": 41
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 210828
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-07.zip.CHECKSUM",
+      "download_sha256": "daffcdf4d69733fcbf2f9d2ac5b307c72a04ef0d8c034b862e8a173d68b5efaa",
+      "kind": "markPriceKlines",
+      "month": "2025-07",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-07.zip",
+      "published_checksum_sha256": "daffcdf4d69733fcbf2f9d2ac5b307c72a04ef0d8c034b862e8a173d68b5efaa",
+      "requested_open_times": 23,
+      "row_status_counts": {
+        "ROW_FOUND": 23
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 224873
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-08.zip.CHECKSUM",
+      "download_sha256": "dd38dc974003b0fc88dbc428af6f6353235bf8851b641e38181933ba9a2ff9af",
+      "kind": "markPriceKlines",
+      "month": "2025-08",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-08.zip",
+      "published_checksum_sha256": "dd38dc974003b0fc88dbc428af6f6353235bf8851b641e38181933ba9a2ff9af",
+      "requested_open_times": 16,
+      "row_status_counts": {
+        "ROW_FOUND": 16
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 225499
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-09.zip.CHECKSUM",
+      "download_sha256": "5c555539585d6f7271828690182a1a28931751620b3768ebebef94827c8d6ce2",
+      "kind": "markPriceKlines",
+      "month": "2025-09",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-09.zip",
+      "published_checksum_sha256": "5c555539585d6f7271828690182a1a28931751620b3768ebebef94827c8d6ce2",
+      "requested_open_times": 12,
+      "row_status_counts": {
+        "ROW_FOUND": 12
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 207818
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-10.zip.CHECKSUM",
+      "download_sha256": "9acfb29169648757ffa7191a25347481b958c8a753ee93fa857a4aa56c1a6d18",
+      "kind": "markPriceKlines",
+      "month": "2025-10",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-10.zip",
+      "published_checksum_sha256": "9acfb29169648757ffa7191a25347481b958c8a753ee93fa857a4aa56c1a6d18",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 219025
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-11.zip.CHECKSUM",
+      "download_sha256": "1483c2dd0b18e2b8dc591b8bfde0301726568aaaa604fb62e941ee80c0708117",
+      "kind": "markPriceKlines",
+      "month": "2025-11",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-11.zip",
+      "published_checksum_sha256": "1483c2dd0b18e2b8dc591b8bfde0301726568aaaa604fb62e941ee80c0708117",
+      "requested_open_times": 39,
+      "row_status_counts": {
+        "ROW_FOUND": 39
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 212758
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-12.zip.CHECKSUM",
+      "download_sha256": "e86dca4746dc9c38423b90284246c4b2cb65474bcbe7e45185b9a677c45802d4",
+      "kind": "markPriceKlines",
+      "month": "2025-12",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2025-12.zip",
+      "published_checksum_sha256": "e86dca4746dc9c38423b90284246c4b2cb65474bcbe7e45185b9a677c45802d4",
+      "requested_open_times": 24,
+      "row_status_counts": {
+        "ROW_FOUND": 24
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 213043
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-01.zip.CHECKSUM",
+      "download_sha256": "c0a948e2be30dfccc83ac915a7e990ee240e28b16ae587819cbf7bf6926102fa",
+      "kind": "markPriceKlines",
+      "month": "2026-01",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-01.zip",
+      "published_checksum_sha256": "c0a948e2be30dfccc83ac915a7e990ee240e28b16ae587819cbf7bf6926102fa",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 212106
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-02.zip.CHECKSUM",
+      "download_sha256": "963619670d8b2e997080158557dec4bd66cae66c70110d7bcd83a3bcc2460c63",
+      "kind": "markPriceKlines",
+      "month": "2026-02",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-02.zip",
+      "published_checksum_sha256": "963619670d8b2e997080158557dec4bd66cae66c70110d7bcd83a3bcc2460c63",
+      "requested_open_times": 76,
+      "row_status_counts": {
+        "ROW_FOUND": 76
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 196718
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-03.zip.CHECKSUM",
+      "download_sha256": "f23b021c70ef1945ba57e6b94ededa85a078982790972ec3de6bda167cfc1400",
+      "kind": "markPriceKlines",
+      "month": "2026-03",
+      "object_path": "data/futures/um/monthly/markPriceKlines/ETHUSDT/5m/ETHUSDT-5m-2026-03.zip",
+      "published_checksum_sha256": "f23b021c70ef1945ba57e6b94ededa85a078982790972ec3de6bda167cfc1400",
+      "requested_open_times": 40,
+      "row_status_counts": {
+        "ROW_FOUND": 40
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 217544
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2024-10.zip.CHECKSUM",
+      "download_sha256": "687f3b1114dc12a086ac4663c4e88f68904be20d7784157356ad3172823b3582",
+      "kind": "premiumIndexKlines",
+      "month": "2024-10",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2024-10.zip",
+      "published_checksum_sha256": "687f3b1114dc12a086ac4663c4e88f68904be20d7784157356ad3172823b3582",
+      "requested_open_times": 19,
+      "row_status_counts": {
+        "ROW_FOUND": 19
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 182449
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2024-11.zip.CHECKSUM",
+      "download_sha256": "0c38a14335e8491a09c38e32f85e6680c928ee314c25ff55b538525dbb84a502",
+      "kind": "premiumIndexKlines",
+      "month": "2024-11",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2024-11.zip",
+      "published_checksum_sha256": "0c38a14335e8491a09c38e32f85e6680c928ee314c25ff55b538525dbb84a502",
+      "requested_open_times": 40,
+      "row_status_counts": {
+        "ROW_FOUND": 40
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 179934
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2024-12.zip.CHECKSUM",
+      "download_sha256": "c3de833a88ec6a058fc5199f275b5f5eff8636c87134d70394a7425d52ddbbfc",
+      "kind": "premiumIndexKlines",
+      "month": "2024-12",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2024-12.zip",
+      "published_checksum_sha256": "c3de833a88ec6a058fc5199f275b5f5eff8636c87134d70394a7425d52ddbbfc",
+      "requested_open_times": 41,
+      "row_status_counts": {
+        "ROW_FOUND": 41
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 184048
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-01.zip.CHECKSUM",
+      "download_sha256": "585d7ac21c8efef9f6fcda71fbdf51f74719f10be99e002f71c4d02aa7e50e00",
+      "kind": "premiumIndexKlines",
+      "month": "2025-01",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-01.zip",
+      "published_checksum_sha256": "585d7ac21c8efef9f6fcda71fbdf51f74719f10be99e002f71c4d02aa7e50e00",
+      "requested_open_times": 16,
+      "row_status_counts": {
+        "ROW_FOUND": 16
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 183336
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-02.zip.CHECKSUM",
+      "download_sha256": "51387d059cc0599b25795ae1ceb8ff6ba7986d4bbc16b3d69db6316ea119e8f8",
+      "kind": "premiumIndexKlines",
+      "month": "2025-02",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-02.zip",
+      "published_checksum_sha256": "51387d059cc0599b25795ae1ceb8ff6ba7986d4bbc16b3d69db6316ea119e8f8",
+      "requested_open_times": 13,
+      "row_status_counts": {
+        "ROW_FOUND": 13
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 164311
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-03.zip.CHECKSUM",
+      "download_sha256": "a460bd0f9bac226d61cd7e9d55cdce7d6163b2b28660184e63623c5efcf1bea2",
+      "kind": "premiumIndexKlines",
+      "month": "2025-03",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-03.zip",
+      "published_checksum_sha256": "a460bd0f9bac226d61cd7e9d55cdce7d6163b2b28660184e63623c5efcf1bea2",
+      "requested_open_times": 27,
+      "row_status_counts": {
+        "ROW_FOUND": 27
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 182948
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-04.zip.CHECKSUM",
+      "download_sha256": "d8f78d1c834064700fa31fb59ad9ce90ce2175e3c5ea04bb6e08d94d0ef3dde0",
+      "kind": "premiumIndexKlines",
+      "month": "2025-04",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-04.zip",
+      "published_checksum_sha256": "d8f78d1c834064700fa31fb59ad9ce90ce2175e3c5ea04bb6e08d94d0ef3dde0",
+      "requested_open_times": 14,
+      "row_status_counts": {
+        "ROW_FOUND": 14
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 176982
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-05.zip.CHECKSUM",
+      "download_sha256": "7cb2c9b25a7c2f2a5818e74efdb60806c40a13df6f988c202ecae3497ba0f98f",
+      "kind": "premiumIndexKlines",
+      "month": "2025-05",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-05.zip",
+      "published_checksum_sha256": "7cb2c9b25a7c2f2a5818e74efdb60806c40a13df6f988c202ecae3497ba0f98f",
+      "requested_open_times": 4,
+      "row_status_counts": {
+        "ROW_FOUND": 4
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 181779
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-06.zip.CHECKSUM",
+      "download_sha256": "233087d91789c93bce9db8ffaa725dd9da62ea6013b33adde5c92843698164f2",
+      "kind": "premiumIndexKlines",
+      "month": "2025-06",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-06.zip",
+      "published_checksum_sha256": "233087d91789c93bce9db8ffaa725dd9da62ea6013b33adde5c92843698164f2",
+      "requested_open_times": 15,
+      "row_status_counts": {
+        "ROW_FOUND": 15
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 174638
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-07.zip.CHECKSUM",
+      "download_sha256": "5dd01eb2d8983eaf34d9c2690074977f07ab86b7f30bbfb98cbd8a31490f4c5a",
+      "kind": "premiumIndexKlines",
+      "month": "2025-07",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-07.zip",
+      "published_checksum_sha256": "5dd01eb2d8983eaf34d9c2690074977f07ab86b7f30bbfb98cbd8a31490f4c5a",
+      "requested_open_times": 37,
+      "row_status_counts": {
+        "ROW_FOUND": 37
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 181274
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-08.zip.CHECKSUM",
+      "download_sha256": "257c20cab16ecb5efc96b66d5ce3ad04f78e69a7935b1fa213c6eb09d63268dc",
+      "kind": "premiumIndexKlines",
+      "month": "2025-08",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-08.zip",
+      "published_checksum_sha256": "257c20cab16ecb5efc96b66d5ce3ad04f78e69a7935b1fa213c6eb09d63268dc",
+      "requested_open_times": 25,
+      "row_status_counts": {
+        "ROW_FOUND": 25
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 180763
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-09.zip.CHECKSUM",
+      "download_sha256": "716437ae1a270b5dfbcc898f0082e329a5b1b43c2bcf27c709bb032af792c1b6",
+      "kind": "premiumIndexKlines",
+      "month": "2025-09",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-09.zip",
+      "published_checksum_sha256": "716437ae1a270b5dfbcc898f0082e329a5b1b43c2bcf27c709bb032af792c1b6",
+      "requested_open_times": 17,
+      "row_status_counts": {
+        "ROW_FOUND": 17
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 172792
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-10.zip.CHECKSUM",
+      "download_sha256": "9850dd1232badb39827b058fd29d0b871f447ddb7fcd2bfc9a4adfcd61b850a9",
+      "kind": "premiumIndexKlines",
+      "month": "2025-10",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-10.zip",
+      "published_checksum_sha256": "9850dd1232badb39827b058fd29d0b871f447ddb7fcd2bfc9a4adfcd61b850a9",
+      "requested_open_times": 64,
+      "row_status_counts": {
+        "ROW_FOUND": 64
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 182589
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-11.zip.CHECKSUM",
+      "download_sha256": "f119ee49da94685c27cde4e3f2123e7e6ccd2d029aafa4cd8e770099fb83290e",
+      "kind": "premiumIndexKlines",
+      "month": "2025-11",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-11.zip",
+      "published_checksum_sha256": "f119ee49da94685c27cde4e3f2123e7e6ccd2d029aafa4cd8e770099fb83290e",
+      "requested_open_times": 47,
+      "row_status_counts": {
+        "ROW_FOUND": 47
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 178195
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-12.zip.CHECKSUM",
+      "download_sha256": "721cf9e7282317b09f871fd5cb913ad3ea88a857f1f3f781584b136b3903b004",
+      "kind": "premiumIndexKlines",
+      "month": "2025-12",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2025-12.zip",
+      "published_checksum_sha256": "721cf9e7282317b09f871fd5cb913ad3ea88a857f1f3f781584b136b3903b004",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 182457
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2026-01.zip.CHECKSUM",
+      "download_sha256": "52cc23f37df86952a0e6e97e7880d7c0f6a187981b786597393c074142eeb534",
+      "kind": "premiumIndexKlines",
+      "month": "2026-01",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2026-01.zip",
+      "published_checksum_sha256": "52cc23f37df86952a0e6e97e7880d7c0f6a187981b786597393c074142eeb534",
+      "requested_open_times": 17,
+      "row_status_counts": {
+        "ROW_FOUND": 17
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 179797
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2026-02.zip.CHECKSUM",
+      "download_sha256": "6793986c3b2bc2fffc31c16e77dbf7957dd5e71c6ec9686d127c4cde3aae0c69",
+      "kind": "premiumIndexKlines",
+      "month": "2026-02",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2026-02.zip",
+      "published_checksum_sha256": "6793986c3b2bc2fffc31c16e77dbf7957dd5e71c6ec9686d127c4cde3aae0c69",
+      "requested_open_times": 59,
+      "row_status_counts": {
+        "ROW_FOUND": 59
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 166239
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2026-03.zip.CHECKSUM",
+      "download_sha256": "546d2c550c74472bed8b7a807e5d8b6d48da2a007f8810d1df9dbd13a25da3e3",
+      "kind": "premiumIndexKlines",
+      "month": "2026-03",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/BTCUSDT/5m/BTCUSDT-5m-2026-03.zip",
+      "published_checksum_sha256": "546d2c550c74472bed8b7a807e5d8b6d48da2a007f8810d1df9dbd13a25da3e3",
+      "requested_open_times": 46,
+      "row_status_counts": {
+        "ROW_FOUND": 46
+      },
+      "status": "VERIFIED",
+      "symbol": "BTCUSDT",
+      "zip_bytes": 186126
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2024-10.zip.CHECKSUM",
+      "download_sha256": "ad999eb95c20a88e87eaa337295d27c6bf9a1305f8aaf27a9c9163875f396bb1",
+      "kind": "premiumIndexKlines",
+      "month": "2024-10",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2024-10.zip",
+      "published_checksum_sha256": "ad999eb95c20a88e87eaa337295d27c6bf9a1305f8aaf27a9c9163875f396bb1",
+      "requested_open_times": 22,
+      "row_status_counts": {
+        "ROW_FOUND": 22
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 183563
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2024-11.zip.CHECKSUM",
+      "download_sha256": "130414f6ae3c65df9fa79589f60e8fb56da77cacf8b3efd45f757484f2374b96",
+      "kind": "premiumIndexKlines",
+      "month": "2024-11",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2024-11.zip",
+      "published_checksum_sha256": "130414f6ae3c65df9fa79589f60e8fb56da77cacf8b3efd45f757484f2374b96",
+      "requested_open_times": 53,
+      "row_status_counts": {
+        "ROW_FOUND": 53
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 181138
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2024-12.zip.CHECKSUM",
+      "download_sha256": "9f03ea6920b0a25710bc0e52b2c9403d51107f3701ed5511dd45193c05559769",
+      "kind": "premiumIndexKlines",
+      "month": "2024-12",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2024-12.zip",
+      "published_checksum_sha256": "9f03ea6920b0a25710bc0e52b2c9403d51107f3701ed5511dd45193c05559769",
+      "requested_open_times": 22,
+      "row_status_counts": {
+        "ROW_FOUND": 22
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 185667
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-01.zip.CHECKSUM",
+      "download_sha256": "2ef8dea7367eba146fea75e2366d64b86853874b7910d1f3802801b7f6ed4f95",
+      "kind": "premiumIndexKlines",
+      "month": "2025-01",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-01.zip",
+      "published_checksum_sha256": "2ef8dea7367eba146fea75e2366d64b86853874b7910d1f3802801b7f6ed4f95",
+      "requested_open_times": 25,
+      "row_status_counts": {
+        "ROW_FOUND": 25
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 185303
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-02.zip.CHECKSUM",
+      "download_sha256": "352e63582d4c743f79cfae9a42c1a01d2f7ce16752c7ad872ad7d00d5cc33a47",
+      "kind": "premiumIndexKlines",
+      "month": "2025-02",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-02.zip",
+      "published_checksum_sha256": "352e63582d4c743f79cfae9a42c1a01d2f7ce16752c7ad872ad7d00d5cc33a47",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 167962
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-03.zip.CHECKSUM",
+      "download_sha256": "53392a543a8353d38f5070a9d3b92560eac32653543f2eb38b18c1f89a243b45",
+      "kind": "premiumIndexKlines",
+      "month": "2025-03",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-03.zip",
+      "published_checksum_sha256": "53392a543a8353d38f5070a9d3b92560eac32653543f2eb38b18c1f89a243b45",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 185177
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-04.zip.CHECKSUM",
+      "download_sha256": "e947932a013f57c20c9578de984082b3b37a0e0a64fb41cce04550867bc64353",
+      "kind": "premiumIndexKlines",
+      "month": "2025-04",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-04.zip",
+      "published_checksum_sha256": "e947932a013f57c20c9578de984082b3b37a0e0a64fb41cce04550867bc64353",
+      "requested_open_times": 36,
+      "row_status_counts": {
+        "ROW_FOUND": 36
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 180861
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-05.zip.CHECKSUM",
+      "download_sha256": "f9f923c6d66d06f88a9db6778fba1b0236891af87bf43c9722969670cadf365b",
+      "kind": "premiumIndexKlines",
+      "month": "2025-05",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-05.zip",
+      "published_checksum_sha256": "f9f923c6d66d06f88a9db6778fba1b0236891af87bf43c9722969670cadf365b",
+      "requested_open_times": 47,
+      "row_status_counts": {
+        "ROW_FOUND": 47
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 187384
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-06.zip.CHECKSUM",
+      "download_sha256": "a7e0f3b4d4424b35e78c53b506bb08c5c8dc04ff0f52ce3a27f2b41e972e31ac",
+      "kind": "premiumIndexKlines",
+      "month": "2025-06",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-06.zip",
+      "published_checksum_sha256": "a7e0f3b4d4424b35e78c53b506bb08c5c8dc04ff0f52ce3a27f2b41e972e31ac",
+      "requested_open_times": 41,
+      "row_status_counts": {
+        "ROW_FOUND": 41
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 179638
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-07.zip.CHECKSUM",
+      "download_sha256": "a5f099bc75380a0600fed7697377762a3aa43e1804d7194f445415340ec4297f",
+      "kind": "premiumIndexKlines",
+      "month": "2025-07",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-07.zip",
+      "published_checksum_sha256": "a5f099bc75380a0600fed7697377762a3aa43e1804d7194f445415340ec4297f",
+      "requested_open_times": 23,
+      "row_status_counts": {
+        "ROW_FOUND": 23
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 186625
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-08.zip.CHECKSUM",
+      "download_sha256": "b3f7edfe99a5a07e545330e6630e73a894eca4b49a1efb1480398297295da921",
+      "kind": "premiumIndexKlines",
+      "month": "2025-08",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-08.zip",
+      "published_checksum_sha256": "b3f7edfe99a5a07e545330e6630e73a894eca4b49a1efb1480398297295da921",
+      "requested_open_times": 16,
+      "row_status_counts": {
+        "ROW_FOUND": 16
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 186627
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-09.zip.CHECKSUM",
+      "download_sha256": "f2af1ab9f6a98221ea6026385d716fdf3a0b32d89ff32f7946caac07b59ee0e7",
+      "kind": "premiumIndexKlines",
+      "month": "2025-09",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-09.zip",
+      "published_checksum_sha256": "f2af1ab9f6a98221ea6026385d716fdf3a0b32d89ff32f7946caac07b59ee0e7",
+      "requested_open_times": 12,
+      "row_status_counts": {
+        "ROW_FOUND": 12
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 177226
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-10.zip.CHECKSUM",
+      "download_sha256": "90226dc08ea1d582bab57c04fa7a8f24d5d6a6cfe0e9c6e2875362feecadce05",
+      "kind": "premiumIndexKlines",
+      "month": "2025-10",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-10.zip",
+      "published_checksum_sha256": "90226dc08ea1d582bab57c04fa7a8f24d5d6a6cfe0e9c6e2875362feecadce05",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 186187
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-11.zip.CHECKSUM",
+      "download_sha256": "a6f725aac60ac4d6907827243f7d0fac733256d72258e3e662424d1c56413c34",
+      "kind": "premiumIndexKlines",
+      "month": "2025-11",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-11.zip",
+      "published_checksum_sha256": "a6f725aac60ac4d6907827243f7d0fac733256d72258e3e662424d1c56413c34",
+      "requested_open_times": 39,
+      "row_status_counts": {
+        "ROW_FOUND": 39
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 181621
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-12.zip.CHECKSUM",
+      "download_sha256": "2d62db33fc49f05f4948bd7cf679af90774ab3e8da27371916a1b69e46ca2d26",
+      "kind": "premiumIndexKlines",
+      "month": "2025-12",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2025-12.zip",
+      "published_checksum_sha256": "2d62db33fc49f05f4948bd7cf679af90774ab3e8da27371916a1b69e46ca2d26",
+      "requested_open_times": 24,
+      "row_status_counts": {
+        "ROW_FOUND": 24
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 184694
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2026-01.zip.CHECKSUM",
+      "download_sha256": "b7b7c5c94b2f6c4dd489b688eb21473b1a51fd4accc76e24007e596cbdec016a",
+      "kind": "premiumIndexKlines",
+      "month": "2026-01",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2026-01.zip",
+      "published_checksum_sha256": "b7b7c5c94b2f6c4dd489b688eb21473b1a51fd4accc76e24007e596cbdec016a",
+      "requested_open_times": 34,
+      "row_status_counts": {
+        "ROW_FOUND": 34
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 181986
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2026-02.zip.CHECKSUM",
+      "download_sha256": "329f1e7dd01e37be6a3ef988d8f4f48f723ae77b5ea735370be53c9e13016eef",
+      "kind": "premiumIndexKlines",
+      "month": "2026-02",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2026-02.zip",
+      "published_checksum_sha256": "329f1e7dd01e37be6a3ef988d8f4f48f723ae77b5ea735370be53c9e13016eef",
+      "requested_open_times": 76,
+      "row_status_counts": {
+        "ROW_FOUND": 76
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 168096
+    },
+    {
+      "checksum_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2026-03.zip.CHECKSUM",
+      "download_sha256": "3f5284d4b8fb07a8fd472123430635f35e772fa8b70aedc06eb3e54d89d732dd",
+      "kind": "premiumIndexKlines",
+      "month": "2026-03",
+      "object_path": "data/futures/um/monthly/premiumIndexKlines/ETHUSDT/5m/ETHUSDT-5m-2026-03.zip",
+      "published_checksum_sha256": "3f5284d4b8fb07a8fd472123430635f35e772fa8b70aedc06eb3e54d89d732dd",
+      "requested_open_times": 40,
+      "row_status_counts": {
+        "ROW_FOUND": 40
+      },
+      "status": "VERIFIED",
+      "symbol": "ETHUSDT",
+      "zip_bytes": 188394
+    }
+  ],
+  "official_repo": "binance/binance-public-data",
+  "official_repo_blobs": {
+    "README": "77671f0b61ae35f3de9d7d8aed0b8370c1ca12c4",
+    "indexPriceKlines": "b432c4cd334dc86b52eda6e6968fe067fe86f17b",
+    "markPriceKlines": "d1a2bf34441951d2e711a3729911f1292a2d75c0",
+    "premiumIndexKlines": "74bfae744bce78f99fc675cf6788a417b3795a9b",
+    "utility": "72d3ee62cd727bfbfc412783d65a7dca151f1773"
+  },
+  "outcome_table_read": false,
+  "relative_to_original_fapi_task": true,
+  "retrieved_at_utc": "2026-10-01T00:54:56.197620Z",
+  "schema_version": 1,
+  "semantic_owner": "GPT",
+  "source_lineage": "BINANCE_OFFICIAL_PUBLIC_DATA_ARCHIVE",
+  "source_rows_path": "source_rows.jsonl",
+  "source_rows_sha256": "174cc82d9f1018e5dd52df385be3dceb8bbe82ffdb2471fabf8181bef9afb8a6",
+  "source_substitution_performed": true,
+  "statistical_inference_computed": false,
+  "status": "W3405_DIR020_BINANCE_OFFICIAL_ARCHIVE_SOURCE_RECONSTRUCTION_COMPLETE",
+  "task_class": "NETWORK_COLLECTION",
+  "transform_class": "COLLECTION"
+}

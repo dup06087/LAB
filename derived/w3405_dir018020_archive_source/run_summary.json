@@ -1,0 +1,28 @@
+{
+  "dir018_manifest_sha256": "75b521be9845747c56b5b8a682b6858999b56939bc35386fc899323dcf4dd355",
+  "dir018_source_rows_sha256": "3ac5bd74907a227f1fc123950499cfa82a2b0d82466bcba60d0eca3fa988ea8d",
+  "dir020_manifest_sha256": "6c26a97d06577a7222fb7f26e9ec6e18ff3ca0e61dea6267ecaecff80d5b233c",
+  "dir020_source_rows_sha256": "174cc82d9f1018e5dd52df385be3dceb8bbe82ffdb2471fabf8181bef9afb8a6",
+  "event_reselection_performed": false,
+  "execution_engine": "LAB_ACTIONS_PUBLIC_NETWORK_COLLECTION",
+  "feature_engineering_performed": false,
+  "future_outcomes_opened": false,
+  "lab_transport_wrapper_blob": "e7286f581243ca0d1156c3b8c28e99945253c3e2",
+  "object_inventory_status_counts": {
+    "VERIFIED": 108
+  },
+  "p0a_clock_slice_blob": "bc307c01d3c1e213ce710bbd4ee14df952f9353e",
+  "p0a_source_parquet_sha256": "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad",
+  "parent_source_task": "worker4638-w3405-dir018-020-binance-archive-source-reconstruction-codex-20260930",
+  "raw_zip_published": false,
+  "research_semantics_changed": false,
+  "schema_version": 1,
+  "source_values_opened": true,
+  "status": "PASS",
+  "task_id": "worker4638-w3405-dir018020-lab-actions-collection-20261003",
+  "upstream_trading_collector_blob": "8350104ea0763003a5ff0d1935ec44d7996a2325",
+  "worker": "WORKER4638",
+  "workflow_head_sha": "f959607fee4ae48ec6e056c8f6e64131316c018c",
+  "workflow_run_attempt": 1,
+  "workflow_run_id": 36798354180
+}
