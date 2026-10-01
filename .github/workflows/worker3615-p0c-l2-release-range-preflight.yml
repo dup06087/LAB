@@ -1,0 +1,95 @@
+name: WORKER3615 P0-C L2 release range preflight
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker3615-p0c-l2-release-range-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe exact required public sibling L2 Release asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import hashlib, json, urllib.request
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          url = "https://github.com/dup06087/trading-data-okx-btc-usdt-swap/releases/download/l2-2025-10/BTC-USDT-SWAP-2025-10-19.tar.gz"
+          expected_total = 362029713
+          expected_full_sha256 = "b015bed6288adb5c247830fe46978ebd4205a0caaa1a4acff81419c7a5fa889a"
+          req = urllib.request.Request(
+              url,
+              headers={
+                  "User-Agent": "worker3615-p0c-l2-range-preflight/1.0",
+                  "Range": "bytes=0-65535",
+                  "Accept-Encoding": "identity",
+              },
+          )
+          with urllib.request.urlopen(req, timeout=60) as r:
+              status = int(getattr(r, "status", 0) or 0)
+              content_range = str(r.headers.get("Content-Range") or "")
+              content_length = int(r.headers.get("Content-Length") or 0)
+              final_url = str(r.geturl())
+              if status != 206:
+                  raise RuntimeError(f"expected HTTP 206, got {status}; content-range={content_range!r}")
+              expected_range = f"bytes 0-65535/{expected_total}"
+              if content_range != expected_range:
+                  raise RuntimeError(f"content-range drift: {content_range!r} != {expected_range!r}")
+              payload = r.read(65537)
+          if len(payload) != 65536:
+              raise RuntimeError(f"range body size drift: {len(payload)}")
+          if payload[:2] != b"\x1f\x8b":
+              raise RuntimeError(f"gzip magic drift: {payload[:2].hex()}")
+          report = {
+              "schema_version": 1,
+              "status": "PASS",
+              "task": "worker3615-p0c-l2-release-range-preflight-20261003",
+              "asset_url": url,
+              "final_url": final_url,
+              "http_status": status,
+              "content_range": content_range,
+              "content_length": content_length,
+              "expected_full_bytes": expected_total,
+              "expected_full_sha256": expected_full_sha256,
+              "sample_bytes": len(payload),
+              "sample_sha256": hashlib.sha256(payload).hexdigest(),
+              "gzip_magic": payload[:2].hex(),
+              "payload_downloaded_full": False,
+              "source_values_opened": False,
+              "feature_values_opened": False,
+              "outcomes_opened": False,
+              "event_reselection": False,
+              "research_semantics_changed": False,
+              "completed_at_utc": datetime.now(timezone.utc).isoformat(),
+          }
+          Path("out/p0c_l2_release_range_preflight.json").write_text(
+              json.dumps(report, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps({
+              "status": report["status"],
+              "http_status": status,
+              "content_range": content_range,
+              "sample_bytes": len(payload),
+              "sample_sha256": report["sample_sha256"],
+          }, sort_keys=True))
+          PY
+
+      - name: Upload L2 range preflight report
+        uses: actions/upload-artifact@v4
+        with:
+          name: p0c-l2-release-range-preflight
+          path: out/p0c_l2_release_range_preflight.json
+          retention-days: 3
+          if-no-files-found: error
