@@ -1,4 +1,5 @@
 name: GPT DIR049 module2 candidate WORKER9245
+# retry after projector syntax fix
 
 on:
   push:
