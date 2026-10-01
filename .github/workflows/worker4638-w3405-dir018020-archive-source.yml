@@ -20,42 +20,51 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout trading source contract
-        uses: actions/checkout@v4
-        with:
-          repository: dup06087/trading
-          ref: main
-          path: trading
-          fetch-depth: 1
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install frozen collector dependencies
-        run: python -m pip install --disable-pip-version-check pandas pyarrow pytest
+      - name: Install transport dependencies
+        run: python -m pip install --disable-pip-version-check pandas
 
-      - name: Verify exact trading pins
+      - name: Verify exact LAB transport pins
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git -C trading rev-parse HEAD:scripts/collect_w3405_dir018_020_binance_archive_source.py)" = "8350104ea0763003a5ff0d1935ec44d7996a2325"
-          test "$(git -C trading rev-parse HEAD:tests/test_collect_w3405_dir018_020_binance_archive_source.py)" = "1ba83fb44a5b4881032f7ffd00c3bc726d6a3b2b"
-          test "$(sha256sum trading/data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet | awk '{print $1}')" = "13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad"
+          test "$(git rev-parse HEAD:tools/worker4638_w3405_archive_transport.py)" = "e7286f581243ca0d1156c3b8c28e99945253c3e2"
+          test "$(git rev-parse HEAD:data/worker4638_w3405_p0a_clock_slice.csv)" = "bc307c01d3c1e213ce710bbd4ee14df952f9353e"
 
-      - name: Run focused collector regression
-        working-directory: trading
+      - name: Preflight frozen object scope
+        shell: bash
         run: |
-          PYTHONDONTWRITEBYTECODE=1 python -m pytest tests/test_collect_w3405_dir018_020_binance_archive_source.py -q -p no:cacheprovider
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, importlib.util
+          from pathlib import Path
+
+          p=Path("tools/worker4638_w3405_archive_transport.py")
+          spec=importlib.util.spec_from_file_location("w3405_transport",p)
+          m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          core=m.load_core(Path("data/worker4638_w3405_p0a_clock_slice.csv"))
+          req=m.object_requirements(core)
+          if len(req)!=108:
+              raise SystemExit(f"object requirements {len(req)} != 108")
+          rels=sorted(m.archive_relpath(k,s,ym) for (k,s,ym) in req)
+          digest=hashlib.sha256(("\n".join(rels)+"\n").encode()).hexdigest()
+          if digest!="a8c7531c5b991bea21e84b5b9093cb40bedb3a9d8a29fc7718d8825fa24799b1":
+              raise SystemExit(f"scope digest drift {digest}")
+          if len(core)!=1147 or core["asset"].value_counts().to_dict()!={"ETH":612,"BTC":535}:
+              raise SystemExit("core identity drift")
+          print({"events":len(core),"objects":len(req),"scope_sha256":digest})
+          PY
 
       - name: Collect exact official archive subset
-        working-directory: trading
         env:
           OUT_ROOT: ${{ github.workspace }}/out
         run: |
-          PYTHONDONTWRITEBYTECODE=1 python scripts/collect_w3405_dir018_020_binance_archive_source.py \
-            --core data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet \
+          PYTHONDONTWRITEBYTECODE=1 python tools/worker4638_w3405_archive_transport.py \
+            --core data/worker4638_w3405_p0a_clock_slice.csv \
             --out-root "$OUT_ROOT" \
             --timeout 120 \
             --retries 4
@@ -75,21 +84,13 @@ jobs:
           python - <<'PY'
           import hashlib, json, os
           from pathlib import Path
-
           root=Path("derived/w3405_dir018020_archive_source")
-          d18=root/"w3405_dir018_archive_reconstruction"
-          d20=root/"w3405_dir020_archive_reconstruction"
-          files=[
-              d18/"source_rows.jsonl", d18/"manifest.json",
-              d20/"source_rows.jsonl", d20/"manifest.json",
-          ]
-          def sha(p):
-              return hashlib.sha256(p.read_bytes()).hexdigest()
+          d18=root/"w3405_dir018_archive_reconstruction"; d20=root/"w3405_dir020_archive_reconstruction"
+          files=[d18/"source_rows.jsonl",d18/"manifest.json",d20/"source_rows.jsonl",d20/"manifest.json"]
+          def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
           for p in files:
-              if not p.is_file():
-                  raise SystemExit(f"missing output {p}")
-          m18=json.loads((d18/"manifest.json").read_text())
-          m20=json.loads((d20/"manifest.json").read_text())
+              if not p.is_file(): raise SystemExit(f"missing output {p}")
+          m18=json.loads((d18/"manifest.json").read_text()); m20=json.loads((d20/"manifest.json").read_text())
           expected={
               "source_lineage":"BINANCE_OFFICIAL_PUBLIC_DATA_ARCHIVE",
               "source_substitution_performed":True,
@@ -107,44 +108,30 @@ jobs:
           }
           for name,m in (("DIR018",m18),("DIR020",m20)):
               for k,v in expected.items():
-                  if m.get(k)!=v:
-                      raise SystemExit(f"{name} {k} mismatch: {m.get(k)!r}")
-              inv=m.get("object_inventory")
-              if not isinstance(inv,list) or len(inv)!=108:
+                  if m.get(k)!=v: raise SystemExit(f"{name} {k} mismatch: {m.get(k)!r}")
+              if not isinstance(m.get("object_inventory"),list) or len(m["object_inventory"])!=108:
                   raise SystemExit(f"{name} object inventory count !=108")
-          if m18["object_inventory"] != m20["object_inventory"]:
-              raise SystemExit("DIR018/DIR020 object inventory mismatch")
+          if m18["object_inventory"]!=m20["object_inventory"]: raise SystemExit("object inventory mismatch")
           counts={}
           for x in m18["object_inventory"]:
-              s=str(x.get("status"))
-              counts[s]=counts.get(s,0)+1
-              if s=="VERIFIED":
-                  if x.get("published_checksum_sha256") != x.get("download_sha256"):
-                      raise SystemExit(f"checksum mismatch {x.get('object_path')}")
+              s=str(x.get("status")); counts[s]=counts.get(s,0)+1
+              if s=="VERIFIED" and x.get("published_checksum_sha256")!=x.get("download_sha256"):
+                  raise SystemExit(f"checksum mismatch {x.get('object_path')}")
           summary={
-              "schema_version":1,
-              "status":"PASS",
+              "schema_version":1,"status":"PASS",
               "task_id":"worker4638-w3405-dir018020-lab-actions-collection-20261003",
               "parent_source_task":"worker4638-w3405-dir018-020-binance-archive-source-reconstruction-codex-20260930",
-              "worker":"WORKER4638",
-              "execution_engine":"LAB_ACTIONS_PUBLIC_NETWORK_COLLECTION",
-              "workflow_run_id":int(os.environ["RUN_ID"]),
-              "workflow_run_attempt":int(os.environ["RUN_ATTEMPT"]),
-              "workflow_head_sha":os.environ["HEAD_SHA"],
-              "collector_blob":"8350104ea0763003a5ff0d1935ec44d7996a2325",
-              "test_blob":"1ba83fb44a5b4881032f7ffd00c3bc726d6a3b2b",
-              "core_sha256":"13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad",
+              "worker":"WORKER4638","execution_engine":"LAB_ACTIONS_PUBLIC_NETWORK_COLLECTION",
+              "workflow_run_id":int(os.environ["RUN_ID"]),"workflow_run_attempt":int(os.environ["RUN_ATTEMPT"]),"workflow_head_sha":os.environ["HEAD_SHA"],
+              "upstream_trading_collector_blob":"8350104ea0763003a5ff0d1935ec44d7996a2325",
+              "lab_transport_wrapper_blob":"e7286f581243ca0d1156c3b8c28e99945253c3e2",
+              "p0a_clock_slice_blob":"bc307c01d3c1e213ce710bbd4ee14df952f9353e",
+              "p0a_source_parquet_sha256":"13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad",
               "object_inventory_status_counts":dict(sorted(counts.items())),
-              "dir018_source_rows_sha256":sha(d18/"source_rows.jsonl"),
-              "dir018_manifest_sha256":sha(d18/"manifest.json"),
-              "dir020_source_rows_sha256":sha(d20/"source_rows.jsonl"),
-              "dir020_manifest_sha256":sha(d20/"manifest.json"),
-              "source_values_opened":True,
-              "feature_engineering_performed":False,
-              "future_outcomes_opened":False,
-              "event_reselection_performed":False,
-              "research_semantics_changed":False,
-              "raw_zip_published":False,
+              "dir018_source_rows_sha256":sha(d18/"source_rows.jsonl"),"dir018_manifest_sha256":sha(d18/"manifest.json"),
+              "dir020_source_rows_sha256":sha(d20/"source_rows.jsonl"),"dir020_manifest_sha256":sha(d20/"manifest.json"),
+              "source_values_opened":True,"feature_engineering_performed":False,"future_outcomes_opened":False,
+              "event_reselection_performed":False,"research_semantics_changed":False,"raw_zip_published":False
           }
           (root/"run_summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
           print(json.dumps(summary,sort_keys=True))
