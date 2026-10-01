@@ -112,10 +112,25 @@ jobs:
                           day=m.group(1)
                           if day not in by_day: raise RuntimeError(f"nonallowlisted day {day}")
                           item_url=str(item.get("url",""))
-                          if item_url != by_day[day]["url"]:
-                              raise RuntimeError(f"url drift {day} expected={by_day[day]['url']!r} got={item_url!r}")
+                          frozen_url=by_day[day]["url"]
+                          got=urllib.parse.urlsplit(item_url)
+                          expected=urllib.parse.urlsplit(frozen_url)
+                          if (got.scheme,got.netloc,got.path)!=(expected.scheme,expected.netloc,expected.path):
+                              raise RuntimeError(f"url origin/path drift {day} expected={frozen_url!r} got={item_url!r}")
+                          if got.fragment:
+                              raise RuntimeError(f"url fragment drift {day} got={item_url!r}")
+                          provider_url_version=None
+                          if got.query:
+                              qmatch=re.fullmatch(r"v=(\\d+)",got.query)
+                              if qmatch is None:
+                                  raise RuntimeError(f"url query drift {day} got={item_url!r}")
+                              provider_url_version=qmatch.group(1)
                           if day in returned: raise RuntimeError(f"duplicate provider day {day}")
-                          returned[day]={"day":day,"filename":fn,"url":item_url,"sizeMB":str(item.get("sizeMB",""))}
+                          returned[day]={
+                              "day":day,"filename":fn,"url":frozen_url,
+                              "provider_url":item_url,"provider_url_version":provider_url_version,
+                              "sizeMB":str(item.get("sizeMB","")),
+                          }
               requests_meta.append({"start":start,"end":end,"url":url})
               time.sleep(0.1)
 
