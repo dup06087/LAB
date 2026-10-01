@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   collect:
@@ -207,6 +207,7 @@ jobs:
           PY
 
       - name: Upload compact inventories
+        id: compact
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-inventory
@@ -217,6 +218,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload raw transport chunk 00
+        id: chunk00
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-00
@@ -225,6 +227,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Upload raw transport chunk 01
+        id: chunk01
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-01
@@ -233,6 +236,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Upload raw transport chunk 02
+        id: chunk02
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-02
@@ -241,6 +245,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Upload raw transport chunk 03
+        id: chunk03
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-03
@@ -249,6 +254,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Upload raw transport chunk 04
+        id: chunk04
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-04
@@ -257,6 +263,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Upload raw transport chunk 05
+        id: chunk05
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-05
@@ -265,6 +272,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Upload raw transport chunk 06
+        id: chunk06
         uses: actions/upload-artifact@v4
         with:
           name: p0c-public-trades-exact67-chunk-06
@@ -272,3 +280,142 @@ jobs:
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
+
+      - name: Publish compact run pointer to LAB git
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPACT_ID: ${{ steps.compact.outputs.artifact-id }}
+          COMPACT_DIGEST: ${{ steps.compact.outputs.artifact-digest }}
+          CHUNK00_ID: ${{ steps.chunk00.outputs.artifact-id }}
+          CHUNK00_DIGEST: ${{ steps.chunk00.outputs.artifact-digest }}
+          CHUNK01_ID: ${{ steps.chunk01.outputs.artifact-id }}
+          CHUNK01_DIGEST: ${{ steps.chunk01.outputs.artifact-digest }}
+          CHUNK02_ID: ${{ steps.chunk02.outputs.artifact-id }}
+          CHUNK02_DIGEST: ${{ steps.chunk02.outputs.artifact-digest }}
+          CHUNK03_ID: ${{ steps.chunk03.outputs.artifact-id }}
+          CHUNK03_DIGEST: ${{ steps.chunk03.outputs.artifact-digest }}
+          CHUNK04_ID: ${{ steps.chunk04.outputs.artifact-id }}
+          CHUNK04_DIGEST: ${{ steps.chunk04.outputs.artifact-digest }}
+          CHUNK05_ID: ${{ steps.chunk05.outputs.artifact-id }}
+          CHUNK05_DIGEST: ${{ steps.chunk05.outputs.artifact-digest }}
+          CHUNK06_ID: ${{ steps.chunk06.outputs.artifact-id }}
+          CHUNK06_DIGEST: ${{ steps.chunk06.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, hashlib, json, os, urllib.error, urllib.request
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+          api = f"https://api.github.com/repos/{repo}/contents"
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "worker9108-p0c-exact67-pointer/1.0",
+          }
+
+          def artifact(prefix, name):
+              aid = int(os.environ[f"{prefix}_ID"])
+              digest = os.environ[f"{prefix}_DIGEST"]
+              if aid <= 0 or not digest.startswith("sha256:"):
+                  raise RuntimeError(f"invalid artifact output {prefix}: id={aid!r} digest={digest!r}")
+              return {"name": name, "artifact_id": aid, "artifact_digest": digest}
+
+          artifacts = [
+              artifact("COMPACT", "p0c-public-trades-exact67-inventory"),
+              artifact("CHUNK00", "p0c-public-trades-exact67-chunk-00"),
+              artifact("CHUNK01", "p0c-public-trades-exact67-chunk-01"),
+              artifact("CHUNK02", "p0c-public-trades-exact67-chunk-02"),
+              artifact("CHUNK03", "p0c-public-trades-exact67-chunk-03"),
+              artifact("CHUNK04", "p0c-public-trades-exact67-chunk-04"),
+              artifact("CHUNK05", "p0c-public-trades-exact67-chunk-05"),
+              artifact("CHUNK06", "p0c-public-trades-exact67-chunk-06"),
+          ]
+          official = Path("out/official_inventory.json")
+          collection = Path("out/collection_inventory.json")
+          if not official.is_file() or not collection.is_file():
+              raise RuntimeError("compact inventory files missing before pointer publication")
+          collection_obj = json.loads(collection.read_text())
+          if collection_obj.get("status") != "P0C_PUBLIC_TRADE_COLLECTION_COMPLETE":
+              raise RuntimeError("collection inventory status drift")
+          if int(collection_obj.get("available_container_count", -1)) != 67 or int(collection_obj.get("fail", -1)) != 0:
+              raise RuntimeError("collection inventory 67/67 gate failed")
+          pointer = {
+              "schema_version": 1,
+              "status": "PASS",
+              "worker": "WORKER9108",
+              "transport_task": "worker4529-p0c-public-trade-network-collection-codex-20260929",
+              "repository": repo,
+              "workflow": ".github/workflows/worker2392-p0c-public-trade-exact67-transport.yml",
+              "workflow_source_commit": os.environ["GITHUB_SHA"],
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "artifacts": artifacts,
+              "official_inventory_sha256": hashlib.sha256(official.read_bytes()).hexdigest(),
+              "collection_inventory_sha256": hashlib.sha256(collection.read_bytes()).hexdigest(),
+              "requested_containers": 67,
+              "available_containers": 67,
+              "failed_containers": 0,
+              "raw_git_publication": False,
+              "raw_artifact_retention_days": 1,
+              "feature_engineering_performed": False,
+              "outcomes_opened": False,
+              "event_reselection": False,
+              "research_semantics_changed": False,
+              "published_at_utc": datetime.now(timezone.utc).isoformat(),
+          }
+          pointer_path = Path("out/latest_run.json")
+          pointer_path.write_text(json.dumps(pointer, indent=2, sort_keys=True) + "\n")
+
+          def put_file(dest, src, message):
+              content = Path(src).read_bytes()
+              url = f"{api}/{dest}"
+              sha = None
+              try:
+                  req = urllib.request.Request(url + "?ref=main", headers=headers)
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      current = json.loads(resp.read().decode())
+                      sha = current.get("sha")
+              except urllib.error.HTTPError as exc:
+                  if exc.code != 404:
+                      raise
+              payload = {
+                  "message": message,
+                  "content": base64.b64encode(content).decode(),
+                  "branch": "main",
+              }
+              if sha:
+                  payload["sha"] = sha
+              req = urllib.request.Request(
+                  url,
+                  data=json.dumps(payload).encode(),
+                  headers={**headers, "Content-Type": "application/json"},
+                  method="PUT",
+              )
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  out = json.loads(resp.read().decode())
+              commit_sha = out["commit"]["sha"]
+              blob_sha = out["content"]["sha"]
+              print(json.dumps({"dest": dest, "commit_sha": commit_sha, "blob_sha": blob_sha}, sort_keys=True))
+
+          put_file(
+              "artifacts/p0c/exact67/official_inventory.json",
+              official,
+              "data: publish P0-C exact67 official inventory [WORKER9108]",
+          )
+          put_file(
+              "artifacts/p0c/exact67/collection_inventory.json",
+              collection,
+              "data: publish P0-C exact67 collection inventory [WORKER9108]",
+          )
+          put_file(
+              "artifacts/p0c/exact67/latest_run.json",
+              pointer_path,
+              "data: publish P0-C exact67 run pointer [WORKER9108]",
+          )
+          print(json.dumps({"status": "PASS", "run_id": pointer["run_id"], "artifacts": len(artifacts)}, sort_keys=True))
+          PY
