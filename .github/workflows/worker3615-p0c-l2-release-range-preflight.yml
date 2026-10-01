@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   preflight:
@@ -87,9 +87,90 @@ jobs:
           PY
 
       - name: Upload L2 range preflight report
+        id: report
         uses: actions/upload-artifact@v4
         with:
           name: p0c-l2-release-range-preflight
           path: out/p0c_l2_release_range_preflight.json
           retention-days: 3
           if-no-files-found: error
+
+      - name: Publish L2 range preflight pointer to LAB git
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_ARTIFACT_ID: ${{ steps.report.outputs.artifact-id }}
+          REPORT_ARTIFACT_DIGEST: ${{ steps.report.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, json, os, urllib.error, urllib.request
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          src = Path("out/p0c_l2_release_range_preflight.json")
+          if not src.is_file():
+              raise RuntimeError("range preflight report missing")
+          obj = json.loads(src.read_text())
+          if obj.get("status") != "PASS" or int(obj.get("sample_bytes", -1)) != 65536:
+              raise RuntimeError(f"range preflight did not PASS: {obj!r}")
+          aid = int(os.environ["REPORT_ARTIFACT_ID"])
+          digest = os.environ["REPORT_ARTIFACT_DIGEST"]
+          if aid <= 0 or not digest.startswith("sha256:"):
+              raise RuntimeError("invalid upload-artifact outputs")
+          obj.update({
+              "adopted_by": "WORKER9108",
+              "lab_repository": os.environ["GITHUB_REPOSITORY"],
+              "lab_workflow": ".github/workflows/worker3615-p0c-l2-release-range-preflight.yml",
+              "workflow_source_commit": os.environ["GITHUB_SHA"],
+              "lab_run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "lab_run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "report_artifact_id": aid,
+              "report_artifact_digest": digest,
+              "report_artifact_retention_days": 3,
+              "raw_payload_published": False,
+              "published_at_utc": datetime.now(timezone.utc).isoformat(),
+          })
+          payload_bytes = (json.dumps(obj, indent=2, sort_keys=True) + "\n").encode()
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "worker9108-p0c-l2-pointer/1.0",
+          }
+          api = f"https://api.github.com/repos/{repo}/contents"
+
+          def put(dest):
+              url = f"{api}/{dest}"
+              sha = None
+              try:
+                  req = urllib.request.Request(url + "?ref=main", headers=headers)
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      sha = json.loads(resp.read().decode()).get("sha")
+              except urllib.error.HTTPError as exc:
+                  if exc.code != 404:
+                      raise
+              req_body = {
+                  "message": f"data: publish P0-C L2 range preflight {obj['lab_run_id']} [WORKER9108]",
+                  "content": base64.b64encode(payload_bytes).decode(),
+                  "branch": "main",
+              }
+              if sha:
+                  req_body["sha"] = sha
+              req = urllib.request.Request(
+                  url,
+                  data=json.dumps(req_body).encode(),
+                  headers={**headers, "Content-Type":"application/json"},
+                  method="PUT",
+              )
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  out = json.loads(resp.read().decode())
+              print(json.dumps({"dest":dest,"commit_sha":out["commit"]["sha"],"blob_sha":out["content"]["sha"]},sort_keys=True))
+
+          put(f"published/p0c/l2_range_preflight/run{obj['lab_run_id']}.json")
+          put("published/p0c/l2_range_preflight/latest.json")
+          print(json.dumps({"status":"PASS","run_id":obj["lab_run_id"],"artifact_id":aid},sort_keys=True))
+          PY
