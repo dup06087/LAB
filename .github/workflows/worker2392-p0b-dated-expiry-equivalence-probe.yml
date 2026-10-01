@@ -1,0 +1,293 @@
+name: WORKER2392 P0-B dated expiry equivalence probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker2392-p0b-dated-expiry-equivalence-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Compare delivery ts to final completed futureschain minute
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import calendar, csv, hashlib, io, json, time, urllib.parse, urllib.request, zipfile
+          from collections import defaultdict
+          from datetime import datetime, timezone, timedelta
+          from pathlib import Path
+
+          DELIVERY="https://www.okx.com/api/v5/public/delivery-exercise-history"
+          ARCHIVE="https://www.okx.com/api/v5/public/market-data-history"
+          FAMILIES=("BTC-USD","ETH-USD")
+          UA="worker2392-p0b-dated-expiry-equivalence-probe/1.0"
+
+          def get_json(url,timeout=90):
+              last=None
+              for attempt in range(1,6):
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":UA})
+                      with urllib.request.urlopen(req,timeout=timeout) as r:
+                          raw=r.read()
+                      return json.loads(raw.decode("utf-8")), raw
+                  except Exception as exc:
+                      last=repr(exc)
+                      if attempt==5: raise
+                      time.sleep(0.8*attempt)
+              raise RuntimeError(last)
+
+          def get_bytes(url,timeout=180):
+              last=None
+              for attempt in range(1,6):
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":UA})
+                      with urllib.request.urlopen(req,timeout=timeout) as r:
+                          return r.read()
+                  except Exception as exc:
+                      last=repr(exc)
+                      if attempt==5: raise
+                      time.sleep(0.8*attempt)
+              raise RuntimeError(last)
+
+          def month_label(ts_ms):
+              dt=datetime.fromtimestamp(ts_ms/1000,tz=timezone.utc)+timedelta(hours=8)
+              return f"{dt.year:04d}-{dt.month:02d}"
+
+          def utc8_month_start_ms(label):
+              y,m=map(int,label.split("-"))
+              dt=datetime(y,m,1,tzinfo=timezone.utc)-timedelta(hours=8)
+              return int(dt.timestamp()*1000)
+
+          def utc8_month_end_ms(label):
+              y,m=map(int,label.split("-"))
+              last=calendar.monthrange(y,m)[1]
+              dt=datetime(y,m,last,tzinfo=timezone.utc)-timedelta(hours=8)
+              return int(dt.timestamp()*1000)
+
+          delivery=[]
+          delivery_query_meta=[]
+          for family in FAMILIES:
+              params={"instType":"FUTURES","instFamily":family,"limit":"100"}
+              url=DELIVERY+"?"+urllib.parse.urlencode(params)
+              payload,raw=get_json(url)
+              if str(payload.get("code"))!="0":
+                  raise RuntimeError(f"delivery code drift {family}: {payload}")
+              delivery_query_meta.append({
+                  "family":family,"url":url,"response_sha256":hashlib.sha256(raw).hexdigest(),
+                  "response_bytes":len(raw),"groups":len(payload.get("data") or [])
+              })
+              for group in payload.get("data") or []:
+                  ts=str(group.get("ts") or "")
+                  if not ts.isdigit():
+                      raise RuntimeError(f"bad delivery ts {family}: {ts!r}")
+                  t=int(ts)
+                  for detail in group.get("details") or []:
+                      typ=str(detail.get("type") or "")
+                      inst=str(detail.get("insId") or detail.get("instId") or "")
+                      if typ!="delivery":
+                          continue
+                      if not inst:
+                          raise RuntimeError(f"delivery row missing contract id {family} {detail}")
+                      if not inst.startswith(family+"-"):
+                          raise RuntimeError(f"delivery family drift {family}->{inst}")
+                      delivery.append({
+                          "family":family,
+                          "insId":inst,
+                          "delivery_ts_ms":t,
+                          "delivery_month_utc8":month_label(t),
+                          "provider_type":typ
+                      })
+              time.sleep(0.2)
+
+          if not delivery:
+              raise RuntimeError("no delivery records returned")
+          # unique by family/contract/ts
+          uniq={}
+          for row in delivery:
+              k=(row["family"],row["insId"],row["delivery_ts_ms"])
+              uniq[k]=row
+          delivery=sorted(uniq.values(),key=lambda x:(x["family"],x["delivery_ts_ms"],x["insId"]))
+
+          months_by_family={f:sorted({r["delivery_month_utc8"] for r in delivery if r["family"]==f}) for f in FAMILIES}
+          archive_meta=[]
+          archive_urls={f:{} for f in FAMILIES}
+          for family in FAMILIES:
+              months=months_by_family[family]
+              if not months:
+                  continue
+              params={
+                  "module":"2","instType":"FUTURES","instFamilyList":family,"dateAggrType":"monthly",
+                  "begin":str(utc8_month_start_ms(months[0])),
+                  "end":str(utc8_month_end_ms(months[-1]))
+              }
+              url=ARCHIVE+"?"+urllib.parse.urlencode(params)
+              payload,raw=get_json(url)
+              if str(payload.get("code"))!="0":
+                  raise RuntimeError(f"archive inventory code drift {family}: {payload}")
+              archive_meta.append({
+                  "family":family,"query_url":url,"response_sha256":hashlib.sha256(raw).hexdigest(),
+                  "response_bytes":len(raw),"requested_months":months
+              })
+              for group in payload.get("data") or []:
+                  for detail in group.get("details") or []:
+                      for item in detail.get("groupDetails") or []:
+                          fn=str(item.get("filename") or "")
+                          u=str(item.get("url") or "")
+                          if "futureschain-candlesticks-" not in fn:
+                              continue
+                          # exact YYYY-MM from provider filename is archive partition metadata only.
+                          part=fn.rsplit("futureschain-candlesticks-",1)[-1].removesuffix(".zip")
+                          if part in months:
+                              archive_urls[family][part]={"filename":fn,"url":u,"sizeMB":str(item.get("sizeMB") or "")}
+              missing=[m for m in months if m not in archive_urls[family]]
+              if missing:
+                  raise RuntimeError(f"missing official archive months {family}: {missing}")
+              time.sleep(0.2)
+
+          wanted={f:{r["insId"] for r in delivery if r["family"]==f} for f in FAMILIES}
+          final_open={}
+          archive_evidence=[]
+          for family in FAMILIES:
+              for month in months_by_family[family]:
+                  info=archive_urls[family][month]
+                  raw=get_bytes(info["url"])
+                  if not raw.startswith(b"PK"):
+                      raise RuntimeError(f"ZIP magic drift {family} {month}")
+                  zsha=hashlib.sha256(raw).hexdigest()
+                  matched_ids=set()
+                  rows_scanned=0
+                  with zipfile.ZipFile(io.BytesIO(raw)) as z:
+                      files=[n for n in z.namelist() if not z.getinfo(n).is_dir()]
+                      if len(files)!=1:
+                          raise RuntimeError(f"member count drift {family} {month}: {files}")
+                      with z.open(files[0]) as bf:
+                          tf=io.TextIOWrapper(bf,encoding="utf-8-sig",newline="")
+                          reader=csv.DictReader(tf)
+                          header=list(reader.fieldnames or [])
+                          required={"instrument_name","open_time","confirm"}
+                          if not required.issubset(header):
+                              raise RuntimeError(f"schema drift {family} {month}: {header}")
+                          for row in reader:
+                              rows_scanned += 1
+                              inst=str(row.get("instrument_name") or "").strip()
+                              if inst not in wanted[family]:
+                                  continue
+                              conf=str(row.get("confirm") or "").strip()
+                              if conf!="1":
+                                  continue
+                              ts=str(row.get("open_time") or "").strip()
+                              if not ts.isdigit():
+                                  raise RuntimeError(f"bad open_time {family} {month} {inst}")
+                              t=int(ts)
+                              k=(family,inst)
+                              if k not in final_open or t>final_open[k]:
+                                  final_open[k]=t
+                              matched_ids.add(inst)
+                  archive_evidence.append({
+                      "family":family,"archive_month":month,"filename":info["filename"],
+                      "archive_sha256":zsha,"archive_bytes":len(raw),"rows_scanned":rows_scanned,
+                      "matched_delivery_contract_ids":sorted(matched_ids)
+                  })
+                  time.sleep(0.15)
+
+          comparisons=[]
+          unmatched=[]
+          for row in delivery:
+              k=(row["family"],row["insId"])
+              last=final_open.get(k)
+              if last is None:
+                  unmatched.append(row)
+                  continue
+              candidate=last+60_000
+              delta=row["delivery_ts_ms"]-candidate
+              comparisons.append({
+                  **row,
+                  "last_completed_open_time_ms":last,
+                  "candidate_expiry_ms":candidate,
+                  "delta_ms_delivery_minus_candidate":delta,
+                  "exact_match":delta==0
+              })
+
+          exact=sum(1 for x in comparisons if x["exact_match"])
+          deltas=sorted({x["delta_ms_delivery_minus_candidate"] for x in comparisons})
+          by_family={}
+          for family in FAMILIES:
+              part=[x for x in comparisons if x["family"]==family]
+              by_family[family]={
+                  "delivery_records":sum(1 for x in delivery if x["family"]==family),
+                  "matched_records":len(part),
+                  "exact_matches":sum(1 for x in part if x["exact_match"]),
+                  "nonzero_delta_records":sum(1 for x in part if not x["exact_match"]),
+                  "delta_ms_values":sorted({x["delta_ms_delivery_minus_candidate"] for x in part})
+              }
+
+          status=(
+              "EXACT_EQUIVALENCE_ALL_MATCHED"
+              if comparisons and not unmatched and exact==len(comparisons)
+              else "NOT_EXACT_OR_INCOMPLETE"
+          )
+          result={
+              "schema_version":1,
+              "status":status,
+              "task_id":"worker2392-p0b-dated-expiry-equivalence-probe-20261001",
+              "worker":"WORKER2392",
+              "provider":"OKX",
+              "delivery_endpoint":"/api/v5/public/delivery-exercise-history",
+              "archive_endpoint":"/api/v5/public/market-data-history",
+              "families":list(FAMILIES),
+              "delivery_query_meta":delivery_query_meta,
+              "archive_inventory_query_meta":archive_meta,
+              "delivery_records":delivery,
+              "archive_evidence":archive_evidence,
+              "comparisons":comparisons,
+              "unmatched_delivery_records":unmatched,
+              "summary":{
+                  "delivery_record_count":len(delivery),
+                  "matched_record_count":len(comparisons),
+                  "unmatched_record_count":len(unmatched),
+                  "exact_match_count":exact,
+                  "nonzero_delta_count":len(comparisons)-exact,
+                  "delta_ms_values":deltas,
+                  "by_family":by_family
+              },
+              "candidate_rule":"expiry_time_utc = final completed provider futureschain candle open_time + 60 seconds",
+              "symbol_suffix_expiry_inference":False,
+              "listtime_inference":False,
+              "ohlcv_values_published":False,
+              "ohlcv_values_interpreted":False,
+              "feature_engineering_performed":False,
+              "future_outcomes_opened":False,
+              "event_reselection_performed":False,
+              "generated_at_utc":datetime.now(timezone.utc).isoformat()
+          }
+          raw=(json.dumps(result,indent=2,sort_keys=True,ensure_ascii=False)+"\n").encode("utf-8")
+          Path("out/expiry_equivalence.json").write_bytes(raw)
+          print(json.dumps({
+              "status":status,
+              "delivery_records":len(delivery),
+              "matched":len(comparisons),
+              "unmatched":len(unmatched),
+              "exact":exact,
+              "nonzero":len(comparisons)-exact,
+              "delta_ms_values":deltas,
+              "btc":by_family["BTC-USD"],
+              "eth":by_family["ETH-USD"],
+              "sha256":hashlib.sha256(raw).hexdigest()
+          },sort_keys=True))
+          PY
+
+      - name: Upload timestamp-only evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker2392-p0b-dated-expiry-equivalence-probe
+          path: out/expiry_equivalence.json
+          retention-days: 2
+          if-no-files-found: error
