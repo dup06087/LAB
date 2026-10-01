@@ -1,0 +1,15 @@
+{
+  "attempt_nonce_ns": 1790860108429599524,
+  "collection_inventory_sha256": "33b7a671d0db09bf4f965d2ea77742e632c68de7e28c9d99166e99b500d70119",
+  "event_reselection": false,
+  "feature_values_opened": false,
+  "official_inventory_sha256": "e7201b55b1e6de66c7306cc21cd280b28128fd88789a9b0fad95e09c185965cb",
+  "outcomes_opened": false,
+  "receipt_run_path": "published/p0c/run36864596415/receipt_runs/1790860108429599524.json",
+  "receipt_sha256": "98e1e0d4c7cbeeaa80c1a61ebe4439540d84a2fe0ff62e29117128259420c481",
+  "schema_version": 1,
+  "source_inventory_artifact_id": 11162999879,
+  "source_run_id": 36864596415,
+  "source_values_opened": false,
+  "status": "PASS"
+}

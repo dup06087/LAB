@@ -1,0 +1,89 @@
+{
+  "actions_artifacts": [
+    {
+      "digest": "sha256:7c0b8b8b54d21c14c932dfa6459f06dcdb976e0ccf0263c200863a02694ac675",
+      "id": 11162999879,
+      "name": "p0c-public-trades-exact67-inventory",
+      "size_in_bytes": 7703
+    },
+    {
+      "digest": "sha256:a75e453730b895aeb7d268e8db5d1ebbc5d4b6bc7f9d13b887539ea749c3d1f1",
+      "id": 11163380253,
+      "name": "p0c-public-trades-exact67-chunk-00",
+      "size_in_bytes": 199811665
+    },
+    {
+      "digest": "sha256:ea3d66d215c50d13b8feeaf4d903d949293ce3ea42e3ea36c4afd9de2fd81bd7",
+      "id": 11163435139,
+      "name": "p0c-public-trades-exact67-chunk-01",
+      "size_in_bytes": 198710654
+    },
+    {
+      "digest": "sha256:c1db21bbb9284417b87cba026780d81cbe57549a9a70fdab40321c71512c4007",
+      "id": 11163450159,
+      "name": "p0c-public-trades-exact67-chunk-02",
+      "size_in_bytes": 232771978
+    },
+    {
+      "digest": "sha256:d2b677376af365ab553f02761c6cf9e2be487fdec6646e16f36fab575414f6d0",
+      "id": 11163340379,
+      "name": "p0c-public-trades-exact67-chunk-03",
+      "size_in_bytes": 272906238
+    },
+    {
+      "digest": "sha256:f4645050905912fdfdce1dd99184e718a2d788b5cc9796ccc3ed007c8057d9ed",
+      "id": 11163119716,
+      "name": "p0c-public-trades-exact67-chunk-04",
+      "size_in_bytes": 200174067
+    },
+    {
+      "digest": "sha256:136f26d1c057f513d1f9e16ea40b2d7c901f4dd0b4bbce6a7927134cea5b737c",
+      "id": 11162764420,
+      "name": "p0c-public-trades-exact67-chunk-05",
+      "size_in_bytes": 407082836
+    },
+    {
+      "digest": "sha256:2c89f82546fb8efb344e8f44517628e277ac272dfdcc08b584609018967d7f3e",
+      "id": 11162829418,
+      "name": "p0c-public-trades-exact67-chunk-06",
+      "size_in_bytes": 204178334
+    }
+  ],
+  "adopted_by": "WORKER3615",
+  "attempt_nonce_ns": 1790860108429599524,
+  "available": 67,
+  "collection_inventory_sha256": "33b7a671d0db09bf4f965d2ea77742e632c68de7e28c9d99166e99b500d70119",
+  "container_count": 67,
+  "container_total_bytes": 1715607252,
+  "credentials_used": false,
+  "downloader_blob": "dca2dd09abffcb0aa6eabc3ea6ed54ea426474e7",
+  "event_reselection_performed": false,
+  "fail": 0,
+  "feature_engineering_performed": false,
+  "future_outcomes_opened": false,
+  "lab_head_sha": "d7757792dd72fad00a8d09da9739b20a905b069f",
+  "lab_job_id": 110376845067,
+  "lab_repository": "dup06087/LAB",
+  "lab_run_conclusion": "success",
+  "lab_run_id": 36864596415,
+  "lab_workflow": ".github/workflows/worker2392-p0c-public-trade-exact67-transport.yml",
+  "lab_workflow_blob": "c742a76756232f251ee0a608d9684a53641e9266",
+  "official_inventory_helper_blob": "e60f329a46ab6f93f1745e5201d847faa96831ba",
+  "official_inventory_missing_dates": 0,
+  "official_inventory_query_count": 41,
+  "official_inventory_required_dates": 67,
+  "official_inventory_returned_dates": 67,
+  "official_inventory_sha256": "e7201b55b1e6de66c7306cc21cd280b28128fd88789a9b0fad95e09c185965cb",
+  "official_inventory_test_blob": "4d31d2bda2ebb9692c9b48019474d940fb04853e",
+  "private_api_used": false,
+  "raw_artifact_retention_days": 1,
+  "raw_zip_publication": false,
+  "raw_zip_transport": "TRANSIENT_GITHUB_ACTIONS_ARTIFACTS_ONLY",
+  "requested": 67,
+  "research_semantics_changed": false,
+  "residual_plan_blob": "d86ac5f89d0e8e32643a622e4eb4c9bebd1c1f2d",
+  "schema_version": 1,
+  "status": "PASS",
+  "task_id": "worker4529-p0c-public-trade-network-collection-codex-20260929",
+  "verified_at_utc": "2026-10-01T13:08:28.430040+00:00"
+}

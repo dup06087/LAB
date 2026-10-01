@@ -1,0 +1,767 @@
+{
+  "dateAggrType": "daily",
+  "endpoint": "/api/v5/public/market-data-history",
+  "entries": [
+    {
+      "day": "2024-11-06",
+      "filename": "BTC-USDT-SWAP-trades-2024-11-06.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241106/BTC-USDT-SWAP-trades-2024-11-06.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "25.51",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241106/BTC-USDT-SWAP-trades-2024-11-06.zip"
+    },
+    {
+      "day": "2024-11-07",
+      "filename": "BTC-USDT-SWAP-trades-2024-11-07.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241107/BTC-USDT-SWAP-trades-2024-11-07.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "11.68",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241107/BTC-USDT-SWAP-trades-2024-11-07.zip"
+    },
+    {
+      "day": "2024-11-10",
+      "filename": "BTC-USDT-SWAP-trades-2024-11-10.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241110/BTC-USDT-SWAP-trades-2024-11-10.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "12.85",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241110/BTC-USDT-SWAP-trades-2024-11-10.zip"
+    },
+    {
+      "day": "2024-11-11",
+      "filename": "BTC-USDT-SWAP-trades-2024-11-11.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241111/BTC-USDT-SWAP-trades-2024-11-11.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "17.15",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241111/BTC-USDT-SWAP-trades-2024-11-11.zip"
+    },
+    {
+      "day": "2024-11-12",
+      "filename": "BTC-USDT-SWAP-trades-2024-11-12.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241112/BTC-USDT-SWAP-trades-2024-11-12.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "30.75",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241112/BTC-USDT-SWAP-trades-2024-11-12.zip"
+    },
+    {
+      "day": "2024-11-13",
+      "filename": "BTC-USDT-SWAP-trades-2024-11-13.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241113/BTC-USDT-SWAP-trades-2024-11-13.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "21.47",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241113/BTC-USDT-SWAP-trades-2024-11-13.zip"
+    },
+    {
+      "day": "2024-12-05",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-05.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241205/BTC-USDT-SWAP-trades-2024-12-05.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "20.62",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241205/BTC-USDT-SWAP-trades-2024-12-05.zip"
+    },
+    {
+      "day": "2024-12-06",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-06.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241206/BTC-USDT-SWAP-trades-2024-12-06.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "22.26",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241206/BTC-USDT-SWAP-trades-2024-12-06.zip"
+    },
+    {
+      "day": "2024-12-09",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-09.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241209/BTC-USDT-SWAP-trades-2024-12-09.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "11.37",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241209/BTC-USDT-SWAP-trades-2024-12-09.zip"
+    },
+    {
+      "day": "2024-12-10",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-10.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241210/BTC-USDT-SWAP-trades-2024-12-10.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "16.89",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241210/BTC-USDT-SWAP-trades-2024-12-10.zip"
+    },
+    {
+      "day": "2024-12-20",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-20.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241220/BTC-USDT-SWAP-trades-2024-12-20.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "27.29",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241220/BTC-USDT-SWAP-trades-2024-12-20.zip"
+    },
+    {
+      "day": "2024-12-21",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-21.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241221/BTC-USDT-SWAP-trades-2024-12-21.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "10.95",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241221/BTC-USDT-SWAP-trades-2024-12-21.zip"
+    },
+    {
+      "day": "2024-12-27",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-27.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241227/BTC-USDT-SWAP-trades-2024-12-27.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "11.36",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241227/BTC-USDT-SWAP-trades-2024-12-27.zip"
+    },
+    {
+      "day": "2024-12-28",
+      "filename": "BTC-USDT-SWAP-trades-2024-12-28.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241228/BTC-USDT-SWAP-trades-2024-12-28.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "6.49",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20241228/BTC-USDT-SWAP-trades-2024-12-28.zip"
+    },
+    {
+      "day": "2025-01-09",
+      "filename": "BTC-USDT-SWAP-trades-2025-01-09.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250109/BTC-USDT-SWAP-trades-2025-01-09.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "14.09",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250109/BTC-USDT-SWAP-trades-2025-01-09.zip"
+    },
+    {
+      "day": "2025-01-10",
+      "filename": "BTC-USDT-SWAP-trades-2025-01-10.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250110/BTC-USDT-SWAP-trades-2025-01-10.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "14.81",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250110/BTC-USDT-SWAP-trades-2025-01-10.zip"
+    },
+    {
+      "day": "2025-01-20",
+      "filename": "BTC-USDT-SWAP-trades-2025-01-20.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250120/BTC-USDT-SWAP-trades-2025-01-20.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "29.88",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250120/BTC-USDT-SWAP-trades-2025-01-20.zip"
+    },
+    {
+      "day": "2025-01-21",
+      "filename": "BTC-USDT-SWAP-trades-2025-01-21.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250121/BTC-USDT-SWAP-trades-2025-01-21.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "29.48",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250121/BTC-USDT-SWAP-trades-2025-01-21.zip"
+    },
+    {
+      "day": "2025-01-23",
+      "filename": "BTC-USDT-SWAP-trades-2025-01-23.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250123/BTC-USDT-SWAP-trades-2025-01-23.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "20.67",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250123/BTC-USDT-SWAP-trades-2025-01-23.zip"
+    },
+    {
+      "day": "2025-01-24",
+      "filename": "BTC-USDT-SWAP-trades-2025-01-24.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250124/BTC-USDT-SWAP-trades-2025-01-24.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "24.48",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250124/BTC-USDT-SWAP-trades-2025-01-24.zip"
+    },
+    {
+      "day": "2025-02-03",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-03.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250203/BTC-USDT-SWAP-trades-2025-02-03.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "36.38",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250203/BTC-USDT-SWAP-trades-2025-02-03.zip"
+    },
+    {
+      "day": "2025-02-04",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-04.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250204/BTC-USDT-SWAP-trades-2025-02-04.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "21.25",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250204/BTC-USDT-SWAP-trades-2025-02-04.zip"
+    },
+    {
+      "day": "2025-02-12",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-12.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250212/BTC-USDT-SWAP-trades-2025-02-12.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "13.51",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250212/BTC-USDT-SWAP-trades-2025-02-12.zip"
+    },
+    {
+      "day": "2025-02-13",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-13.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250213/BTC-USDT-SWAP-trades-2025-02-13.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "12.49",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250213/BTC-USDT-SWAP-trades-2025-02-13.zip"
+    },
+    {
+      "day": "2025-02-25",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-25.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250225/BTC-USDT-SWAP-trades-2025-02-25.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "28.51",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250225/BTC-USDT-SWAP-trades-2025-02-25.zip"
+    },
+    {
+      "day": "2025-02-26",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-26.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250226/BTC-USDT-SWAP-trades-2025-02-26.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "18.62",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250226/BTC-USDT-SWAP-trades-2025-02-26.zip"
+    },
+    {
+      "day": "2025-02-27",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-27.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250227/BTC-USDT-SWAP-trades-2025-02-27.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "25.77",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250227/BTC-USDT-SWAP-trades-2025-02-27.zip"
+    },
+    {
+      "day": "2025-02-28",
+      "filename": "BTC-USDT-SWAP-trades-2025-02-28.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250228/BTC-USDT-SWAP-trades-2025-02-28.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "36.42",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250228/BTC-USDT-SWAP-trades-2025-02-28.zip"
+    },
+    {
+      "day": "2025-03-01",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-01.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250301/BTC-USDT-SWAP-trades-2025-03-01.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "16.26",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250301/BTC-USDT-SWAP-trades-2025-03-01.zip"
+    },
+    {
+      "day": "2025-03-02",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-02.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250302/BTC-USDT-SWAP-trades-2025-03-02.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "12.78",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250302/BTC-USDT-SWAP-trades-2025-03-02.zip"
+    },
+    {
+      "day": "2025-03-03",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-03.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250303/BTC-USDT-SWAP-trades-2025-03-03.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "34.64",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250303/BTC-USDT-SWAP-trades-2025-03-03.zip"
+    },
+    {
+      "day": "2025-03-04",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-04.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250304/BTC-USDT-SWAP-trades-2025-03-04.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "36.14",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250304/BTC-USDT-SWAP-trades-2025-03-04.zip"
+    },
+    {
+      "day": "2025-03-05",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-05.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250305/BTC-USDT-SWAP-trades-2025-03-05.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "26.81",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250305/BTC-USDT-SWAP-trades-2025-03-05.zip"
+    },
+    {
+      "day": "2025-03-06",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-06.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250306/BTC-USDT-SWAP-trades-2025-03-06.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "21.83",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250306/BTC-USDT-SWAP-trades-2025-03-06.zip"
+    },
+    {
+      "day": "2025-03-07",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-07.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250307/BTC-USDT-SWAP-trades-2025-03-07.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "31.18",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250307/BTC-USDT-SWAP-trades-2025-03-07.zip"
+    },
+    {
+      "day": "2025-03-08",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-08.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250308/BTC-USDT-SWAP-trades-2025-03-08.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "20",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250308/BTC-USDT-SWAP-trades-2025-03-08.zip"
+    },
+    {
+      "day": "2025-03-10",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-10.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250310/BTC-USDT-SWAP-trades-2025-03-10.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "31.16",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250310/BTC-USDT-SWAP-trades-2025-03-10.zip"
+    },
+    {
+      "day": "2025-03-13",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-13.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250313/BTC-USDT-SWAP-trades-2025-03-13.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "18.33",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250313/BTC-USDT-SWAP-trades-2025-03-13.zip"
+    },
+    {
+      "day": "2025-03-17",
+      "filename": "BTC-USDT-SWAP-trades-2025-03-17.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250317/BTC-USDT-SWAP-trades-2025-03-17.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "15.76",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250317/BTC-USDT-SWAP-trades-2025-03-17.zip"
+    },
+    {
+      "day": "2025-04-03",
+      "filename": "BTC-USDT-SWAP-trades-2025-04-03.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250403/BTC-USDT-SWAP-trades-2025-04-03.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "24.41",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250403/BTC-USDT-SWAP-trades-2025-04-03.zip"
+    },
+    {
+      "day": "2025-04-08",
+      "filename": "BTC-USDT-SWAP-trades-2025-04-08.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250408/BTC-USDT-SWAP-trades-2025-04-08.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "21.94",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250408/BTC-USDT-SWAP-trades-2025-04-08.zip"
+    },
+    {
+      "day": "2025-04-10",
+      "filename": "BTC-USDT-SWAP-trades-2025-04-10.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250410/BTC-USDT-SWAP-trades-2025-04-10.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "30.72",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250410/BTC-USDT-SWAP-trades-2025-04-10.zip"
+    },
+    {
+      "day": "2025-04-23",
+      "filename": "BTC-USDT-SWAP-trades-2025-04-23.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250423/BTC-USDT-SWAP-trades-2025-04-23.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "22.55",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250423/BTC-USDT-SWAP-trades-2025-04-23.zip"
+    },
+    {
+      "day": "2025-07-11",
+      "filename": "BTC-USDT-SWAP-trades-2025-07-11.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250711/BTC-USDT-SWAP-trades-2025-07-11.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "22.28",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250711/BTC-USDT-SWAP-trades-2025-07-11.zip"
+    },
+    {
+      "day": "2025-08-15",
+      "filename": "BTC-USDT-SWAP-trades-2025-08-15.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250815/BTC-USDT-SWAP-trades-2025-08-15.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "12.57",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250815/BTC-USDT-SWAP-trades-2025-08-15.zip"
+    },
+    {
+      "day": "2025-08-23",
+      "filename": "BTC-USDT-SWAP-trades-2025-08-23.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250823/BTC-USDT-SWAP-trades-2025-08-23.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "10.05",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250823/BTC-USDT-SWAP-trades-2025-08-23.zip"
+    },
+    {
+      "day": "2025-08-25",
+      "filename": "BTC-USDT-SWAP-trades-2025-08-25.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250825/BTC-USDT-SWAP-trades-2025-08-25.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "17.74",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250825/BTC-USDT-SWAP-trades-2025-08-25.zip"
+    },
+    {
+      "day": "2025-09-23",
+      "filename": "BTC-USDT-SWAP-trades-2025-09-23.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250923/BTC-USDT-SWAP-trades-2025-09-23.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "8.23",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20250923/BTC-USDT-SWAP-trades-2025-09-23.zip"
+    },
+    {
+      "day": "2025-10-17",
+      "filename": "BTC-USDT-SWAP-trades-2025-10-17.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251017/BTC-USDT-SWAP-trades-2025-10-17.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "29.43",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251017/BTC-USDT-SWAP-trades-2025-10-17.zip"
+    },
+    {
+      "day": "2025-10-20",
+      "filename": "BTC-USDT-SWAP-trades-2025-10-20.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251020/BTC-USDT-SWAP-trades-2025-10-20.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "15.37",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251020/BTC-USDT-SWAP-trades-2025-10-20.zip"
+    },
+    {
+      "day": "2025-10-22",
+      "filename": "BTC-USDT-SWAP-trades-2025-10-22.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251022/BTC-USDT-SWAP-trades-2025-10-22.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "25.54",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251022/BTC-USDT-SWAP-trades-2025-10-22.zip"
+    },
+    {
+      "day": "2025-10-30",
+      "filename": "BTC-USDT-SWAP-trades-2025-10-30.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251030/BTC-USDT-SWAP-trades-2025-10-30.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "27.41",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251030/BTC-USDT-SWAP-trades-2025-10-30.zip"
+    },
+    {
+      "day": "2025-11-22",
+      "filename": "BTC-USDT-SWAP-trades-2025-11-22.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251122/BTC-USDT-SWAP-trades-2025-11-22.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "25.78",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251122/BTC-USDT-SWAP-trades-2025-11-22.zip"
+    },
+    {
+      "day": "2025-12-18",
+      "filename": "BTC-USDT-SWAP-trades-2025-12-18.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251218/BTC-USDT-SWAP-trades-2025-12-18.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "27.25",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20251218/BTC-USDT-SWAP-trades-2025-12-18.zip"
+    },
+    {
+      "day": "2026-01-14",
+      "filename": "BTC-USDT-SWAP-trades-2026-01-14.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260114/BTC-USDT-SWAP-trades-2026-01-14.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "25.04",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260114/BTC-USDT-SWAP-trades-2026-01-14.zip"
+    },
+    {
+      "day": "2026-01-22",
+      "filename": "BTC-USDT-SWAP-trades-2026-01-22.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260122/BTC-USDT-SWAP-trades-2026-01-22.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "22.21",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260122/BTC-USDT-SWAP-trades-2026-01-22.zip"
+    },
+    {
+      "day": "2026-02-03",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-03.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260203/BTC-USDT-SWAP-trades-2026-02-03.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "24.98",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260203/BTC-USDT-SWAP-trades-2026-02-03.zip"
+    },
+    {
+      "day": "2026-02-04",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-04.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260204/BTC-USDT-SWAP-trades-2026-02-04.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "40.02",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260204/BTC-USDT-SWAP-trades-2026-02-04.zip"
+    },
+    {
+      "day": "2026-02-05",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-05.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260205/BTC-USDT-SWAP-trades-2026-02-05.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "68.14",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260205/BTC-USDT-SWAP-trades-2026-02-05.zip"
+    },
+    {
+      "day": "2026-02-06",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-06.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260206/BTC-USDT-SWAP-trades-2026-02-06.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "101.86",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260206/BTC-USDT-SWAP-trades-2026-02-06.zip"
+    },
+    {
+      "day": "2026-02-17",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-17.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260217/BTC-USDT-SWAP-trades-2026-02-17.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "21.36",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260217/BTC-USDT-SWAP-trades-2026-02-17.zip"
+    },
+    {
+      "day": "2026-02-21",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-21.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260221/BTC-USDT-SWAP-trades-2026-02-21.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "15.39",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260221/BTC-USDT-SWAP-trades-2026-02-21.zip"
+    },
+    {
+      "day": "2026-02-26",
+      "filename": "BTC-USDT-SWAP-trades-2026-02-26.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260226/BTC-USDT-SWAP-trades-2026-02-26.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "31.82",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260226/BTC-USDT-SWAP-trades-2026-02-26.zip"
+    },
+    {
+      "day": "2026-03-02",
+      "filename": "BTC-USDT-SWAP-trades-2026-03-02.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260302/BTC-USDT-SWAP-trades-2026-03-02.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "38.55",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260302/BTC-USDT-SWAP-trades-2026-03-02.zip"
+    },
+    {
+      "day": "2026-03-09",
+      "filename": "BTC-USDT-SWAP-trades-2026-03-09.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260309/BTC-USDT-SWAP-trades-2026-03-09.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "34.03",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260309/BTC-USDT-SWAP-trades-2026-03-09.zip"
+    },
+    {
+      "day": "2026-03-27",
+      "filename": "BTC-USDT-SWAP-trades-2026-03-27.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260327/BTC-USDT-SWAP-trades-2026-03-27.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "26.38",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260327/BTC-USDT-SWAP-trades-2026-03-27.zip"
+    },
+    {
+      "day": "2026-03-31",
+      "filename": "BTC-USDT-SWAP-trades-2026-03-31.zip",
+      "provider_url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260331/BTC-USDT-SWAP-trades-2026-03-31.zip?v=999",
+      "provider_url_version": "999",
+      "sizeMB": "27.2",
+      "url": "https://static.okx.com/cdn/okex/traderecords/trades/daily/20260331/BTC-USDT-SWAP-trades-2026-03-31.zip"
+    }
+  ],
+  "event_reselection": false,
+  "feature_values_opened": false,
+  "instFamilyList": "BTC-USDT",
+  "instType": "SWAP",
+  "inventory_sha256": "7c159046908b939327cda155ea9f612f8ac4a97d1192dd6dae4a4ec8bfb0b201",
+  "market_payload_downloaded": false,
+  "missing": [],
+  "missing_dates": 0,
+  "module": "1",
+  "outcomes_opened": false,
+  "provider": "OKX",
+  "queries": [
+    {
+      "end": "2024-11-07",
+      "start": "2024-11-06",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1730822400000&end=1730908800000"
+    },
+    {
+      "end": "2024-11-13",
+      "start": "2024-11-10",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1731168000000&end=1731427200000"
+    },
+    {
+      "end": "2024-12-06",
+      "start": "2024-12-05",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1733328000000&end=1733414400000"
+    },
+    {
+      "end": "2024-12-10",
+      "start": "2024-12-09",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1733673600000&end=1733760000000"
+    },
+    {
+      "end": "2024-12-21",
+      "start": "2024-12-20",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1734624000000&end=1734710400000"
+    },
+    {
+      "end": "2024-12-28",
+      "start": "2024-12-27",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1735228800000&end=1735315200000"
+    },
+    {
+      "end": "2025-01-10",
+      "start": "2025-01-09",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1736352000000&end=1736438400000"
+    },
+    {
+      "end": "2025-01-21",
+      "start": "2025-01-20",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1737302400000&end=1737388800000"
+    },
+    {
+      "end": "2025-01-24",
+      "start": "2025-01-23",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1737561600000&end=1737648000000"
+    },
+    {
+      "end": "2025-02-04",
+      "start": "2025-02-03",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1738512000000&end=1738598400000"
+    },
+    {
+      "end": "2025-02-13",
+      "start": "2025-02-12",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1739289600000&end=1739376000000"
+    },
+    {
+      "end": "2025-03-06",
+      "start": "2025-02-25",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1740412800000&end=1741190400000"
+    },
+    {
+      "end": "2025-03-08",
+      "start": "2025-03-07",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1741276800000&end=1741363200000"
+    },
+    {
+      "end": "2025-03-10",
+      "start": "2025-03-10",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1741536000000&end=1741536000000"
+    },
+    {
+      "end": "2025-03-13",
+      "start": "2025-03-13",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1741795200000&end=1741795200000"
+    },
+    {
+      "end": "2025-03-17",
+      "start": "2025-03-17",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1742140800000&end=1742140800000"
+    },
+    {
+      "end": "2025-04-03",
+      "start": "2025-04-03",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1743609600000&end=1743609600000"
+    },
+    {
+      "end": "2025-04-08",
+      "start": "2025-04-08",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1744041600000&end=1744041600000"
+    },
+    {
+      "end": "2025-04-10",
+      "start": "2025-04-10",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1744214400000&end=1744214400000"
+    },
+    {
+      "end": "2025-04-23",
+      "start": "2025-04-23",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1745337600000&end=1745337600000"
+    },
+    {
+      "end": "2025-07-11",
+      "start": "2025-07-11",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1752163200000&end=1752163200000"
+    },
+    {
+      "end": "2025-08-15",
+      "start": "2025-08-15",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1755187200000&end=1755187200000"
+    },
+    {
+      "end": "2025-08-23",
+      "start": "2025-08-23",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1755878400000&end=1755878400000"
+    },
+    {
+      "end": "2025-08-25",
+      "start": "2025-08-25",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1756051200000&end=1756051200000"
+    },
+    {
+      "end": "2025-09-23",
+      "start": "2025-09-23",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1758556800000&end=1758556800000"
+    },
+    {
+      "end": "2025-10-17",
+      "start": "2025-10-17",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1760630400000&end=1760630400000"
+    },
+    {
+      "end": "2025-10-20",
+      "start": "2025-10-20",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1760889600000&end=1760889600000"
+    },
+    {
+      "end": "2025-10-22",
+      "start": "2025-10-22",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1761062400000&end=1761062400000"
+    },
+    {
+      "end": "2025-10-30",
+      "start": "2025-10-30",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1761753600000&end=1761753600000"
+    },
+    {
+      "end": "2025-11-22",
+      "start": "2025-11-22",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1763740800000&end=1763740800000"
+    },
+    {
+      "end": "2025-12-18",
+      "start": "2025-12-18",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1765987200000&end=1765987200000"
+    },
+    {
+      "end": "2026-01-14",
+      "start": "2026-01-14",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1768320000000&end=1768320000000"
+    },
+    {
+      "end": "2026-01-22",
+      "start": "2026-01-22",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1769011200000&end=1769011200000"
+    },
+    {
+      "end": "2026-02-06",
+      "start": "2026-02-03",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1770048000000&end=1770307200000"
+    },
+    {
+      "end": "2026-02-17",
+      "start": "2026-02-17",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1771257600000&end=1771257600000"
+    },
+    {
+      "end": "2026-02-21",
+      "start": "2026-02-21",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1771603200000&end=1771603200000"
+    },
+    {
+      "end": "2026-02-26",
+      "start": "2026-02-26",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1772035200000&end=1772035200000"
+    },
+    {
+      "end": "2026-03-02",
+      "start": "2026-03-02",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1772380800000&end=1772380800000"
+    },
+    {
+      "end": "2026-03-09",
+      "start": "2026-03-09",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1772985600000&end=1772985600000"
+    },
+    {
+      "end": "2026-03-27",
+      "start": "2026-03-27",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1774540800000&end=1774540800000"
+    },
+    {
+      "end": "2026-03-31",
+      "start": "2026-03-31",
+      "url": "https://www.okx.com/api/v5/public/market-data-history?module=1&instType=SWAP&instFamilyList=BTC-USDT&dateAggrType=daily&begin=1774886400000&end=1774886400000"
+    }
+  ],
+  "query_count": 41,
+  "required_dates": 67,
+  "retrieved_at_utc": "2026-10-01T12:51:54.407593+00:00",
+  "returned_dates": 67,
+  "schema_version": 1,
+  "source_values_opened": false,
+  "status": "PASS"
+}
