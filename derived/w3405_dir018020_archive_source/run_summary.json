@@ -22,7 +22,7 @@
   "task_id": "worker4638-w3405-dir018020-lab-actions-collection-20261003",
   "upstream_trading_collector_blob": "8350104ea0763003a5ff0d1935ec44d7996a2325",
   "worker": "WORKER4638",
-  "workflow_head_sha": "f959607fee4ae48ec6e056c8f6e64131316c018c",
+  "workflow_head_sha": "1a23c5faa7fb3a9377a14bc1d9b0b0f9a2d0489e",
   "workflow_run_attempt": 1,
-  "workflow_run_id": 36798354180
+  "workflow_run_id": 36865464876
 }
