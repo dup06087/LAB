@@ -7,8 +7,8 @@ import pandas as pd
 ART=Path("source.zip")
 CLOCKS=Path("data/worker9245_dir049_frozen_clocks.csv")
 OUT=Path("out")
-EXPECTED_ART="c06243211f7074b8ed47b63a98bb86ed3e9ebe0502ce25e6e6100971cc064dc8"
-EXPECTED_GZ="744768692dcda67fe1b3b4948da29a1be222af8972955831460724e31521685c"
+EXPECTED_ART="1f948b39b1d4fc58fea5e8562543b91f995b323d6f5f1b826ec6e87d17a58aaa"
+EXPECTED_GZ="593df1c696b9403432a5ecebc3943a931f63686fa4e390d50f9ff1bef38f84a4"
 SLOT_SHA="63d9a39c70708d71f66e1098b9fb0bb29c26c08e1f5c72c5466fee3a6a801162"
 UNIQUE_SHA="fedfd5816fdf3a505e7e1a582888586bb59feae1dd08fc882a39cfca4a66548c"
 
@@ -133,11 +133,11 @@ manifest={
     "source_month_start":"2024-09",
     "source_month_end":"2026-04",
     "source_workflow_repo":"dup06087/LAB",
-    "source_workflow_run_id":36642579740,
-    "source_artifact_id":11066524094,
+    "source_workflow_run_id":36851531940,
+    "source_artifact_id":11156111731,
     "source_artifact_zip_sha256":EXPECTED_ART,
-    "source_gzip_sha256":EXPECTED_GZ,
-    "source_workflow_blob":"3f0f88267bcb152e039aefd53eede4202f07c9ef",
+    "source_gzip_sha256":EXPECTED_GZ,\n    "source_decompressed_csv_sha256":"d25f511abca4da0e01004d9d09b3b569f56e2968e809b029cbd859661ffb937f",
+    "source_workflow_blob":"2177b073861b955bc036d3fdc1e7472c5e877c32",
     "provider_output_volume_semantics":"RAW10 vol -> output volume; derivatives contract count",
     "events":535,
     "window_minutes":120,
