@@ -121,7 +121,7 @@ jobs:
                               raise RuntimeError(f"url fragment drift {day} got={item_url!r}")
                           provider_url_version=None
                           if got.query:
-                              qmatch=re.fullmatch(r"v=(\\d+)",got.query)
+                              qmatch=re.fullmatch(r"v=(\d+)",got.query)
                               if qmatch is None:
                                   raise RuntimeError(f"url query drift {day} got={item_url!r}")
                               provider_url_version=qmatch.group(1)
