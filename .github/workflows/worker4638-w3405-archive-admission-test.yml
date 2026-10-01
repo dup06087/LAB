@@ -1,0 +1,34 @@
+name: WORKER4638 W3405 archive admission regression
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker4638-w3405-archive-admission-test.yml"
+      - "vendor/trading/scripts/audit_w3405_dir018_020_binance_archive_source.py"
+      - "vendor/trading/tests/test_audit_w3405_dir018_020_binance_archive_source.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: python -m pip install --disable-pip-version-check pandas pytest
+      - name: Verify mirrored blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:vendor/trading/scripts/audit_w3405_dir018_020_binance_archive_source.py)" = "f2f7d36124a299bd85ade5ff718b6d839246d451"
+          test "$(git rev-parse HEAD:vendor/trading/tests/test_audit_w3405_dir018_020_binance_archive_source.py)" = "a2008ab0515bc1da9c820cca2eade5ae58bcaa3b"
+      - name: Run focused regression
+        working-directory: vendor/trading
+        run: PYTHONDONTWRITEBYTECODE=1 python -m pytest tests/test_audit_w3405_dir018_020_binance_archive_source.py -q -p no:cacheprovider
