@@ -1,0 +1,208 @@
+name: WORKER2392 P0-B dated public archive inventory
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker2392-p0b-dated-public-archive-inventory.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Inventory official OKX FUTURES module2 metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import calendar, hashlib, json, time, urllib.parse, urllib.request
+          from datetime import datetime, timezone, timedelta
+          from pathlib import Path
+
+          API="https://www.okx.com/api/v5/public/market-data-history"
+          FAMILIES=("BTC-USD","ETH-USD")
+          START=(2024,9)
+          END=(2026,4)
+          UA="worker2392-p0b-dated-public-archive-inventory/1.0"
+
+          def month_labels(start,end):
+              y,m=start; ey,em=end; out=[]
+              while (y,m) <= (ey,em):
+                  out.append(f"{y:04d}-{m:02d}")
+                  m += 1
+                  if m==13: y,m=y+1,1
+              return out
+
+          LABELS=month_labels(START,END)
+          assert len(LABELS)==20
+
+          def utc8_month_start_ms(label):
+              y,m=map(int,label.split("-"))
+              dt=datetime(y,m,1,tzinfo=timezone.utc)-timedelta(hours=8)
+              return int(dt.timestamp()*1000)
+
+          def utc8_month_end_ms(label):
+              y,m=map(int,label.split("-"))
+              last=calendar.monthrange(y,m)[1]
+              dt=datetime(y,m,last,tzinfo=timezone.utc)-timedelta(hours=8)
+              return int(dt.timestamp()*1000)
+
+          def get_json(url,timeout=60):
+              last=None
+              for attempt in range(1,6):
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":UA})
+                      with urllib.request.urlopen(req,timeout=timeout) as r:
+                          raw=r.read()
+                      return json.loads(raw.decode("utf-8"))
+                  except Exception as exc:
+                      last=repr(exc)
+                      if attempt==5: raise
+                      time.sleep(0.7*attempt)
+              raise RuntimeError(last)
+
+          queries=[]
+          rows=[]
+          for family in FAMILIES:
+              for start in range(0,len(LABELS),10):
+                  chunk=LABELS[start:start+10]
+                  params={
+                      "module":"2",
+                      "instType":"FUTURES",
+                      "instFamilyList":family,
+                      "dateAggrType":"monthly",
+                      "begin":str(utc8_month_start_ms(chunk[0])),
+                      "end":str(utc8_month_end_ms(chunk[-1])),
+                  }
+                  url=API+"?"+urllib.parse.urlencode(params)
+                  payload=get_json(url)
+                  if payload.get("code")!="0":
+                      raise RuntimeError(f"OKX code drift {family} {chunk[0]}..{chunk[-1]}: {payload}")
+                  qrow={
+                      "family":family,
+                      "requested_month_start":chunk[0],
+                      "requested_month_end":chunk[-1],
+                      "query_url":url,
+                      "code":payload.get("code"),
+                      "msg":payload.get("msg"),
+                      "response_groups":len(payload.get("data") or []),
+                  }
+                  q_count=0
+                  for group in payload.get("data") or []:
+                      if group.get("dateAggrType")!="monthly":
+                          raise RuntimeError(f"aggregation drift: {group.get('dateAggrType')}")
+                      for detail in group.get("details") or []:
+                          inst_family=str(detail.get("instFamily") or "")
+                          inst_id=str(detail.get("instId") or "")
+                          inst_type=str(detail.get("instType") or "")
+                          if inst_type and inst_type!="FUTURES":
+                              raise RuntimeError(f"instType drift {inst_type}")
+                          if inst_family and inst_family!=family:
+                              raise RuntimeError(f"family drift {family}->{inst_family}")
+                          for item in detail.get("groupDetails") or []:
+                              fn=str(item.get("filename") or "")
+                              u=str(item.get("url") or "")
+                              pu=urllib.parse.urlparse(u)
+                              if pu.scheme!="https" or pu.hostname!="static.okx.com":
+                                  raise RuntimeError(f"archive URL host drift: {u}")
+                              rec={
+                                  "query_family":family,
+                                  "instFamily":inst_family,
+                                  "instId":inst_id,
+                                  "instType":inst_type or "FUTURES",
+                                  "dateRangeStart":str(detail.get("dateRangeStart") or ""),
+                                  "dateRangeEnd":str(detail.get("dateRangeEnd") or ""),
+                                  "groupSizeMB":str(detail.get("groupSizeMB") or ""),
+                                  "dataTs":str(item.get("dataTs") or item.get("dateTs") or ""),
+                                  "filename":fn,
+                                  "sizeMB":str(item.get("sizeMB") or ""),
+                                  "url":u,
+                              }
+                              rows.append(rec)
+                              q_count += 1
+                  qrow["archive_records"]=q_count
+                  queries.append(qrow)
+                  time.sleep(0.5)
+
+          # exact metadata duplicate/conflict audit; no semantic inference from instrument suffix.
+          by_key={}
+          conflicts=[]
+          for row in rows:
+              key=(row["query_family"],row["instId"],row["filename"])
+              prev=by_key.get(key)
+              if prev is None:
+                  by_key[key]=row
+              elif prev!=row:
+                  conflicts.append({"key":list(key),"a":prev,"b":row})
+          unique=list(by_key.values())
+          unique.sort(key=lambda r:(r["query_family"],r["instId"],r["dataTs"],r["filename"]))
+
+          # Coverage month is archive-period metadata only. It is NOT contract expiry/listing inference.
+          month_hits={f:{m:0 for m in LABELS} for f in FAMILIES}
+          for row in unique:
+              ts=row["dataTs"]
+              if ts.isdigit():
+                  dt=datetime.fromtimestamp(int(ts)/1000,tz=timezone.utc)+timedelta(hours=8)
+                  lab=f"{dt.year:04d}-{dt.month:02d}"
+                  if lab in month_hits[row["query_family"]]:
+                      month_hits[row["query_family"]][lab]+=1
+
+          inventory={
+              "schema_version":1,
+              "status":"PASS",
+              "task_id":"worker2392-p0b-dated-public-archive-inventory-20261001",
+              "worker":"WORKER2392",
+              "provider":"OKX",
+              "endpoint":"/api/v5/public/market-data-history",
+              "module":"2",
+              "instType":"FUTURES",
+              "dateAggrType":"monthly",
+              "families":list(FAMILIES),
+              "inventory_months":LABELS,
+              "frozen_event_range_utc":["2024-10-01T01:13:02Z","2026-03-31T17:23:42Z"],
+              "queries":queries,
+              "archive_records":unique,
+              "archive_record_count":len(unique),
+              "distinct_inst_ids":{f:sorted({r["instId"] for r in unique if r["query_family"]==f and r["instId"]}) for f in FAMILIES},
+              "month_record_counts":month_hits,
+              "missing_months_with_zero_archive_records":{f:[m for m,n in month_hits[f].items() if n==0] for f in FAMILIES},
+              "conflicts":conflicts,
+              "conflict_count":len(conflicts),
+              "archive_payload_downloaded":False,
+              "market_values_opened":False,
+              "listtime_inferred":False,
+              "expiry_inferred_from_symbol":False,
+              "contract_calendar_complete_claimed":False,
+              "feature_engineering_performed":False,
+              "future_outcomes_opened":False,
+              "event_reselection_performed":False,
+              "remaining_exact_metadata_gap":"Current OKX instruments endpoint exposes open contracts only; expired FUTURES historical listTime/expTime still require an independently hash-bound historical metadata source. Archive instId/filenames are not used to infer lifecycle.",
+              "generated_at_utc":datetime.now(timezone.utc).isoformat(),
+          }
+          raw=(json.dumps(inventory,indent=2,sort_keys=True,ensure_ascii=False)+"\n").encode("utf-8")
+          Path("out/inventory.json").write_bytes(raw)
+          print(json.dumps({
+              "status":"PASS",
+              "archive_record_count":len(unique),
+              "btc_inst_ids":len(inventory["distinct_inst_ids"]["BTC-USD"]),
+              "eth_inst_ids":len(inventory["distinct_inst_ids"]["ETH-USD"]),
+              "btc_missing_months":inventory["missing_months_with_zero_archive_records"]["BTC-USD"],
+              "eth_missing_months":inventory["missing_months_with_zero_archive_records"]["ETH-USD"],
+              "conflict_count":len(conflicts),
+              "inventory_sha256":hashlib.sha256(raw).hexdigest(),
+          },sort_keys=True))
+          PY
+
+      - name: Upload metadata inventory only
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker2392-p0b-dated-public-archive-inventory
+          path: out/inventory.json
+          retention-days: 2
+          if-no-files-found: error
