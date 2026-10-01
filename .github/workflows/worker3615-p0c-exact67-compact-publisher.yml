@@ -1,0 +1,181 @@
+name: WORKER3615 P0-C exact67 compact publisher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker3615-p0c-exact67-compact-publisher.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download exact successful compact inventory artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/p0c_inv
+          mkdir -p /tmp/p0c_inv
+          gh run download 36864596415 \
+            --repo dup06087/LAB \
+            --name p0c-public-trades-exact67-inventory \
+            --dir /tmp/p0c_inv
+
+      - name: Verify and stage compact provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, time
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          src = Path("/tmp/p0c_inv")
+          official = src / "official_inventory.json"
+          collection = src / "collection_inventory.json"
+          if not official.is_file() or not collection.is_file():
+              raise SystemExit("missing compact inventory files")
+
+          def sha(path: Path) -> str:
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          expected_official_sha = "e7201b55b1e6de66c7306cc21cd280b28128fd88789a9b0fad95e09c185965cb"
+          expected_collection_sha = "33b7a671d0db09bf4f965d2ea77742e632c68de7e28c9d99166e99b500d70119"
+          if sha(official) != expected_official_sha:
+              raise SystemExit("official inventory SHA drift")
+          if sha(collection) != expected_collection_sha:
+              raise SystemExit("collection inventory SHA drift")
+
+          o = json.loads(official.read_text(encoding="utf-8"))
+          c = json.loads(collection.read_text(encoding="utf-8"))
+          if not (
+              o.get("status") == "PASS"
+              and o.get("required_dates") == 67
+              and o.get("returned_dates") == 67
+              and o.get("missing_dates") == 0
+              and o.get("query_count") == 41
+              and len(o.get("entries", [])) == 67
+          ):
+              raise SystemExit("official inventory semantic gate failed")
+          versions = {str(x.get("provider_url_version")) for x in o["entries"]}
+          if versions != {"999"}:
+              raise SystemExit(f"provider version token drift: {versions!r}")
+          if not (
+              c.get("status") == "P0C_PUBLIC_TRADE_COLLECTION_COMPLETE"
+              and c.get("requested_container_count") == 67
+              and c.get("available_container_count") == 67
+              and c.get("fail") == 0
+              and len(c.get("containers", [])) == 67
+              and len({x["day"] for x in c["containers"]}) == 67
+              and all(int(x["bytes"]) > 0 and len(str(x["sha256"])) == 64 for x in c["containers"])
+          ):
+              raise SystemExit("collection inventory semantic gate failed")
+          if c.get("official_inventory_sha256") != expected_official_sha:
+              raise SystemExit("collection->official SHA binding drift")
+
+          artifacts = [
+              {"name":"p0c-public-trades-exact67-inventory","id":11162999879,"size_in_bytes":7703,"digest":"sha256:7c0b8b8b54d21c14c932dfa6459f06dcdb976e0ccf0263c200863a02694ac675"},
+              {"name":"p0c-public-trades-exact67-chunk-00","id":11163380253,"size_in_bytes":199811665,"digest":"sha256:a75e453730b895aeb7d268e8db5d1ebbc5d4b6bc7f9d13b887539ea749c3d1f1"},
+              {"name":"p0c-public-trades-exact67-chunk-01","id":11163435139,"size_in_bytes":198710654,"digest":"sha256:ea3d66d215c50d13b8feeaf4d903d949293ce3ea42e3ea36c4afd9de2fd81bd7"},
+              {"name":"p0c-public-trades-exact67-chunk-02","id":11163450159,"size_in_bytes":232771978,"digest":"sha256:c1db21bbb9284417b87cba026780d81cbe57549a9a70fdab40321c71512c4007"},
+              {"name":"p0c-public-trades-exact67-chunk-03","id":11163340379,"size_in_bytes":272906238,"digest":"sha256:d2b677376af365ab553f02761c6cf9e2be487fdec6646e16f36fab575414f6d0"},
+              {"name":"p0c-public-trades-exact67-chunk-04","id":11163119716,"size_in_bytes":200174067,"digest":"sha256:f4645050905912fdfdce1dd99184e718a2d788b5cc9796ccc3ed007c8057d9ed"},
+              {"name":"p0c-public-trades-exact67-chunk-05","id":11162764420,"size_in_bytes":407082836,"digest":"sha256:136f26d1c057f513d1f9e16ea40b2d7c901f4dd0b4bbce6a7927134cea5b737c"},
+              {"name":"p0c-public-trades-exact67-chunk-06","id":11162829418,"size_in_bytes":204178334,"digest":"sha256:2c89f82546fb8efb344e8f44517628e277ac272dfdcc08b584609018967d7f3e"},
+          ]
+
+          nonce = time.time_ns()
+          dest = Path("published/p0c/run36864596415")
+          (dest / "receipt_runs").mkdir(parents=True, exist_ok=True)
+          (dest / "official_inventory.json").write_bytes(official.read_bytes())
+          (dest / "collection_inventory.json").write_bytes(collection.read_bytes())
+
+          receipt = {
+              "schema_version": 1,
+              "status": "PASS",
+              "task_id": "worker4529-p0c-public-trade-network-collection-codex-20260929",
+              "adopted_by": "WORKER3615",
+              "verified_at_utc": datetime.now(timezone.utc).isoformat(),
+              "attempt_nonce_ns": nonce,
+              "residual_plan_blob": "d86ac5f89d0e8e32643a622e4eb4c9bebd1c1f2d",
+              "downloader_blob": "dca2dd09abffcb0aa6eabc3ea6ed54ea426474e7",
+              "official_inventory_helper_blob": "e60f329a46ab6f93f1745e5201d847faa96831ba",
+              "official_inventory_test_blob": "4d31d2bda2ebb9692c9b48019474d940fb04853e",
+              "official_inventory_sha256": expected_official_sha,
+              "official_inventory_required_dates": 67,
+              "official_inventory_returned_dates": 67,
+              "official_inventory_missing_dates": 0,
+              "official_inventory_query_count": 41,
+              "collection_inventory_sha256": expected_collection_sha,
+              "requested": 67,
+              "available": 67,
+              "fail": 0,
+              "container_count": 67,
+              "container_total_bytes": sum(int(x["bytes"]) for x in c["containers"]),
+              "lab_repository": "dup06087/LAB",
+              "lab_workflow": ".github/workflows/worker2392-p0c-public-trade-exact67-transport.yml",
+              "lab_workflow_blob": "c742a76756232f251ee0a608d9684a53641e9266",
+              "lab_run_id": 36864596415,
+              "lab_job_id": 110376845067,
+              "lab_head_sha": "d7757792dd72fad00a8d09da9739b20a905b069f",
+              "lab_run_conclusion": "success",
+              "actions_artifacts": artifacts,
+              "raw_zip_publication": False,
+              "raw_zip_transport": "TRANSIENT_GITHUB_ACTIONS_ARTIFACTS_ONLY",
+              "raw_artifact_retention_days": 1,
+              "credentials_used": False,
+              "private_api_used": False,
+              "future_outcomes_opened": False,
+              "feature_engineering_performed": False,
+              "event_reselection_performed": False,
+              "research_semantics_changed": False,
+          }
+          receipt_bytes = (json.dumps(receipt, indent=2, sort_keys=True) + "\n").encode()
+          (dest / "receipt.json").write_bytes(receipt_bytes)
+          (dest / "receipt_runs" / f"{nonce}.json").write_bytes(receipt_bytes)
+
+          publish_manifest = {
+              "schema_version": 1,
+              "status": "PASS",
+              "source_run_id": 36864596415,
+              "source_inventory_artifact_id": 11162999879,
+              "official_inventory_sha256": expected_official_sha,
+              "collection_inventory_sha256": expected_collection_sha,
+              "receipt_sha256": hashlib.sha256(receipt_bytes).hexdigest(),
+              "attempt_nonce_ns": nonce,
+              "receipt_run_path": f"published/p0c/run36864596415/receipt_runs/{nonce}.json",
+              "source_values_opened": False,
+              "feature_values_opened": False,
+              "outcomes_opened": False,
+              "event_reselection": False,
+          }
+          (dest / "publish_manifest.json").write_text(
+              json.dumps(publish_manifest, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(publish_manifest, sort_keys=True))
+          PY
+
+      - name: Commit compact provenance to LAB main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "WORKER3615"
+          git config user.email "83522094+dup06087@users.noreply.github.com"
+          git pull --ff-only origin main
+          git add published/p0c/run36864596415
+          git diff --cached --quiet && { echo "nothing to publish"; exit 0; }
+          git commit -m "WORKER3615 publish P0-C exact67 compact provenance"
+          git push origin HEAD:main
