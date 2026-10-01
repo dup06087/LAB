@@ -1,0 +1,140 @@
+name: WORKER2392 P0-B dated archive identity probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker2392-p0b-dated-archive-identity-probe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe provider identity schema only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import csv, hashlib, io, json, time, urllib.request, zipfile
+          from collections import Counter
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          URL="https://static.okx.com/cdn/okex/traderecords/candlesticks/monthly/202410/BTC-USD-futureschain-candlesticks-2024-10.zip?v=999"
+          EXPECTED_FILENAME="BTC-USD-futureschain-candlesticks-2024-10.zip"
+          UA="worker2392-p0b-dated-archive-identity-probe/1.0"
+
+          last=None
+          raw=None
+          for attempt in range(1,6):
+              try:
+                  req=urllib.request.Request(URL,headers={"User-Agent":UA})
+                  with urllib.request.urlopen(req,timeout=120) as r:
+                      raw=r.read()
+                  break
+              except Exception as exc:
+                  last=repr(exc)
+                  if attempt==5: raise
+                  time.sleep(attempt)
+          if not raw or raw[:2] != b"PK":
+              raise RuntimeError("archive missing or ZIP magic mismatch")
+
+          members=[]
+          all_ids=Counter()
+          identity_fields_seen=set()
+          schema_variants=[]
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              names=z.namelist()
+              for name in names:
+                  info=z.getinfo(name)
+                  rec={"name":name,"compressed_bytes":info.compress_size,"uncompressed_bytes":info.file_size,"is_dir":info.is_dir()}
+                  if info.is_dir():
+                      members.append(rec); continue
+                  payload=z.read(name)
+                  # decode schema; no raw payload publication
+                  text=None; encoding=None
+                  for enc in ("utf-8-sig","utf-8","gb18030"):
+                      try:
+                          text=payload.decode(enc); encoding=enc; break
+                      except UnicodeDecodeError:
+                          pass
+                  if text is None:
+                      rec["text_decode"]="FAILED"
+                      members.append(rec); continue
+                  reader=csv.DictReader(io.StringIO(text))
+                  header=list(reader.fieldnames or [])
+                  rec["encoding"]=encoding
+                  rec["header"]=header
+                  candidates=[c for c in header if c.lower() in {
+                      "instrument_name","instid","inst_id","instrument","instrument_id","symbol"
+                  }]
+                  rec["identity_field_candidates"]=candidates
+                  ids=Counter()
+                  row_count=0
+                  for row in reader:
+                      row_count += 1
+                      for c in candidates:
+                          v=str(row.get(c,"") or "").strip()
+                          if v:
+                              ids[v] += 1
+                              all_ids[v] += 1
+                              identity_fields_seen.add(c)
+                  rec["row_count"]=row_count
+                  rec["explicit_identity_counts"]=dict(sorted(ids.items()))
+                  members.append(rec)
+                  schema_variants.append({"header":header,"identity_field_candidates":candidates})
+          
+          result={
+              "schema_version":1,
+              "status":"PASS",
+              "task_id":"worker2392-p0b-dated-archive-identity-probe-20261001",
+              "worker":"WORKER2392",
+              "provider":"OKX",
+              "family":"BTC-USD",
+              "archive_month":"2024-10",
+              "source_filename":EXPECTED_FILENAME,
+              "source_url":URL,
+              "archive_bytes":len(raw),
+              "archive_sha256":hashlib.sha256(raw).hexdigest(),
+              "zip_member_count":len(members),
+              "members":members,
+              "explicit_identity_fields":sorted(identity_fields_seen),
+              "distinct_explicit_instrument_ids":sorted(all_ids),
+              "explicit_instrument_id_row_counts":dict(sorted(all_ids.items())),
+              "explicit_instrument_id_count":len(all_ids),
+              "identity_status":"EXPLICIT_PROVIDER_IDENTITY_PRESENT" if all_ids else "IDENTITY_FIELD_ABSENT",
+              "ohlcv_values_published":False,
+              "ohlcv_values_interpreted":False,
+              "expiry_inferred_from_symbol":False,
+              "listtime_inferred":False,
+              "feature_engineering_performed":False,
+              "future_outcomes_opened":False,
+              "event_reselection_performed":False,
+              "generated_at_utc":datetime.now(timezone.utc).isoformat(),
+          }
+          Path("out/identity_probe.json").write_text(json.dumps(result,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
+          print(json.dumps({
+              "status":"PASS",
+              "archive_bytes":len(raw),
+              "archive_sha256":result["archive_sha256"],
+              "member_count":len(members),
+              "identity_fields":result["explicit_identity_fields"],
+              "explicit_instrument_id_count":len(all_ids),
+              "distinct_explicit_instrument_ids":sorted(all_ids),
+              "row_counts":dict(sorted(all_ids.items())),
+          },sort_keys=True))
+          PY
+
+      - name: Upload identity metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker2392-p0b-dated-archive-identity-probe
+          path: out/identity_probe.json
+          retention-days: 2
+          if-no-files-found: error
