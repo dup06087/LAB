@@ -1,0 +1,191 @@
+name: WORKER2392 P0-B dated full identity manifest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker2392-p0b-dated-full-identity-manifest.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Build 40-archive provider identity manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import csv, hashlib, io, json, time, urllib.request, zipfile
+          from collections import defaultdict, Counter
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          FAMILIES=("BTC-USD","ETH-USD")
+          MONTHS=("2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04")
+          UA="worker2392-p0b-dated-full-identity-manifest/1.0"
+
+          def url_for(family,month):
+              ym=month.replace("-","")
+              fn=f"{family}-futureschain-candlesticks-{month}.zip"
+              return fn, f"https://static.okx.com/cdn/okex/traderecords/candlesticks/monthly/{ym}/{fn}?v=999"
+
+          def get_bytes(url):
+              last=None
+              for attempt in range(1,6):
+                  try:
+                      req=urllib.request.Request(url,headers={"User-Agent":UA})
+                      with urllib.request.urlopen(req,timeout=180) as r:
+                          return r.read()
+                  except Exception as exc:
+                      last=repr(exc)
+                      if attempt==5: raise
+                      time.sleep(0.8*attempt)
+              raise RuntimeError(last)
+
+          archive_records=[]
+          contract_acc=defaultdict(lambda: {
+              "archive_months":set(),"row_count":0,"first_observed_open_time":None,
+              "last_observed_open_time":None,"confirm_counts":Counter(),"archive_sha256":set()
+          })
+          failures=[]
+          for family in FAMILIES:
+              for month in MONTHS:
+                  fn,url=url_for(family,month)
+                  raw=get_bytes(url)
+                  if raw[:2]!=b"PK":
+                      raise RuntimeError(f"ZIP magic mismatch {family} {month}")
+                  zsha=hashlib.sha256(raw).hexdigest()
+                  with zipfile.ZipFile(io.BytesIO(raw)) as z:
+                      files=[n for n in z.namelist() if not z.getinfo(n).is_dir()]
+                      if len(files)!=1:
+                          raise RuntimeError(f"unexpected member count {family} {month}: {files}")
+                      name=files[0]
+                      with z.open(name) as bf:
+                          tf=io.TextIOWrapper(bf,encoding="utf-8-sig",newline="")
+                          reader=csv.DictReader(tf)
+                          header=list(reader.fieldnames or [])
+                          required={"instrument_name","open_time","confirm"}
+                          if not required.issubset(header):
+                              raise RuntimeError(f"required identity metadata missing {family} {month}: {header}")
+                          rows=0
+                          ids=Counter()
+                          min_ts=None; max_ts=None
+                          confirm_counts=Counter()
+                          for row in reader:
+                              rows += 1
+                              inst=str(row.get("instrument_name") or "").strip()
+                              ts=str(row.get("open_time") or "").strip()
+                              conf=str(row.get("confirm") or "").strip()
+                              if not inst:
+                                  raise RuntimeError(f"blank instrument_name {family} {month} row {rows}")
+                              if not inst.startswith(family+"-"):
+                                  raise RuntimeError(f"family drift {family} -> {inst}")
+                              if not ts.isdigit():
+                                  raise RuntimeError(f"non-numeric open_time {family} {month} row {rows}")
+                              its=int(ts)
+                              min_ts=its if min_ts is None or its<min_ts else min_ts
+                              max_ts=its if max_ts is None or its>max_ts else max_ts
+                              ids[inst]+=1
+                              confirm_counts[conf]+=1
+                              a=contract_acc[(family,inst)]
+                              a["archive_months"].add(month)
+                              a["row_count"]+=1
+                              a["first_observed_open_time"]=its if a["first_observed_open_time"] is None or its<a["first_observed_open_time"] else a["first_observed_open_time"]
+                              a["last_observed_open_time"]=its if a["last_observed_open_time"] is None or its>a["last_observed_open_time"] else a["last_observed_open_time"]
+                              a["confirm_counts"][conf]+=1
+                              a["archive_sha256"].add(zsha)
+                  archive_records.append({
+                      "family":family,"archive_month":month,"filename":fn,"url":url,
+                      "archive_bytes":len(raw),"archive_sha256":zsha,"member_name":name,
+                      "header":header,"row_count":rows,
+                      "explicit_instrument_id_count":len(ids),
+                      "explicit_instrument_ids":sorted(ids),
+                      "first_observed_open_time":str(min_ts) if min_ts is not None else None,
+                      "last_observed_open_time":str(max_ts) if max_ts is not None else None,
+                      "confirm_counts":dict(sorted(confirm_counts.items())),
+                  })
+                  print(json.dumps({"family":family,"month":month,"rows":rows,"ids":len(ids),"sha256":zsha},sort_keys=True))
+
+          contracts=[]
+          for (family,inst),a in sorted(contract_acc.items()):
+              contracts.append({
+                  "family":family,
+                  "instrument_name":inst,
+                  "archive_months":sorted(a["archive_months"]),
+                  "archive_count":len(a["archive_months"]),
+                  "row_count":a["row_count"],
+                  "first_observed_open_time":str(a["first_observed_open_time"]),
+                  "last_observed_open_time":str(a["last_observed_open_time"]),
+                  "confirm_counts":dict(sorted(a["confirm_counts"].items())),
+                  "archive_sha256s":sorted(a["archive_sha256"]),
+                  "lifecycle_semantics":"OBSERVED_TRADING_ENVELOPE_ONLY_NOT_LISTTIME_OR_EXPTIME",
+              })
+
+          by_family={}
+          for family in FAMILIES:
+              fam=[x for x in contracts if x["family"]==family]
+              by_family[family]={
+                  "archive_count":sum(1 for x in archive_records if x["family"]==family),
+                  "distinct_contract_count":len(fam),
+                  "contract_ids":[x["instrument_name"] for x in fam],
+                  "total_rows":sum(x["row_count"] for x in fam),
+              }
+
+          out={
+              "schema_version":1,
+              "status":"PASS",
+              "task_id":"worker2392-p0b-dated-full-identity-manifest-20261001",
+              "worker":"WORKER2392",
+              "provider":"OKX",
+              "source_family":"official module=2 FUTURES futureschain archives",
+              "families":list(FAMILIES),
+              "months":list(MONTHS),
+              "archive_count_expected":40,
+              "archive_count_observed":len(archive_records),
+              "archive_records":archive_records,
+              "contracts":contracts,
+              "family_summary":by_family,
+              "distinct_contract_count":len(contracts),
+              "lifecycle_api_limitations":{
+                  "delivery_exercise_history":"official docs: last 3 months only",
+                  "settlement_history":"official docs: last 3 months only",
+                  "historical_listTime_bound":False,
+                  "historical_expTime_bound":False
+              },
+              "observed_trading_envelope_is_lifecycle_timestamp":False,
+              "ohlcv_values_published":False,
+              "ohlcv_values_interpreted":False,
+              "expiry_inferred_from_symbol":False,
+              "listtime_inferred":False,
+              "feature_engineering_performed":False,
+              "future_outcomes_opened":False,
+              "event_reselection_performed":False,
+              "generated_at_utc":datetime.now(timezone.utc).isoformat(),
+          }
+          raw=(json.dumps(out,indent=2,sort_keys=True,ensure_ascii=False)+"\n").encode("utf-8")
+          Path("out/full_identity_manifest.json").write_bytes(raw)
+          print(json.dumps({
+              "status":"PASS",
+              "archive_count":len(archive_records),
+              "distinct_contract_count":len(contracts),
+              "btc_contracts":by_family["BTC-USD"]["distinct_contract_count"],
+              "eth_contracts":by_family["ETH-USD"]["distinct_contract_count"],
+              "btc_rows":by_family["BTC-USD"]["total_rows"],
+              "eth_rows":by_family["ETH-USD"]["total_rows"],
+              "manifest_sha256":hashlib.sha256(raw).hexdigest(),
+          },sort_keys=True))
+          PY
+
+      - name: Upload identity metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker2392-p0b-dated-full-identity-manifest
+          path: out/full_identity_manifest.json
+          retention-days: 2
+          if-no-files-found: error
