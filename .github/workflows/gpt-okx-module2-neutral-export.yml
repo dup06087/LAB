@@ -1,4 +1,5 @@
 name: GPT OKX module2 neutral export
+# WORKER9245 refresh 2026-10-03 logical for DIR049 candidate reuse
 
 on:
   push:
