@@ -1,0 +1,103 @@
+name: WORKER5318 DIR049 full-era module2 inventory probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker5318-dir049-fullera-inventory-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe official OKX monthly candle archive inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, re, urllib.parse, urllib.request
+          from datetime import datetime, timezone, timedelta
+
+          API="https://www.okx.com/api/v5/public/market-data-history"
+          FAMILY="BTC-USDT"
+          INST="BTC-USDT-SWAP"
+          START="2019-12"
+          END="2026-09"
+          UA="worker5318-dir049-fullera-inventory/1.0"
+
+          def months(start,end):
+              sy,sm=map(int,start.split("-")); ey,em=map(int,end.split("-"))
+              out=[]; y,m=sy,sm
+              while (y,m) <= (ey,em):
+                  out.append(f"{y:04d}-{m:02d}")
+                  m += 1
+                  if m==13: y,m=y+1,1
+              return out
+
+          def month_start_utc8_ms(label):
+              y,m=map(int,label.split("-"))
+              return int((datetime(y,m,1,tzinfo=timezone.utc)-timedelta(hours=8)).timestamp()*1000)
+
+          def next_month_start_utc8_ms(label):
+              y,m=map(int,label.split("-"))
+              if m==12: y,m=y+1,1
+              else: m += 1
+              return int((datetime(y,m,1,tzinfo=timezone.utc)-timedelta(hours=8)).timestamp()*1000)
+
+          labels=months(START,END)
+          found={}
+          calls=[]
+          for i in range(0,len(labels),10):
+              chunk=labels[i:i+10]
+              begin=month_start_utc8_ms(chunk[0])
+              end=next_month_start_utc8_ms(chunk[-1])-86400000
+              q=urllib.parse.urlencode({
+                  "module":"2","instType":"SWAP","instFamilyList":FAMILY,
+                  "dateAggrType":"monthly","begin":str(begin),"end":str(end)
+              })
+              req=urllib.request.Request(API+"?"+q,headers={"User-Agent":UA})
+              with urllib.request.urlopen(req,timeout=60) as resp:
+                  payload=json.loads(resp.read().decode("utf-8"))
+              if payload.get("code")!="0":
+                  raise SystemExit(json.dumps({"status":"FAIL","payload":payload},sort_keys=True))
+              calls.append({"chunk_start":chunk[0],"chunk_end":chunk[-1],"groups":len(payload.get("data",[]))})
+              for group in payload.get("data",[]):
+                  for detail in group.get("details",[]):
+                      if detail.get("instType")!="SWAP" or detail.get("instFamily")!=FAMILY:
+                          continue
+                      for item in detail.get("groupDetails",[]):
+                          fn=str(item.get("filename",""))
+                          m=re.fullmatch(re.escape(INST)+r"-candlesticks-(\d{4}-\d{2})\.zip",fn)
+                          if not m:
+                              continue
+                          label=m.group(1)
+                          if label in labels:
+                              found[label]={
+                                  "filename":fn,
+                                  "url":str(item.get("url","")),
+                                  "sizeMB":str(item.get("sizeMB",""))
+                              }
+          missing=[x for x in labels if x not in found]
+          result={
+              "status":"PASS" if not missing else "INCOMPLETE",
+              "provider":"OKX","module":2,"instType":"SWAP","instFamily":FAMILY,
+              "instrument":INST,"aggregation":"monthly",
+              "requested_month_start":START,"requested_month_end":END,
+              "requested_month_count":len(labels),
+              "found_month_count":len(found),
+              "missing_month_count":len(missing),
+              "missing_months":missing,
+              "first_found":min(found) if found else None,
+              "last_found":max(found) if found else None,
+              "first_filename":found[min(found)]["filename"] if found else None,
+              "last_filename":found[max(found)]["filename"] if found else None,
+              "calls":calls
+          }
+          print("WORKER5318_DIR049_FULLERA_INVENTORY="+json.dumps(result,sort_keys=True))
+          if missing:
+              raise SystemExit(3)
+          PY
