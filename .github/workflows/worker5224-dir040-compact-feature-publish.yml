@@ -1,0 +1,235 @@
+name: WORKER5224 DIR040 compact feature publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker5224-dir040-compact-feature-publish.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download pinned neutral source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: worker5224-dir040-8peer-module2-2024-10-2026-03
+          path: /tmp/dir040-neutral
+          repository: dup06087/LAB
+          run-id: 37243396723
+          github-token: ${{ github.token }}
+
+      - name: Build compact PIT feature table
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/dir040-compact
+          python - <<'PY'
+          import csv, gzip, hashlib, json, math, statistics
+          from pathlib import Path
+
+          ROOT=Path(".")
+          SRC=Path("/tmp/dir040-neutral/w1018_dir040_8peer_module2_1m_2024-10_2026-03.csv.gz")
+          SRC_MANIFEST=Path("/tmp/dir040-neutral/manifest.json")
+          CLOCK=ROOT/"artifacts/worker5224/w1018_dir040_btc535_clocks.csv"
+          OUT=Path("/tmp/dir040-compact")
+          PEERS=("ETH","SOL","XRP","DOGE","ADA","LTC","BCH","LINK")
+          INST={p:f"{p}-USDT-SWAP" for p in PEERS}
+          EXPECTED_GZIP_SHA="2312f2dcc652d3f53d9466acc600771f4e6432c8297710b287153a11e84ae558"
+          EXPECTED_CLOCK_BLOB="2190ea7ac7d208feb39b26f089b195ae7fe26f76"
+          EXPECTED_SOURCE_ARTIFACT_ZIP_SHA="388b56fdeb1975498b0d3561112a15fc505907c879ef581f969a1199f407bab4"
+
+          def sha_file(p):
+              h=hashlib.sha256()
+              with p.open("rb") as f:
+                  for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+              return h.hexdigest()
+
+          if sha_file(SRC) != EXPECTED_GZIP_SHA:
+              raise SystemExit("neutral gzip sha drift")
+          sm=json.loads(SRC_MANIFEST.read_text())
+          if sm.get("provider")!="OKX" or sm.get("module")!=2 or sm.get("date_aggregation")!="monthly":
+              raise SystemExit("neutral source semantic drift")
+          if sm.get("month_start")!="2024-10" or sm.get("month_end")!="2026-03" or sm.get("month_count")!=18:
+              raise SystemExit("neutral source month drift")
+          assets={x["asset"]:x for x in sm.get("assets",[])}
+          if set(assets)!=set(PEERS):
+              raise SystemExit("peer universe drift")
+          if len(sm.get("archives",[])) != 144:
+              raise SystemExit("archive count drift")
+          if sm.get("research_event_filtering_performed") is not False or sm.get("future_outcomes_opened") is not False:
+              raise SystemExit("neutral source guardrail drift")
+
+          clocks=[]
+          with CLOCK.open(newline="",encoding="utf-8") as f:
+              for r in csv.DictReader(f):
+                  row={k:(r[k] if k=="event_id" else int(r[k])) for k in r}
+                  if row["feature_end_ms"] != (row["decision_ms"]//60000)*60000-60000:
+                      raise SystemExit(f"feature_end clock drift {row['event_id']}")
+                  if row["feature_available_ms"] != row["feature_end_ms"]+60000:
+                      raise SystemExit(f"feature_available drift {row['event_id']}")
+                  if row["feature_available_ms"] > row["decision_ms"]:
+                      raise SystemExit(f"future availability {row['event_id']}")
+                  clocks.append(row)
+          if len(clocks)!=535 or len({x["event_id"] for x in clocks})!=535:
+              raise SystemExit("BTC535 clock identity drift")
+
+          required=set()
+          slot_h=hashlib.sha256()
+          for pos,e in enumerate(clocks):
+              for off in range(60):
+                  ts=e["feature_end_ms"]-(59-off)*60000
+                  required.add(ts)
+                  line=f"{pos}|{e['event_id']}|{e['decision_ms']}|{e['feature_end_ms']}|{e['feature_available_ms']}|{off}|{ts}\n"
+                  slot_h.update(line.encode())
+          uniq_h=hashlib.sha256("".join(f"{x}\n" for x in sorted(required)).encode()).hexdigest()
+
+          selected={p:{} for p in PEERS}
+          diag={p:{"rows":0,"gaps":0,"duplicates":0,"backwards":0,"invalid_ohlcv":0,"first":None,"last":None} for p in PEERS}
+          prev={p:None for p in PEERS}
+          with gzip.open(SRC,"rt",encoding="utf-8",newline="") as f:
+              rd=csv.DictReader(f)
+              exp={"asset","instrument","open_time","open","high","low","close","volume","vol_ccy","vol_ccy_quote"}
+              if set(rd.fieldnames or []) != exp:
+                  raise SystemExit("neutral csv schema drift")
+              for r in rd:
+                  p=r["asset"]
+                  if p not in selected or r["instrument"]!=INST[p]:
+                      raise SystemExit("peer/instrument drift")
+                  ts=int(r["open_time"])
+                  d=diag[p]; d["rows"]+=1
+                  if d["first"] is None: d["first"]=ts
+                  d["last"]=ts
+                  if prev[p] is not None:
+                      delta=ts-prev[p]
+                      if delta==0: d["duplicates"]+=1
+                      elif delta<0: d["backwards"]+=1
+                      elif delta!=60000: d["gaps"]+=1
+                  prev[p]=ts
+                  o,h,l,c,v=map(float,(r["open"],r["high"],r["low"],r["close"],r["volume"]))
+                  if not (all(math.isfinite(x) for x in (o,h,l,c,v)) and min(o,h,l,c)>0 and h>=max(o,c,l) and l<=min(o,c,h) and v>=0):
+                      d["invalid_ohlcv"]+=1
+                  if ts in required:
+                      if ts in selected[p]: raise SystemExit(f"duplicate selected minute {p} {ts}")
+                      selected[p][ts]=(o,c)
+
+          for p in PEERS:
+              d=diag[p]
+              if d["rows"]!=787680 or d["gaps"] or d["duplicates"] or d["backwards"] or d["invalid_ohlcv"]:
+                  raise SystemExit(f"full-span integrity failure {p}: {d}")
+              if len(selected[p]) != len(required):
+                  raise SystemExit(f"required-minute coverage failure {p}: {len(selected[p])}/{len(required)}")
+
+          rows=[]
+          complete_by_peer={p:0 for p in PEERS}
+          selected_hash={}
+          for p in PEERS:
+              hh=hashlib.sha256()
+              for ts in sorted(selected[p]):
+                  o,c=selected[p][ts]
+                  hh.update(f"{ts}|{o!r}|{c!r}\n".encode())
+              selected_hash[p]=hh.hexdigest()
+
+          for pos,e in enumerate(clocks):
+              returns={}
+              complete=True
+              for p in PEERS:
+                  start=e["feature_end_ms"]-59*60000
+                  end=e["feature_end_ms"]
+                  ok=all((start+i*60000) in selected[p] for i in range(60))
+                  if ok:
+                      complete_by_peer[p]+=1
+                      o=selected[p][start][0]; c=selected[p][end][1]
+                      returns[p]=math.log(c/o)
+                  else:
+                      complete=False; returns[p]=math.nan
+              flat=False; med=U=D=asym=math.nan
+              if complete:
+                  vals=[returns[p] for p in PEERS]
+                  med=statistics.median(vals)
+                  x=sorted(v-med for v in vals)
+                  U=sum(x[-2:])/2
+                  D=sum(abs(v) for v in x[:2])/2
+                  denom=U+D
+                  flat=denom < 0.0002
+                  if not flat: asym=(U-D)/denom
+              rows.append({
+                  "event_id":e["event_id"],"event_position":pos,"decision_ms":e["decision_ms"],
+                  "feature_end_ms":e["feature_end_ms"],"feature_available_ms":e["feature_available_ms"],
+                  "all_8peer_source_complete":complete,"cross_section_flat":flat,
+                  "median_return":med,"U":U,"D":D,"peer_tail_shape_asym":asym,
+                  **{f"{p.lower()}_return_60m":returns[p] for p in PEERS},
+              })
+
+          complete8=sum(bool(r["all_8peer_source_complete"]) for r in rows)
+          flat=sum(bool(r["cross_section_flat"]) for r in rows)
+          usable=sum(bool(r["all_8peer_source_complete"]) and not bool(r["cross_section_flat"]) for r in rows)
+          if complete8!=535 or flat!=0 or usable!=535:
+              raise SystemExit(f"unexpected feature coverage complete={complete8} flat={flat} usable={usable}")
+
+          fp=OUT/"feature_table.csv"
+          fields=list(rows[0])
+          with fp.open("w",newline="",encoding="utf-8") as f:
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
+
+          manifest={
+              "schema_version":1,
+              "status":"W1018_DIR040_8PEER_MODULE2_SOURCE_FEATURE_COMPLETE",
+              "task_id":"worker5224-w1018-dir040-8peer-module2-source-feature-build-20261005",
+              "worker":"WORKER5224",
+              "provider":"OKX","source_endpoint":"https://www.okx.com/api/v5/public/market-data-history",
+              "source_module":2,"date_aggregation":"monthly",
+              "source_artifact":{"repository":"dup06087/LAB","workflow_run_id":37243396723,"artifact_id":11318540582,
+                 "artifact_zip_sha256":EXPECTED_SOURCE_ARTIFACT_ZIP_SHA,"neutral_gzip_sha256":EXPECTED_GZIP_SHA,
+                 "neutral_manifest_sha256":sha_file(SRC_MANIFEST),"workflow_head_sha":"579a3d5cdee25df1f206f8583614f68d6dc2ccca"},
+              "clock_transport":{"trading_source_blob":"6bc9ff45b34f66c4e32eff4bfacb1dafa4163d8d",
+                 "lab_clock_blob":EXPECTED_CLOCK_BLOB,"lab_workflow_run_id":37244915699,"lab_artifact_id":11318199122,
+                 "artifact_zip_sha256":"b7030e2eb7d98a03c34c83a2f18fbf0a4c637f705075748ed24ee4f4254430af"},
+              "events":535,"peers":list(PEERS),"window_minutes":60,
+              "clock_slot_rows":32100,"clock_unique_source_minutes":len(required),
+              "clock_slot_sha256":slot_h.hexdigest(),"clock_unique_source_minute_sha256":uniq_h,
+              "complete_events_by_peer":complete_by_peer,"complete_8peer_events":complete8,
+              "feature_missing_events":535-complete8,"feature_flat_events":flat,"feature_usable_nonflat_events":usable,
+              "full_source_diagnostics":diag,"selected_source_sha256":selected_hash,
+              "archive_receipts":sm["archives"],
+              "feature_table_sha256":sha_file(fp),
+              "feature_formula":"r_i=log(close[T-1m]/open[T-60m]); median demean; U=mean(two largest); D=mean(abs(two smallest)); asym=(U-D)/(U+D); U+D<0.0002 => HOLD",
+              "outcome_table_read":False,"future_outcomes_opened":False,"actions_computed":False,
+              "economics_computed":False,"inference_computed":False,"event_reselection":False,
+              "peer_substitution":False,"interpolation":False,"forward_fill":False,"missing_as_zero":False
+          }
+          mp=OUT/"manifest.json"
+          mp.write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({"status":"PASS","complete8":complete8,"flat":flat,"usable":usable,
+                            "feature_sha256":manifest["feature_table_sha256"],"manifest_sha256":sha_file(mp)},sort_keys=True))
+          PY
+
+      - name: Publish compact result to LAB
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "WORKER5224"
+          git config user.email "actions@users.noreply.github.com"
+          TARGET=artifacts/worker5224/w1018_dir040_source_feature
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            rm -rf "$TARGET"
+            mkdir -p "$TARGET"
+            cp /tmp/dir040-compact/feature_table.csv "$TARGET/"
+            cp /tmp/dir040-compact/manifest.json "$TARGET/"
+            git add "$TARGET"
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "WORKER5224 publish DIR040 compact source feature"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt*2))
+          done
+          exit 1
