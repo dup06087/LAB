@@ -1,0 +1,30 @@
+name: WORKER5224 DIR040 BTC535 clock transport
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker5224-dir040-clock-transport.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  transport:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify compact clock
+        run: |
+          set -euo pipefail
+          test "$(wc -l < artifacts/worker5224/w1018_dir040_btc535_clocks.csv)" -eq 536
+          head -n 1 artifacts/worker5224/w1018_dir040_btc535_clocks.csv | grep -Fx 'event_id,decision_ms,feature_end_ms,feature_available_ms'
+      - name: Upload clock
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker5224-dir040-btc535-clocks
+          path: artifacts/worker5224/w1018_dir040_btc535_clocks.csv
+          retention-days: 1
+          if-no-files-found: error
