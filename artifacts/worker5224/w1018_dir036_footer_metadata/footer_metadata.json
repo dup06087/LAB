@@ -13,98 +13,140 @@
         {
           "column": "open",
           "compression": "SNAPPY",
+          "data_page_offset": 575469,
+          "dictionary_page_offset": 4,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "69082.7",
           "min": "3730.5",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 3894533,
+          "total_uncompressed_size": 6066609
         },
         {
           "column": "high",
           "compression": "SNAPPY",
+          "data_page_offset": 4469376,
+          "dictionary_page_offset": 3894537,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "69158.0",
           "min": "3742.5",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 3848955,
+          "total_uncompressed_size": 6044146
         },
         {
           "column": "low",
           "compression": "SNAPPY",
+          "data_page_offset": 8317681,
+          "dictionary_page_offset": 7743492,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "68799.8",
           "min": "3728.8",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 3860544,
+          "total_uncompressed_size": 6051883
         },
         {
           "column": "close",
           "compression": "SNAPPY",
+          "data_page_offset": 12179972,
+          "dictionary_page_offset": 11604036,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "69082.7",
           "min": "3730.4",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 3894198,
+          "total_uncompressed_size": 6067543
         },
         {
           "column": "volume",
           "compression": "SNAPPY",
+          "data_page_offset": 16003354,
+          "dictionary_page_offset": 15498234,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "24736385.0",
           "min": "-0.0",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 2718574,
+          "total_uncompressed_size": 3011148
         },
         {
           "column": "ts",
           "compression": "SNAPPY",
+          "data_page_offset": 19138053,
+          "dictionary_page_offset": 18216808,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "2021-12-13 10:24:00+00:00",
           "min": "2019-12-16 06:09:00+00:00",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 7634103,
+          "total_uncompressed_size": 8663324
         }
       ],
       "num_rows": 1048576,
@@ -117,98 +159,140 @@
         {
           "column": "open",
           "compression": "SNAPPY",
+          "data_page_offset": 26447800,
+          "dictionary_page_offset": 25850911,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "51946.0",
           "min": "15511.7",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4401336,
+          "total_uncompressed_size": 7860015
         },
         {
           "column": "high",
           "compression": "SNAPPY",
+          "data_page_offset": 30851146,
+          "dictionary_page_offset": 30252247,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "52099.4",
           "min": "15542.5",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4327553,
+          "total_uncompressed_size": 7833636
         },
         {
           "column": "low",
           "compression": "SNAPPY",
+          "data_page_offset": 35179241,
+          "dictionary_page_offset": 34579800,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "51924.0",
           "min": "15438.8",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4329177,
+          "total_uncompressed_size": 7834326
         },
         {
           "column": "close",
           "compression": "SNAPPY",
+          "data_page_offset": 39507513,
+          "dictionary_page_offset": 38908977,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "51946.8",
           "min": "15511.1",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4404177,
+          "total_uncompressed_size": 7862855
         },
         {
           "column": "volume",
           "compression": "SNAPPY",
+          "data_page_offset": 43619949,
+          "dictionary_page_offset": 43313154,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "1960446.0",
           "min": "-0.0",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 2366050,
+          "total_uncompressed_size": 2569421
         },
         {
           "column": "ts",
           "compression": "SNAPPY",
+          "data_page_offset": 46600422,
+          "dictionary_page_offset": 45679204,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "2023-12-11 14:40:00+00:00",
           "min": "2021-12-13 10:25:00+00:00",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 7634047,
+          "total_uncompressed_size": 8663324
         }
       ],
       "num_rows": 1048576,
@@ -221,98 +305,140 @@
         {
           "column": "open",
           "compression": "SNAPPY",
+          "data_page_offset": 53905965,
+          "dictionary_page_offset": 53313251,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "126075.3",
           "min": "38560.1",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4618541,
+          "total_uncompressed_size": 7979271
         },
         {
           "column": "high",
           "compression": "SNAPPY",
+          "data_page_offset": 58523677,
+          "dictionary_page_offset": 57931792,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "126173.6",
           "min": "38579.7",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4484113,
+          "total_uncompressed_size": 7819307
         },
         {
           "column": "low",
           "compression": "SNAPPY",
+          "data_page_offset": 63008045,
+          "dictionary_page_offset": 62415905,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "126026.0",
           "min": "38550.6",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4498875,
+          "total_uncompressed_size": 7848697
         },
         {
           "column": "close",
           "compression": "SNAPPY",
+          "data_page_offset": 67506391,
+          "dictionary_page_offset": 66914780,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "126075.3",
           "min": "38560.1",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4618992,
+          "total_uncompressed_size": 7983717
         },
         {
           "column": "volume",
           "compression": "SNAPPY",
+          "data_page_offset": 72193828,
+          "dictionary_page_offset": 71533772,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "1263477.8",
           "min": "4.42",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 4918853,
+          "total_uncompressed_size": 7076519
         },
         {
           "column": "ts",
           "compression": "SNAPPY",
+          "data_page_offset": 77373860,
+          "dictionary_page_offset": 76452625,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "2025-12-08 18:56:00+00:00",
           "min": "2023-12-11 14:41:00+00:00",
           "null_count": 0,
-          "num_values": 1048576
+          "num_values": 1048576,
+          "total_compressed_size": 7634080,
+          "total_uncompressed_size": 8663324
         }
       ],
       "num_rows": 1048576,
@@ -325,98 +451,140 @@
         {
           "column": "open",
           "compression": "SNAPPY",
+          "data_page_offset": 84672953,
+          "dictionary_page_offset": 84086705,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "97778.6",
           "min": "57850.0",
           "null_count": 0,
-          "num_values": 392896
+          "num_values": 392896,
+          "total_compressed_size": 1785875,
+          "total_uncompressed_size": 2887667
         },
         {
           "column": "high",
           "compression": "SNAPPY",
+          "data_page_offset": 86458745,
+          "dictionary_page_offset": 85872580,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "97900.0",
           "min": "58084.4",
           "null_count": 0,
-          "num_values": 392896
+          "num_values": 392896,
+          "total_compressed_size": 1721598,
+          "total_uncompressed_size": 2766465
         },
         {
           "column": "low",
           "compression": "SNAPPY",
+          "data_page_offset": 88181034,
+          "dictionary_page_offset": 87594178,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "97650.0",
           "min": "57750.0",
           "null_count": 0,
-          "num_values": 392896
+          "num_values": 392896,
+          "total_compressed_size": 1723641,
+          "total_uncompressed_size": 2770702
         },
         {
           "column": "close",
           "compression": "SNAPPY",
+          "data_page_offset": 89903984,
+          "dictionary_page_offset": 89317819,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "97778.5",
           "min": "57849.7",
           "null_count": 0,
-          "num_values": 392896
+          "num_values": 392896,
+          "total_compressed_size": 1786722,
+          "total_uncompressed_size": 2890775
         },
         {
           "column": "volume",
           "compression": "SNAPPY",
+          "data_page_offset": 91825559,
+          "dictionary_page_offset": 91104541,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "828547.43",
           "min": "2.39",
           "null_count": 10608,
-          "num_values": 392896
+          "num_values": 392896,
+          "total_compressed_size": 2324909,
+          "total_uncompressed_size": 3263693
         },
         {
           "column": "ts",
           "compression": "SNAPPY",
+          "data_page_offset": 94350689,
+          "dictionary_page_offset": 93429450,
           "distinct_count": null,
           "encodings": [
             "PLAIN",
             "RLE",
             "RLE_DICTIONARY"
           ],
+          "file_offset": 0,
+          "has_column_index": false,
           "has_min_max": true,
+          "has_offset_index": false,
           "has_statistics": true,
           "max": "2026-09-07 15:12:00+00:00",
           "min": "2025-12-08 18:57:00+00:00",
           "null_count": 0,
-          "num_values": 392896
+          "num_values": 392896,
+          "total_compressed_size": 3029773,
+          "total_uncompressed_size": 3415418
         }
       ],
       "num_rows": 392896,
