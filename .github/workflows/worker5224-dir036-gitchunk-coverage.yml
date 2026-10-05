@@ -1,0 +1,232 @@
+name: WORKER5224 DIR036 exact Git-chunk coverage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker5224-dir036-gitchunk-coverage.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact trading snapshot
+        uses: actions/checkout@v4
+        with:
+          repository: dup06087/trading
+          ref: b091342287adbfbfa6e12dd47279bac3b5d5fb78
+          path: trading
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            artifacts/frozen/worker4742_dir047_btc1m_whole_source_chunks_20261004
+            data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet
+            control_plane/tasks/worker5224-w1018-dir036-lab-gitchunk-coverage-recovery-20261005.json
+            control_plane/leases/dataset__direction_validation__w1018_dir036_btc31d_source_coverage.json
+            control_plane/leases/idea:W1018-DIR-036.json
+            control_plane/leases/path__dup06087__LAB__github__workflows__worker5224_dir036_gitchunk_coverage_yml.json
+            control_plane/leases/path__dup06087__trading__data__direction_event_ledger__w1018_dir036_btc31d_source_coverage_worker5224.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install exact coverage runtime
+        run: python -m pip install --disable-pip-version-check numpy pyarrow
+
+      - name: Verify frozen authorization and reconstruct exact source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd trading
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          task_id="worker5224-w1018-dir036-lab-gitchunk-coverage-recovery-20261005"
+          holder="gpt-chat-worker5224-dir036-lab-recovery"
+          task=json.loads(Path("control_plane/tasks/"+task_id+".json").read_text())
+          assert task["status"]=="RUNNING" and task["claimed_by"]==holder,task
+          leases=[
+            "control_plane/leases/dataset__direction_validation__w1018_dir036_btc31d_source_coverage.json",
+            "control_plane/leases/idea:W1018-DIR-036.json",
+            "control_plane/leases/path__dup06087__LAB__github__workflows__worker5224_dir036_gitchunk_coverage_yml.json",
+            "control_plane/leases/path__dup06087__trading__data__direction_event_ledger__w1018_dir036_btc31d_source_coverage_worker5224.json",
+          ]
+          for p in leases:
+              x=json.loads(Path(p).read_text())
+              assert x["state"]=="HELD" and x["task_id"]==task_id and x["holder"]==holder,(p,x)
+          root=Path("artifacts/frozen/worker4742_dir047_btc1m_whole_source_chunks_20261004")
+          manifest_path=root/"manifest.json"
+          b=manifest_path.read_bytes()
+          gitblob=hashlib.sha1(f"blob {len(b)}\0".encode()+b).hexdigest()
+          assert gitblob=="7276d8b4506a41371772ff4db9aca9d0480ef426",gitblob
+          m=json.loads(b)
+          assert m["contract"]=="LOSSLESS_WHOLE_SOURCE_CONTAINER_V1" and m["file_count"]==1
+          rec=m["files"][0]
+          assert rec["source_path"]=="okx_swap_multi/BTC-USDT-SWAP_1m.parquet"
+          assert rec["source_sha256"]=="34fc490ff3df8bdf0d70d102d2acbe6576876353ce7c125ab623ce195ee31abc"
+          assert rec["reconstructed_sha256"]==rec["source_sha256"]
+          assert len(rec["chunks"])==102
+          out=Path("/tmp/worker5224_dir036_BTC-USDT-SWAP_1m.parquet")
+          h=hashlib.sha256(); offset=0
+          with out.open("wb") as w:
+              for idx,ch in enumerate(rec["chunks"]):
+                  assert ch["chunk_index"]==idx and ch["offset_start"]==offset,ch
+                  data=(root/ch["chunk_path"]).read_bytes()
+                  assert len(data)==ch["length_bytes"]
+                  assert hashlib.sha256(data).hexdigest()==ch["chunk_sha256"]
+                  w.write(data); h.update(data); offset+=len(data)
+          assert offset==rec["source_bytes"]
+          assert h.hexdigest()==rec["source_sha256"]
+          print(json.dumps({"status":"RECONSTRUCTED","bytes":offset,"sha256":h.hexdigest()},sort_keys=True))
+          PY
+
+      - name: Build outcome-blind 535-event coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd trading
+          rm -rf /tmp/worker5224_dir036_coverage
+          mkdir -p /tmp/worker5224_dir036_coverage
+          python - <<'PY'
+          import csv,hashlib,json,math
+          from datetime import datetime,timezone
+          from pathlib import Path
+          import numpy as np
+          import pyarrow as pa
+          import pyarrow.compute as pc
+          import pyarrow.parquet as pq
+
+          core=Path("data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet")
+          source=Path("/tmp/worker5224_dir036_BTC-USDT-SWAP_1m.parquet")
+          out=Path("/tmp/worker5224_dir036_coverage")
+          expected_core="13bbd824115d023cdc8c98a3aa596c70d1e037af779d3c314dc76f6ea3bc41ad"
+          expected_source="34fc490ff3df8bdf0d70d102d2acbe6576876353ce7c125ab623ce195ee31abc"
+          nclose=44641; nret=44640; minute_ns=60_000_000_000
+          epoch=datetime(1970,1,1,tzinfo=timezone.utc)
+
+          def sha(p):
+              h=hashlib.sha256()
+              with Path(p).open("rb") as f:
+                  for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+              return h.hexdigest()
+          def dt_ns(dt):
+              if dt.tzinfo is None: dt=dt.replace(tzinfo=timezone.utc)
+              else: dt=dt.astimezone(timezone.utc)
+              d=dt-epoch
+              return ((d.days*86400+d.seconds)*1_000_000+d.microseconds)*1000
+          def iso(ns):
+              sec,rem=divmod(int(ns),1_000_000_000)
+              return datetime.fromtimestamp(sec,tz=timezone.utc).replace(microsecond=rem//1000).isoformat()
+
+          assert sha(core)==expected_core
+          assert sha(source)==expected_source
+
+          ct=pq.read_table(core,columns=["event_id","asset","decision_ts_utc"])
+          eids=ct["event_id"].to_pylist(); assets=[str(x).upper() for x in ct["asset"].to_pylist()]; dts=ct["decision_ts_utc"].to_pylist()
+          ev=sorted([(dts[i],str(eids[i])) for i,a in enumerate(assets) if a=="BTC"],key=lambda x:(x[0],x[1]))
+          assert len(ev)==535 and len({x[1] for x in ev})==535
+
+          pf=pq.ParquetFile(source)
+          md=pf.schema_arrow.metadata or {}
+          pm=json.loads(md[b"pandas"].decode()) if b"pandas" in md else {}
+          idx=[x for x in pm.get("index_columns",[]) if isinstance(x,str)]
+          assert len(idx)==1,idx
+          idx_col=idx[0]
+          st=pq.read_table(source,columns=[idx_col,"close"])
+          t=st[idx_col].combine_chunks()
+          assert pa.types.is_timestamp(t.type),t.type
+          scale={"s":1_000_000_000,"ms":1_000_000,"us":1_000,"ns":1}[t.type.unit]
+          ts=np.asarray(pc.cast(t,pa.int64()).to_numpy(zero_copy_only=False),dtype=np.int64)*np.int64(scale)
+          close=np.asarray(pc.cast(st["close"].combine_chunks(),pa.float64(),safe=False).to_numpy(zero_copy_only=False),dtype=np.float64)
+          assert len(ts)==len(close) and len(ts)>0 and np.all(np.diff(ts)>0)
+
+          rows=[]
+          for pos,(decision,eid) in enumerate(ev):
+              dns=dt_ns(decision)
+              end=(dns//minute_ns)*minute_ns-minute_ns
+              start=end-nret*minute_ns
+              lo=int(np.searchsorted(ts,start,"left")); hi=int(np.searchsorted(ts,end,"right"))
+              seg=ts[lo:hi]; vals=close[lo:hi]
+              observed=len(seg)
+              valid=int(np.sum(np.isfinite(vals)&(vals>0)))
+              exact=bool(observed==nclose and observed>0 and int(seg[0])==start and int(seg[-1])==end and np.all(np.diff(seg)==minute_ns))
+              complete=bool(exact and valid==nclose)
+              reason="" if complete else ("MISSING_MINUTE" if observed<nclose else ("NON_1M_GRID" if not exact else "INVALID_CLOSE"))
+              available=end+minute_ns
+              assert available<=dns
+              rows.append({
+                "event_id":eid,"event_position":pos,
+                "decision_ts_utc":decision.astimezone(timezone.utc).isoformat(),
+                "feature_end_minute_utc":iso(end),"feature_available_ts_utc":iso(available),
+                "source_window_start_utc":iso(start),"source_window_end_utc":iso(end),
+                "expected_closes":nclose,"expected_returns":nret,
+                "observed_closes":observed,"valid_closes":valid,
+                "complete_window":complete,"missing_reason":reason
+              })
+
+          cp=out/"source_availability.csv"
+          with cp.open("w",newline="",encoding="utf-8") as f:
+              w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+          complete=sum(int(r["complete_window"]) for r in rows)
+          reasons={}
+          for r in rows:
+              if r["missing_reason"]: reasons[r["missing_reason"]]=reasons.get(r["missing_reason"],0)+1
+          manifest={
+            "schema_version":1,
+            "status":"W1018_DIR036_BTC31D_SOURCE_COVERAGE_COMPLETE",
+            "task_id":"worker5224-w1018-dir036-lab-gitchunk-coverage-recovery-20261005",
+            "worker":"WORKER5224",
+            "execution_repository":"dup06087/LAB",
+            "trading_ref":"b091342287adbfbfa6e12dd47279bac3b5d5fb78",
+            "source_path_label":"okx_swap_multi/BTC-USDT-SWAP_1m.parquet",
+            "source_sha256":expected_source,
+            "source_container_manifest_path":"artifacts/frozen/worker4742_dir047_btc1m_whole_source_chunks_20261004/manifest.json",
+            "source_container_manifest_git_blob":"7276d8b4506a41371772ff4db9aca9d0480ef426",
+            "source_chunk_count":102,
+            "core_sha256":expected_core,
+            "events":535,"closes_per_event":nclose,"returns_per_event":nret,
+            "complete_events":complete,"incomplete_events":535-complete,
+            "missing_reason_counts":reasons,
+            "min_observed_closes":min(int(r["observed_closes"]) for r in rows),
+            "max_missing_closes":max(nclose-int(r["observed_closes"]) for r in rows),
+            "source_timestamp_physical_column":idx_col,
+            "source_timestamp_unit":t.type.unit,
+            "source_rows":int(len(ts)),
+            "source_global_non60s_delta_count":int(np.sum(np.diff(ts)!=minute_ns)),
+            "availability_sha256":sha(cp),
+            "quantile_method_selected":False,"feature_values_computed":False,
+            "outcome_table_read":False,"future_outcomes_opened":False,"actions_computed":False,
+            "economics_computed":False,"inference_computed":False,"event_reselection":False,
+            "source_substitution":False,"provider_download":False,"market_download":False
+          }
+          (out/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({"complete_events":complete,"incomplete_events":535-complete,"missing_reason_counts":reasons,
+                            "min_observed_closes":manifest["min_observed_closes"],"max_missing_closes":manifest["max_missing_closes"],
+                            "availability_sha256":manifest["availability_sha256"]},sort_keys=True))
+          PY
+
+      - name: Verify strict source-only guardrails
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path("/tmp/worker5224_dir036_coverage/manifest.json").read_text())
+          assert m["events"]==535 and m["closes_per_event"]==44641 and m["returns_per_event"]==44640
+          for k in ("quantile_method_selected","feature_values_computed","outcome_table_read","future_outcomes_opened","actions_computed","economics_computed","inference_computed","event_reselection","source_substitution","provider_download","market_download"):
+              assert m[k] is False,k
+          print(json.dumps({"status":"PASS","complete_events":m["complete_events"],"incomplete_events":m["incomplete_events"]},sort_keys=True))
+          PY
+
+      - name: Upload coverage compact
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker5224-w1018-dir036-btc31d-coverage-recovery
+          path: /tmp/worker5224_dir036_coverage
+          retention-days: 3
+          if-no-files-found: error
