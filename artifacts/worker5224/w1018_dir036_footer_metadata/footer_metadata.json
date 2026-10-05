@@ -1,0 +1,442 @@
+{
+  "created_by": "parquet-cpp-arrow version 25.0.0",
+  "footer_metadata_bytes": 6087,
+  "format_version": "2.6",
+  "future_outcomes_opened": false,
+  "num_columns": 6,
+  "num_row_groups": 4,
+  "num_rows": 3538624,
+  "ohlcv_values_opened": false,
+  "row_groups": [
+    {
+      "columns": [
+        {
+          "column": "open",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "69082.7",
+          "min": "3730.5",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "high",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "69158.0",
+          "min": "3742.5",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "low",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "68799.8",
+          "min": "3728.8",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "close",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "69082.7",
+          "min": "3730.4",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "volume",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "24736385.0",
+          "min": "-0.0",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "ts",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "2021-12-13 10:24:00+00:00",
+          "min": "2019-12-16 06:09:00+00:00",
+          "null_count": 0,
+          "num_values": 1048576
+        }
+      ],
+      "num_rows": 1048576,
+      "row_group": 0,
+      "sorting_columns": [],
+      "total_byte_size": 35904653
+    },
+    {
+      "columns": [
+        {
+          "column": "open",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "51946.0",
+          "min": "15511.7",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "high",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "52099.4",
+          "min": "15542.5",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "low",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "51924.0",
+          "min": "15438.8",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "close",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "51946.8",
+          "min": "15511.1",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "volume",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "1960446.0",
+          "min": "-0.0",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "ts",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "2023-12-11 14:40:00+00:00",
+          "min": "2021-12-13 10:25:00+00:00",
+          "null_count": 0,
+          "num_values": 1048576
+        }
+      ],
+      "num_rows": 1048576,
+      "row_group": 1,
+      "sorting_columns": [],
+      "total_byte_size": 42623577
+    },
+    {
+      "columns": [
+        {
+          "column": "open",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "126075.3",
+          "min": "38560.1",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "high",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "126173.6",
+          "min": "38579.7",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "low",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "126026.0",
+          "min": "38550.6",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "close",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "126075.3",
+          "min": "38560.1",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "volume",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "1263477.8",
+          "min": "4.42",
+          "null_count": 0,
+          "num_values": 1048576
+        },
+        {
+          "column": "ts",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "2025-12-08 18:56:00+00:00",
+          "min": "2023-12-11 14:41:00+00:00",
+          "null_count": 0,
+          "num_values": 1048576
+        }
+      ],
+      "num_rows": 1048576,
+      "row_group": 2,
+      "sorting_columns": [],
+      "total_byte_size": 47370835
+    },
+    {
+      "columns": [
+        {
+          "column": "open",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "97778.6",
+          "min": "57850.0",
+          "null_count": 0,
+          "num_values": 392896
+        },
+        {
+          "column": "high",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "97900.0",
+          "min": "58084.4",
+          "null_count": 0,
+          "num_values": 392896
+        },
+        {
+          "column": "low",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "97650.0",
+          "min": "57750.0",
+          "null_count": 0,
+          "num_values": 392896
+        },
+        {
+          "column": "close",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "97778.5",
+          "min": "57849.7",
+          "null_count": 0,
+          "num_values": 392896
+        },
+        {
+          "column": "volume",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "828547.43",
+          "min": "2.39",
+          "null_count": 10608,
+          "num_values": 392896
+        },
+        {
+          "column": "ts",
+          "compression": "SNAPPY",
+          "distinct_count": null,
+          "encodings": [
+            "PLAIN",
+            "RLE",
+            "RLE_DICTIONARY"
+          ],
+          "has_min_max": true,
+          "has_statistics": true,
+          "max": "2026-09-07 15:12:00+00:00",
+          "min": "2025-12-08 18:57:00+00:00",
+          "null_count": 0,
+          "num_values": 392896
+        }
+      ],
+      "num_rows": 392896,
+      "row_group": 3,
+      "sorting_columns": [],
+      "total_byte_size": 17994720
+    }
+  ],
+  "row_pages_read": false,
+  "schema_names": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "ts"
+  ],
+  "schema_version": 1,
+  "source_bytes": 96465318,
+  "source_sha256": "34fc490ff3df8bdf0d70d102d2acbe6576876353ce7c125ab623ce195ee31abc",
+  "status": "EXACT_LOCAL_PARQUET_FOOTER_METADATA_PARSED",
+  "worker": "WORKER5224"
+}
