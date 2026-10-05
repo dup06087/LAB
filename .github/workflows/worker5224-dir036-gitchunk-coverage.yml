@@ -88,6 +88,13 @@ jobs:
                   crec={
                       "column":col.path_in_schema,
                       "num_values":col.num_values,
+                      "file_offset":col.file_offset,
+                      "data_page_offset":col.data_page_offset,
+                      "dictionary_page_offset":col.dictionary_page_offset,
+                      "total_compressed_size":col.total_compressed_size,
+                      "total_uncompressed_size":col.total_uncompressed_size,
+                      "has_column_index":col.has_column_index,
+                      "has_offset_index":col.has_offset_index,
                       "compression":str(col.compression),
                       "encodings":[str(x) for x in col.encodings],
                       "has_statistics":st is not None,
