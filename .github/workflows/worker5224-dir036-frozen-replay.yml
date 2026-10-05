@@ -1,0 +1,80 @@
+name: WORKER5224 DIR036 frozen contract replay
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/worker5224-dir036-frozen-replay.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: worker5224-dir036-frozen-replay
+  cancel-in-progress: false
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout LAB
+        uses: actions/checkout@v4
+
+      - name: Checkout exact trading snapshot
+        uses: actions/checkout@v4
+        with:
+          repository: dup06087/trading
+          ref: 2cd9326b5f936a274b36ef7ed43ccb12a4a4297a
+          path: trading
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            artifacts/frozen/worker4742_dir047_btc1m_whole_source_chunks_20261004
+            data/direction_event_ledger/p0a_ohlcv/direction_event_core.parquet
+            data/direction_event_ledger/p0a_ohlcv/direction_outcome.parquet
+            data/direction_event_ledger/w1018_dir036_contract_worker5224/contract.json
+            data/direction_event_ledger/w1018_dir036_replay_worker5224
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned replay runtime
+        run: python -m pip install --disable-pip-version-check numpy==2.1.3 pandas==2.2.3 pyarrow==18.1.0
+
+      - name: Run frozen replay
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/worker5224_dir036_frozen_replay
+          mkdir -p /tmp/worker5224_dir036_frozen_replay
+          python trading/data/direction_event_ledger/w1018_dir036_replay_worker5224/run_frozen_replay.py \
+            --repo trading \
+            --out /tmp/worker5224_dir036_frozen_replay
+
+      - name: Upload compact replay
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker5224-w1018-dir036-frozen-replay
+          path: /tmp/worker5224_dir036_frozen_replay
+          retention-days: 3
+          if-no-files-found: error
+
+      - name: Publish compact replay to LAB
+        run: |
+          set -euo pipefail
+          git config user.name "WORKER5224"
+          git config user.email "actions@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            rm -rf artifacts/worker5224/w1018_dir036_frozen_replay
+            mkdir -p artifacts/worker5224/w1018_dir036_frozen_replay
+            cp -a /tmp/worker5224_dir036_frozen_replay/. artifacts/worker5224/w1018_dir036_frozen_replay/
+            git add artifacts/worker5224/w1018_dir036_frozen_replay
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "WORKER5224 publish DIR036 frozen replay"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
